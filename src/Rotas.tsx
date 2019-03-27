@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteProps } from 'react-router-dom';
 
 import {
-    Login, EsqueciSenha
+    Login, EsqueciSenha, Home
 } from "./pages";
 
 function GetRotas() {
@@ -23,7 +23,16 @@ function GetRotas() {
             mostrarMenu: false,
             exact: false,
             id: ""
-        }
+        },
+        {
+            titulo: "Home",
+            icone: "fas fa-home",
+            caminho: "/",
+            componente: (routeProps: RouteProps) => <Home {...routeProps} />,
+            mostrarMenu: true,
+            exact: true,
+            id: "home"
+        },
     ];
 
     return rotas;

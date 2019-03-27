@@ -5,7 +5,7 @@ import { PageClean } from "../";
 
 import { Alert, TipoAlerta } from "@intechprev/componentes-web";
 import { handleFieldChange } from "@intechprev/react-lib";
-// import { UsuarioService } from "@intechprev/prevsystem-service";
+import { UsuarioService } from "@intechprev/prevsystem-service";
 import { Link } from "react-router-dom";
 
 import EsqueciSenha from "./EsqueciSenha";
@@ -42,10 +42,10 @@ export default class Login extends React.Component<Props, State> {
         await this.setState({ loading: true });
 
         try {
-            // var login = await UsuarioService.Login(this.state.cpf, this.state.senha);
+            var login = await UsuarioService.Login(this.state.cpf, this.state.senha);
             
-            // await localStorage.setItem("token", login.AccessToken);
-            // await localStorage.setItem("token-admin", login.AccessToken);
+            await localStorage.setItem("token", login.AccessToken);
+            await localStorage.setItem("token-admin", login.AccessToken);
             // await localStorage.setItem("pensionista", login.pensionista.toString());
             
             document.location.href = ".";
