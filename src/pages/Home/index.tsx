@@ -9,7 +9,7 @@ interface State {
     dados: any;
 }
 
-export default class Home extends Component<Props, State>  {
+export class Home extends Component<Props, State>  {
 
     private page = React.createRef<Page>();
 
