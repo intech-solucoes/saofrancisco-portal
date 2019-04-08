@@ -2,7 +2,7 @@ import React from 'react';
 import { RouteProps } from 'react-router-dom';
 
 import {
-    Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos
+    Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos
 } from "./pages";
 
 function GetRotas() {
@@ -65,6 +65,23 @@ function GetRotas() {
             mostrarMenu: true, 
             exact: true,
             id: "planos"
+        },
+        {
+            titulo: "Listar Participantes",
+            caminho: "/listarParticipantes",
+            componente: (routeProps: RouteProps) => <ListarParticipantes {...routeProps} />,
+            mostrarMenu: false,
+            exact: false,
+            id: "listarParticipantes"
+        },
+        {
+            titulo: "Inf. Rendimentos",
+            icone: "fas fa-chart-pie",
+            caminho: "/infoRend",
+            componente: (routeProps: RouteProps) => <InformeRendimentos {...routeProps} />,
+            mostrarMenu: true,
+            exact: true,
+            id: "informeRendimentos"
         },
     ];
 

@@ -6,6 +6,8 @@ import { DadosPessoais } from './DadosPessoais';
 import { Relacionamento } from './Relacionamento';
 import { TrocarSenha } from './TrocarSenha';
 import { Planos } from './Planos';
+import { ListarParticipantes } from './ListarParticipantes';
+import { InformeRendimentos } from './InformeRendimentos';
 
 export {
     PageClean, Page,
@@ -14,5 +16,7 @@ export {
     DadosPessoais,
     Relacionamento,
     TrocarSenha,
-    Planos
+    Planos,
+    ListarParticipantes,
+    InformeRendimentos
 }

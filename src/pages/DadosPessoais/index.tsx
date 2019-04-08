@@ -8,7 +8,17 @@ interface Props {
 }
 
 interface State {
-    dados: any;
+    dados: {
+        Funcionario: any,
+        DadosPessoais: any,
+        Entidade: any,
+        NOME_EMPRESA: string,
+        SEXO: string,
+        DS_ESTADO_CIVIL: string,
+        CPF: string,
+        IDADE: string,
+        CEP: string
+    }
 }
 
 export class DadosPessoais extends Component<Props, State> {
@@ -21,17 +31,21 @@ export class DadosPessoais extends Component<Props, State> {
             dados: {
                 Funcionario: {},
                 DadosPessoais: {},
-                Entidade: {}
+                Entidade: {},
+                NOME_EMPRESA: "",
+                SEXO: "",
+                DS_ESTADO_CIVIL: "",
+                CPF: "",
+                IDADE: "",
+                CEP: ""
             }
         };
 
     }
 
     async componentWillMount() {
-        var { data: dados } = await FuncionarioService.Buscar();
-        console.log(dados);
+        var dados = await FuncionarioService.Buscar();
         await this.setState({ dados });
-        
         await this.page.current.loading(false);
     }
 
