@@ -1,8 +1,9 @@
 import React from 'react';
-import { RouteProps } from 'react-router-dom';
+import { RouteProps, Route } from 'react-router-dom';
 
 import {
-    Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos
+    Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos,
+    PlanoDetalhes, Contracheque, ContrachequeDetalhe
 } from "./pages";
 
 function GetRotas() {
@@ -42,6 +43,51 @@ function GetRotas() {
             id: "dadosPessoais"
         },
         {
+            titulo: "Seus Planos",
+            icone: "fas fa-list",
+            caminho: "/planos",
+            componente: (routeProps: RouteProps) => <Planos {...routeProps} />, 
+            mostrarMenu: true, 
+            exact: true,
+            id: "planos"
+        },
+        {
+            titulo: "Detalhes do Plano",
+            icone: "fas fa-list",
+            caminho: "/planos/:plano",
+            caminhoLink: "/planos/",
+            componente: (routeProps: RouteProps) => <PlanoDetalhes {...routeProps} />,
+            mostrarMenu: false, 
+            exact: true
+        },
+        {
+            titulo: "Contracheque",
+            icone: "fas fa-closed-captioning",
+            caminho: "/contracheque",
+            componente: (routeProps: RouteProps) => <Contracheque {...routeProps} />,
+            mostrarMenu: true,
+            exact: true,
+            id: "contracheque"
+        },
+        {
+            titulo: "Inf. Rendimentos",
+            icone: "fas fa-chart-pie",
+            caminho: "/infoRend",
+            componente: (routeProps: RouteProps) => <InformeRendimentos {...routeProps} />,
+            mostrarMenu: true,
+            exact: true,
+            id: "informeRendimentos"
+        },
+        {
+            titulo: "Contracheque Detalhe",
+            icone: "fas fa-closed-captioning",
+            caminho: "/contracheque/:plano/:data",
+            caminhoLink: "/contracheque/",
+            componente: (routeProps: RouteProps) => <ContrachequeDetalhe {...routeProps} />,
+            mostrarMenu: false, 
+            exact: true
+        },
+        {
             titulo: "Relacionamento",
             icone: "fas fa-envelope",
             caminho: "/relacionamento",
@@ -58,31 +104,13 @@ function GetRotas() {
             id: "trocarSenha"
         },
         {
-            titulo: "Seus Planos",
-            icone: "fas fa-list",
-            caminho: "/planos",
-            componente: (routeProps: RouteProps) => <Planos {...routeProps} />, 
-            mostrarMenu: true, 
-            exact: true,
-            id: "planos"
-        },
-        {
             titulo: "Listar Participantes",
             caminho: "/listarParticipantes",
             componente: (routeProps: RouteProps) => <ListarParticipantes {...routeProps} />,
             mostrarMenu: false,
             exact: false,
             id: "listarParticipantes"
-        },
-        {
-            titulo: "Inf. Rendimentos",
-            icone: "fas fa-chart-pie",
-            caminho: "/infoRend",
-            componente: (routeProps: RouteProps) => <InformeRendimentos {...routeProps} />,
-            mostrarMenu: true,
-            exact: true,
-            id: "informeRendimentos"
-        },
+        }
     ];
 
     return rotas;

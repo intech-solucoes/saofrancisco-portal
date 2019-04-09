@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PlanoService } from "@intechprev/prevsystem-service";
-
+import PlanoDetalhes from './PlanoDetalhes';
 import { Page } from "..";
 import { Box } from "@intechprev/componentes-web";
+
+export { PlanoDetalhes }
 
 interface Props { }
 
@@ -11,7 +13,7 @@ interface State {
     listaPlanos: Array<any>;
 }
 
-export class Planos extends React.Component<Props, State> {
+export default class Planos extends React.Component<Props, State> {
 
     private page = React.createRef<Page>();
 
@@ -24,7 +26,7 @@ export class Planos extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
-        var { data: listaPlanos } = await PlanoService.Buscar();
+        var listaPlanos = await PlanoService.Buscar();
         await this.setState({ listaPlanos });
         await this.page.current.loading(false);
     }

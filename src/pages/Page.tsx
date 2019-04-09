@@ -34,21 +34,18 @@ export default class Page extends React.Component<Props, State> {
     componentWillMount = async () => {
         try {
 
-            // Carrega as rotas aqui pq fora tava dando problema NÃO FAÇO A MINIMA IDEIA DO PQ
-            //Rotas = (await import(`./${config.cliente}/Rotas`)).default;
-
             var token = await localStorage.getItem("token");
 
             if (token) {
-                var { data: dados } = await FuncionarioService.Buscar();
+                var dados = await FuncionarioService.Buscar();
                 var nomeUsuario = dados.Funcionario.NOME_ENTID;
-
                 var { data: admin } = await UsuarioService.VerificarAdmin();
 
                 await this.setState({
                     nomeUsuario,
                     admin
                 });
+                
             } else {
                 localStorage.removeItem("token");
                 localStorage.removeItem("token-admin");
@@ -147,26 +144,24 @@ export default class Page extends React.Component<Props, State> {
                                 <Title />
                             </Col>
 
-                            {config.cliente !== "preves" &&
-                                <Col tamanho={"sm-4"} className={"text-right user-icon"}>
-                                    <Row>
-                                        <Col className={"nome-usuario"}>
-                                            {this.state.nomeUsuario}
+                            <Col tamanho={"sm-4"} className={"text-right user-icon"}>
+                                <Row>
+                                    <Col className={"nome-usuario"}>
+                                        {this.state.nomeUsuario}
 
-                                            {this.state.admin &&
-                                                <span>
-                                                    <Link to={"/listarParticipantes"} className={"icon"} style={{ marginLeft: 10, marginRight: 10 }}>
-                                                        <i className={"fas fa-user-friends"}></i>
-                                                    </Link>
-                                                    <Link to={"/admin"} className={"icon"}>
-                                                        <i className={"fas fa-lock"}></i>
-                                                    </Link>
-                                                </span>
-                                            }
-                                        </Col>
-                                    </Row>
-                                </Col>
-                            }
+                                        {this.state.admin &&
+                                            <span>
+                                                <Link to={"/listarParticipantes"} className={"icon"} style={{ marginLeft: 10, marginRight: 10 }}>
+                                                    <i className={"fas fa-user-friends"}></i>
+                                                </Link>
+                                                <Link to={"/admin"} className={"icon"}>
+                                                    <i className={"fas fa-lock"}></i>
+                                                </Link>
+                                            </span>
+                                        }
+                                    </Col>
+                                </Row>
+                            </Col>
                         </Row>
 
                         <div className="wrapper-content">

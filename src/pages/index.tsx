@@ -5,9 +5,10 @@ import { Home } from './Home';
 import { DadosPessoais } from './DadosPessoais';
 import { Relacionamento } from './Relacionamento';
 import { TrocarSenha } from './TrocarSenha';
-import { Planos } from './Planos';
+import Planos, { PlanoDetalhes } from './Planos';
 import { ListarParticipantes } from './ListarParticipantes';
 import { InformeRendimentos } from './InformeRendimentos';
+import Contracheque, { ContrachequeDetalhe } from './Contracheque';
 
 export {
     PageClean, Page,
@@ -18,5 +19,8 @@ export {
     TrocarSenha,
     Planos,
     ListarParticipantes,
-    InformeRendimentos
+    InformeRendimentos, 
+    PlanoDetalhes,
+    Contracheque,
+    ContrachequeDetalhe
 }
