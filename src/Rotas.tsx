@@ -3,7 +3,7 @@ import { RouteProps, Route } from 'react-router-dom';
 
 import {
     Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos,
-    PlanoDetalhes, Contracheque, ContrachequeDetalhe
+    PlanoDetalhes, Contracheque, ContrachequeDetalhe, Documentos
 } from "./pages";
 
 function GetRotas() {
@@ -86,6 +86,15 @@ function GetRotas() {
             componente: (routeProps: RouteProps) => <ContrachequeDetalhe {...routeProps} />,
             mostrarMenu: false, 
             exact: true
+        },
+        {
+            titulo: "Documentos",
+            icone: "fas fa-file",
+            caminho: "/documentos/:pasta?",
+            caminhoLink: "/documentos/",
+            componente: (routeProps: RouteProps) => <Documentos {...routeProps} />,
+            mostrarMenu: true,
+            id: "documentos"
         },
         {
             titulo: "Relacionamento",
