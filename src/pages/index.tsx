@@ -10,6 +10,7 @@ import { ListarParticipantes } from './ListarParticipantes';
 import { InformeRendimentos } from './InformeRendimentos';
 import Contracheque, { ContrachequeDetalhe } from './Contracheque';
 import Documentos from './Documentos'
+import Mensagens from './Mensagens';
 
 export {
     PageClean, Page,
@@ -24,5 +25,6 @@ export {
     PlanoDetalhes,
     Contracheque,
     ContrachequeDetalhe,
-    Documentos
+    Documentos,
+    Mensagens
 }

@@ -89,7 +89,7 @@ export default class Documentos extends React.Component<Props, State> {
         });
     }
 
-    salvarPasta = async (e: any) => {
+    salvarPasta = async (e: Event) => {
         if(e)
             e.preventDefault();
 

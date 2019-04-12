@@ -3,7 +3,7 @@ import { RouteProps, Route } from 'react-router-dom';
 
 import {
     Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos,
-    PlanoDetalhes, Contracheque, ContrachequeDetalhe, Documentos
+    PlanoDetalhes, Contracheque, ContrachequeDetalhe, Documentos, Mensagens
 } from "./pages";
 
 function GetRotas() {
@@ -95,6 +95,14 @@ function GetRotas() {
             componente: (routeProps: RouteProps) => <Documentos {...routeProps} />,
             mostrarMenu: true,
             id: "documentos"
+        },
+        {
+            titulo: "Mensagens",
+            icone: "fas fa-envelope",
+            caminho: "/mensagens",
+            componente: (routeProps: RouteProps) => <Mensagens {...routeProps} />,
+            mostrarMenu: true,
+            id: "mensagens"
         },
         {
             titulo: "Relacionamento",
