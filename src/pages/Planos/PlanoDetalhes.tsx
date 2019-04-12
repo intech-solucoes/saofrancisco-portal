@@ -134,23 +134,23 @@ export default class DetalhesPlano extends React.Component<Props, State> {
                 dataInicio = this.state.dataInicio.replace(new RegExp('/', 'g'), '.');
                 dataFim = this.state.dataFim.replace(new RegExp('/', 'g'), '.');
 
-                // var relatorio = await PlanoService.RelatorioExtratoPorPlanoReferencia(this.state.cdPlano, dataInicio, dataFim);
+                var relatorio = await PlanoService.RelatorioExtratoPorPlanoReferencia(this.state.cdPlano, dataInicio, dataFim);
     
-                // console.log(relatorio);
-                // const blobURL = window.URL.createObjectURL(new Blob([relatorio]));
-                // const tempLink = document.createElement('a');
-                // tempLink.style.display = 'none';
-                // tempLink.href = blobURL;
-                // tempLink.setAttribute('download', "Extrato.pdf");
+                console.log(relatorio);
+                const blobURL = window.URL.createObjectURL(new Blob([relatorio]));
+                const tempLink = document.createElement('a');
+                tempLink.style.display = 'none';
+                tempLink.href = blobURL;
+                tempLink.setAttribute('download', "Extrato.pdf");
     
-                // if (typeof tempLink.download === 'undefined') {
-                //     tempLink.setAttribute('target', '_blank');
-                // }
+                if (typeof tempLink.download === 'undefined') {
+                    tempLink.setAttribute('target', '_blank');
+                }
     
-                // document.body.appendChild(tempLink);
-                // tempLink.click();
-                // document.body.removeChild(tempLink);
-                // window.URL.revokeObjectURL(blobURL);
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
+                window.URL.revokeObjectURL(blobURL);
             }
             
         } catch(err) {

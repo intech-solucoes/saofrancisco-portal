@@ -4,10 +4,12 @@ import { Row, Col, Box, Button, TipoBotao } from '@intechprev/componentes-web';
 
 import ListaMensagens from "./ListaMensagens";
 import { Page } from "..";
-// import MensagemNova from './MensagemNova';
-// export { MensagemNova }
+import MensagemNova from './MensagemNova';
+export { MensagemNova }
 
-interface Props {}
+interface Props {
+    history?: any
+}
 
 interface State {
     mensagens: any,
@@ -50,7 +52,7 @@ export default class Mensagens extends React.Component<Props, State> {
     }
 
     handleClick = () => {
-        // this.props.history.push('/mensagem/nova');
+        this.props.history.push('/mensagem/nova');
     }
 
     render() {

@@ -3,7 +3,7 @@ import { RouteProps, Route } from 'react-router-dom';
 
 import {
     Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos,
-    PlanoDetalhes, Contracheque, ContrachequeDetalhe, Documentos, Mensagens
+    PlanoDetalhes, Contracheque, ContrachequeDetalhe, Documentos, Mensagens, MensagemNova
 } from "./pages";
 
 function GetRotas() {
@@ -103,6 +103,14 @@ function GetRotas() {
             componente: (routeProps: RouteProps) => <Mensagens {...routeProps} />,
             mostrarMenu: true,
             id: "mensagens"
+        },
+        {
+            titulo: "Nova Mensagem",
+            icone: "",
+            caminho: "/mensagem/nova",
+            componente: (routeProps: RouteProps) => <MensagemNova {...routeProps} />,
+            exact: true,
+            id: "novaMensagem"
         },
         {
             titulo: "Relacionamento",
