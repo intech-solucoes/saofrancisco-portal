@@ -1,0 +1,41 @@
+{
+  "name": "portal-saofrancisco",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": ".",
+  "browserslist": [
+      ">0.2%",
+      "not dead",
+      "not ie <= 11",
+      "not op_mini all"
+  ],
+  "dependencies": {
+      "@intechprev/componentes-web": "file:../_lib/componentes-web",
+      "@intechprev/prevsystem-service": "file:../prevsystem-service",
+      "@intechprev/react-lib": "file:../_lib/react-lib",
+      "@intechprev/service": "file:../_lib/service",
+      "@types/jest": "23.3.13",
+      "@types/node": "10.12.18",
+      "@types/react": "16.7.20",
+      "@types/react-dom": "16.0.11",
+      "@types/react-router-dom": "^4.3.1",
+      "bootstrap": "^4.3.1",
+      "css-loader": "0.28.7",
+      "postcss-flexbugs-fixes": "3.2.0",
+      "postcss-loader": "2.0.8",
+      "react": "^16.7.0",
+      "react-dom": "^16.7.0",
+      "react-router-dom": "^4.3.1",
+      "react-scripts": "2.1.3",
+      "typescript": "3.2.4"
+  },
+  "scripts": {
+      "watch:css": "sass --watch ./src/styles/main.scss:./public/css/main.css",
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject",
+      "styles:build": "sass ./src/styles/main.scss:./public/css/main.css",
+      "styles:watch": "sass --watch ./src/styles/main.scss:./public/css/main.css"
+  }
+}
