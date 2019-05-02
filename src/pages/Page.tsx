@@ -110,7 +110,7 @@ export default class Page extends React.Component<Props, State> {
                             </li>
                             {
                                 Rotas.map((rota, index) => {
-                                    var link = rota.caminho ? rota.caminho : rota.caminho;
+                                    var link = rota.caminhoLink ? rota.caminhoLink : rota.caminho;
 
                                     if (rota.mostrarMenu) {
                                         return (

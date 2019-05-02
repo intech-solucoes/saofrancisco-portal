@@ -6,9 +6,9 @@ import Tabelas from './Tabelas';
 
 import { Page } from "..";
 import { Row, Col, Box, Form, Button, Alert, CampoTexto, TipoAlerta, TipoBotao } from '@intechprev/componentes-web';
-// import config from '../config.json';
+import config from '../../config.json';
 
-// const apiUrl = config.apiUrl
+const apiUrl = config.apiUrl
 
 export { 
     Tabelas
@@ -112,46 +112,48 @@ export default class Documentos extends React.Component<Props, State> {
     }
 
     uploadFile = async (e: any) => {
-        // try {
-        //     const formData = new FormData()
-        //     var arquivoUpload = e.target.files[0];
+        try {
+            const formData = new FormData()
+            var arquivoUpload = e.target.files[0];
     
-        //     formData.append("File", arquivoUpload, arquivoUpload.name);
+            formData.append("File", arquivoUpload, arquivoUpload.name);
     
-        //     await this.setState({ uploading: true });
+            await this.setState({ uploading: true });
 
-        //     axios.post(apiUrl + '/upload', formData, {
-        //         headers: {'Content-Type': 'multipart/form-data'},
-        //         onUploadProgress: async progressEvent => {
-        //             await this.setState({ 
-        //                 uploadPercentage: parseInt(Math.round(( progressEvent.loaded * 100 ) / progressEvent.total ))
-        //             });
-        //         },
-        //     })
-        //     .then(result => {
-        //         this.setState({
-        //             podeCriarDocumento: true,
-        //             oidArquivoUpload: result.data,
-        //             visibilidadeFileInput: false,
-        //             uploading: false,
-        //             uploadPercentage: 0
-        //         });
-        //     })
-        // } catch(err) { 
-        //     console.error(err);
-        // }
+            axios.post(apiUrl + '/upload', formData, {
+                headers: {'Content-Type': 'multipart/form-data'},
+                onUploadProgress: async progressEvent => {
+                    await this.setState({ 
+                        uploadPercentage: Math.round(( progressEvent.loaded * 100 ) / progressEvent.total )
+                    });
+                },
+            })
+            .then(result => {
+                this.setState({
+                    podeCriarDocumento: true,
+                    oidArquivoUpload: result.data,
+                    visibilidadeFileInput: false,
+                    uploading: false,
+                    uploadPercentage: 0
+                });
+            })
+        } catch(err) { 
+            console.error(err);
+        }
     }
 
     salvarDocumento = async (e: any) => {
-        e.preventDefault();
+        //e.preventDefault();
 
         await this.alertDocumento.current.limparErros();
         await this.formDocumento.current.validar();
 
         if(this.alertDocumento.current.state.mensagem.length === 0 && this.alertDocumento.current.props.mensagem.length === 0) {
             try {
-                await DocumentoService.Criar(this.state.oidArquivoUpload, this.state.nomeDocumento, "SIM", 1, this.state.oidPasta);
-                
+                var oidPasta = this.state.oidPasta;
+                if(oidPasta === undefined)
+                    oidPasta = ""
+                await DocumentoService.Criar(this.state.oidArquivoUpload, this.state.nomeDocumento, "SIM", 1, oidPasta);
                 await this.setState ({
                     nomeDocumento: "",
                     arquivoUpload: "",

@@ -32,9 +32,9 @@ export default class Tabelas extends React.Component<Props> {
 
     downloadDocumento = async (oidDocumento: number) => {
         try {
-            var { data: documento } = await DocumentoService.BuscarPorOidDocumento(oidDocumento);
-            
-            var { data: documentoBlob } = await DocumentoService.Download(oidDocumento);
+            var documento = await DocumentoService.BuscarPorOidDocumento(oidDocumento);
+
+            var documentoBlob = await DocumentoService.Download(oidDocumento);
 
             const blobURL = window.URL.createObjectURL(new Blob([documentoBlob]));
             const tempLink = document.createElement('a');

@@ -10,7 +10,7 @@ interface Props {}
 
 interface State { 
     // States campos
-    titulo: string,
+    tituloMensagem: string,
     mensagem: string,
     enviarEmail: boolean,
     enviarPortal: boolean,
@@ -44,7 +44,7 @@ export default class MensagemNova extends React.Component<Props, State> {
         this.state = {
 
             // States campos
-            titulo: "",
+            tituloMensagem: "",
             mensagem: "",
             enviarEmail: false,
             enviarPortal: false,
@@ -145,7 +145,7 @@ export default class MensagemNova extends React.Component<Props, State> {
             IND_SMS: "NAO"
         };
         if(this.alert.current.state.mensagem.length === 0 && this.alert.current.props.mensagem.length === 0) {
-            dadosMensagem.TXT_TITULO = this.state.titulo;
+            dadosMensagem.TXT_TITULO = this.state.tituloMensagem;
             dadosMensagem.TXT_CORPO = this.state.mensagem;
             dadosMensagem.DTA_EXPIRACAO = this.state.dataExpiracao;
             dadosMensagem.CD_FUNDACAO = this.state.fundacao;
@@ -201,7 +201,7 @@ export default class MensagemNova extends React.Component<Props, State> {
      */
     limparCampos = () => {
         this.setState({
-            titulo: "",
+            tituloMensagem: "",
             mensagem: "",
             enviarEmail: false,
             enviarPortal: false,
@@ -226,7 +226,7 @@ export default class MensagemNova extends React.Component<Props, State> {
                                 <Row>                          
                                     <Col className={"col-lg-6"}>
 
-                                        <CampoTexto contexto={this} nome={"titulo"} max={50} valor={this.state.titulo} label={"Título"} obrigatorio />
+                                        <CampoTexto contexto={this} nome={"tituloMensagem"} max={50} valor={this.state.tituloMensagem} label={"Título"} obrigatorio />
 
                                         <CampoTexto contexto={this} nome={"mensagem"} max={4000} textarea valor={this.state.mensagem} rows={10} label={"Corpo da Mensagem"} obrigatorio />
 
@@ -234,7 +234,7 @@ export default class MensagemNova extends React.Component<Props, State> {
                                             <label><b>Enviar via</b></label>
                                             <Row>
                                                 <Col className={"col-lg-2"}>
-                                                    <input name="enviarEmail" id="enviarEmail" type="checkbox" checked={this.state.enviarEmail} onChange={(e) => handleFieldChange(this, e)} />&nbsp;
+                                                    <input name="enviarEmail" id="enviarEmail" type={"checkbox"} checked={this.state.enviarEmail} onChange={(e) => handleFieldChange(this, e)} />&nbsp;
                                                     <label htmlFor="enviarEmail">E-mail</label>
                                                 </Col>
 
@@ -247,7 +247,7 @@ export default class MensagemNova extends React.Component<Props, State> {
             
                                         <div className="form-group">
                                             <CampoTexto contexto={this} nome={"dataExpiracao"} mascara={"99/99/9999"} valor={this.state.dataExpiracao} 
-                                                        label={"Data de Expiração"} /> {/** props underline */}
+                                                        label={"Data de Expiração"} />
                                             <span className="text text-secondary">Deixe em branco para indicar que a mensagem não terá uma data de expiração</span>
                                         </div>
                                     </Col>

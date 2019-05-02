@@ -69,6 +69,8 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
         link.setAttribute('download', 'contracheque.pdf');
         document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
     }
 
     render() {
@@ -165,7 +167,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
 
                                 </Row>
 
-                                <Button titulo={"Baixar"} className="btn btn-primary" onClick={this.gerarRelatorio} />
+                                <Button titulo={"Baixar"} className="btn btn-primary" onClick={this.gerarRelatorio} usaLoading />
                                 
                             </Box>
                         </Col>

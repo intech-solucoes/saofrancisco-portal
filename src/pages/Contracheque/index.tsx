@@ -44,8 +44,8 @@ export default class Contracheque extends React.Component<Props, State> {
 
     renderTitulo = (plano: string, categoria: string) => { 
         return (
-            <div>
-                PLANO {plano} <small>SITUAÇÃO: {categoria}</small>
+            <div className={"cc-title"}>
+                PLANO {plano} <small className={"cc-small"}>SITUAÇÃO: {categoria}</small>
             </div>
         )
     }
@@ -60,7 +60,9 @@ export default class Contracheque extends React.Component<Props, State> {
 
                             <Row key={index}>
                                 <Col className={"col-lg-8"}>
-                                    <Box titulo={"PLANO " + plano.titulo + "SITUAÇÃO: " + plano.situacao}>
+                                    <Box titulo={""}>
+                                        {this.renderTitulo(plano.DS_PLANO, plano.DS_SIT_PLANO)}
+                                        <br />
 
                                         {plano.contracheque.length > 0 && 
                                             <table className="table">
