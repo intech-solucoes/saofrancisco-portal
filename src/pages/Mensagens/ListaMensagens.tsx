@@ -61,11 +61,11 @@ export default class ListaMensagens extends React.Component<Props, State> {
                                 return (
                                     <tr key={index}>
 
-                                        <td className="align-middle">  {/** width=50 */}
+                                        <td className="align-middle" style={{ width: 50 }}>
                                             <button id={"mensagem-" + mensagem.OID_MENSAGEM} className="btn btn-link" onClick={() => this.modal.current.toggleModal(mensagem)}><i className="fa fa-search"></i></button>
                                         </td>
 
-                                        <td className="align-middle"> {/** width=150 */}
+                                        <td className="align-middle" style={{ width: 120 }}>
                                             {mensagem.DTA_MENSAGEM}
                                         </td>
 

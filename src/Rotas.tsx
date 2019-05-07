@@ -94,7 +94,8 @@ function GetRotas() {
             caminhoLink: "/documentos/",
             componente: (routeProps: RouteProps) => <Documentos {...routeProps} />,
             mostrarMenu: true,
-            id: "documentos"
+            id: "documentos",
+            exact: true
         },
         {
             titulo: "Mensagens",
