@@ -26,16 +26,16 @@ export class ListarParticipantes extends Component<Props, State> {
     };
 
     pesquisar = async () => {
-        var { data: resultadoPesquisa } = await FuncionarioService.Pesquisar(null, null, null, null, this.state.matricula, this.state.nome);
+        var resultadoPesquisa = await FuncionarioService.Pesquisar(null, null, null, null, this.state.matricula, this.state.nome);
         await this.setState({ resultadoPesquisa });
     }
 
     selecionar = async (cpf: string) => {
         try {
-            var { data: login } = await UsuarioService.SelecionarParticipante(cpf);
+            var login = await UsuarioService.SelecionarParticipante(cpf);
             await localStorage.setItem("token", login.AccessToken);
                         
-            var { data: dados } = await FuncionarioService.Buscar();
+            var dados = await FuncionarioService.Buscar();
 
             await localStorage.setItem("fundacao", dados.Funcionario.CD_FUNDACAO);
             await localStorage.setItem("empresa", dados.Funcionario.CD_EMPRESA);
@@ -48,7 +48,7 @@ export class ListarParticipantes extends Component<Props, State> {
 
     render() {
         return (
-            <Row>
+            <Row className={"mt-5 ml-5 mr-5"}>
                 <Col>
                     <Box titulo={"Listagem de Participantes"}>
 
@@ -79,7 +79,7 @@ export class ListarParticipantes extends Component<Props, State> {
                                     <tbody>
                                         {this.state.resultadoPesquisa.map((func: any, index: number) => {
                                             return (
-                                                <tr>
+                                                <tr key={index}>
                                                     <td>{func.NOME_ENTID}</td>
                                                     <td>{func.NUM_MATRICULA}</td>
                                                     <td>{func.NUM_INSCRICAO}</td>
