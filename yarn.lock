@@ -889,9 +889,9 @@
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
 "@intechprev/componentes-web@file:../_lib/componentes-web":
-  version "1.0.0"
+  version "1.0.8"
   dependencies:
-    "@intechprev/react-lib" "file:../../Users/luis_/AppData/Local/Yarn/Cache/v4/npm-@intechprev-componentes-web-1.0.0-a52efd4c-725b-4b7f-bd7a-c6e6e4481c99-1553824796220/node_modules/@intechprev/react-lib"
+    "@intechprev/react-lib" "^1.0.3"
     "@types/classnames" "^2.2.7"
     "@types/react" "^16.8.7"
     "@types/react-input-mask" "^2.0.1"
@@ -903,10 +903,15 @@
 "@intechprev/prevsystem-service@file:../prevsystem-service":
   version "2.0.0"
   dependencies:
-    "@intechprev/service" "file:../../Users/luis_/AppData/Local/Yarn/Cache/v4/npm-@intechprev-prevsystem-service-2.0.0-df84f494-5e53-4793-aa5a-108d48bb88e2-1553824796247/node_modules/@intechprev/_lib/service"
+    "@intechprev/service" "file:../../../Users/Rony/AppData/Local/Yarn/Cache/v4/npm-@intechprev-prevsystem-service-2.0.0-801c36bc-5b06-4cc5-b1c7-a47bdfd61434-1557271828847/node_modules/@intechprev/_lib/service"
+
+"@intechprev/react-lib@^1.0.3":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@intechprev/react-lib/-/react-lib-1.0.4.tgz#34f5f48dda5f54ad61c524d24481074190ccb245"
+  integrity sha512-yeBU1p8E+SDyGMTAojZzCxwYm9RdGPjhCwbJpom5Ts8Gt8dt6k8tHnLGljCr8483ZySC5cH/JCXFFyYkZWHNWg==
 
 "@intechprev/react-lib@file:../_lib/react-lib":
-  version "1.0.0"
+  version "1.0.4"
 
 "@intechprev/service@file:../_lib/service":
   version "2.0.0"

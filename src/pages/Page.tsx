@@ -2,12 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { FuncionarioService, UsuarioService } from "@intechprev/prevsystem-service";
-
 import { Row, Col } from "@intechprev/componentes-web";
 
 import Rotas from "../Rotas";
-
-const config = require("../config.json");
 
 interface Props {
     history?: any;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class PageClean extends Component {
+export default class PageClean extends Component<{}> {
 	render() {
 		return (
 			<div className="panel-login middle-box">
