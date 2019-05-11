@@ -1,6 +1,6 @@
 import React from 'react';
 import { InfoRendService } from "@intechprev/prevsystem-service";
-import { Row, Col, Box, Form, Button } from '@intechprev/componentes-web';
+import { Row, Col, Box, Form, Botao } from '@intechprev/componentes-web';
 import { Page } from "..";
 
 interface Props {}
@@ -126,8 +126,8 @@ export class InformeRendimentos extends React.Component<Props, State> {
                                     })
                                 }
 
-                                <Button className="btn btn-primary" titulo={"Gerar Informe de Rendimentos"} 
-                                        onClick={this.gerarRelatorio} />
+                                <Botao className="btn btn-primary" titulo={"Gerar Informe de Rendimentos"} 
+                                       onClick={this.gerarRelatorio} />
                             </Box>
                         </Col>
                     </Row>

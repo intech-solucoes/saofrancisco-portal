@@ -1,6 +1,6 @@
 import React from 'react';
 import { MensagemService, PlanoService, FuncionarioService } from "@intechprev/prevsystem-service";
-import { Row, Col, Box, Button, TipoBotao } from '@intechprev/componentes-web';
+import { Row, Col, Box, Botao, TipoBotao } from '@intechprev/componentes-web';
 
 import ListaMensagens from "./ListaMensagens";
 import { Page } from "..";
@@ -66,7 +66,7 @@ export default class Mensagens extends React.Component<Props, State> {
                                     <Box titulo={"Mensagens"}>
                                         {localStorage.getItem("admin") === "S" &&
                                             <div>
-                                                <Button titulo={"Nova Mensagem"} tipo={TipoBotao.primary} onClick={this.handleClick} />
+                                                <Botao titulo={"Nova Mensagem"} tipo={TipoBotao.primary} onClick={this.handleClick} />
                                                 <br/>
                                                 <br/>
                                             </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Box, Form, CampoTexto, Button, TipoBotao } from '@intechprev/componentes-web';
+import { Row, Col, Box, Form, CampoTexto, Botao, TipoBotao, TamanhoBotao } from '@intechprev/componentes-web';
 
 import { FuncionarioService, UsuarioService } from "@intechprev/prevsystem-service";
 
@@ -56,7 +56,7 @@ export class ListarParticipantes extends Component<Props, State> {
 
                             <CampoTexto contexto={this} nome={"matricula"} placeholder={"Matricula"} valor={this.state.matricula} />
                             <CampoTexto contexto={this} nome={"nome"} placeholder={"Nome"} valor={this.state.nome} />
-                            <Button titulo={"Procurar"} tipo={TipoBotao.primary} submit onClick={this.pesquisar} />
+                            <Botao titulo={"Procurar"} tipo={TipoBotao.primary} submit onClick={this.pesquisar} />
 
                         </Form>
 
@@ -86,8 +86,8 @@ export class ListarParticipantes extends Component<Props, State> {
                                                     <td>{func.CPF_CGC}</td>
                                                     <td>{func.CD_EMPRESA}</td>
                                                     <td>
-                                                        <Button titulo={"Selecionar"} tipo={TipoBotao.primary} pequeno 
-                                                                onClick={async () => await this.selecionar(func.CPF_CGC)} />
+                                                        <Botao titulo={"Selecionar"} tipo={TipoBotao.primary} tamanho={TamanhoBotao.pequeno}
+                                                               onClick={async () => await this.selecionar(func.CPF_CGC)} />
                                                     </td>
                                                 </tr>
                                             )

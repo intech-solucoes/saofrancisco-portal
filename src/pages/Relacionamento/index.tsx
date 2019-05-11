@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Box, Button, CampoTexto, Form, Alert, TipoBotao, TipoAlerta } from '@intechprev/componentes-web';
+import { Row, Col, Box, Botao, CampoTexto, Form, Alerta, TipoBotao, TipoAlerta } from '@intechprev/componentes-web';
 import { RelacionamentoService } from "@intechprev/prevsystem-service";
 
 import { Page } from "../";
@@ -17,7 +17,7 @@ export class Relacionamento extends React.Component<Props, State> {
 
     private page = React.createRef<Page>();
     private form = React.createRef<Form>();
-    private alert = React.createRef<Alert>();
+    private alert = React.createRef<Alerta>();
 
     constructor(props: Props) {
         super(props);
@@ -75,9 +75,9 @@ export class Relacionamento extends React.Component<Props, State> {
                                 <CampoTexto contexto={this} nome={"assunto"} max={50} valor={this.state.assunto} label={"Assunto"} obrigatorio />
                                 <CampoTexto contexto={this} nome={"mensagem"} max={4000} textarea valor={this.state.mensagem} rows={10} label={"Mensagem"} obrigatorio />
 
-                                <Button titulo={"Enviar"} tipo={TipoBotao.primary} submit onClick={this.validar} />
+                                <Botao titulo={"Enviar"} tipo={TipoBotao.primary} submit onClick={this.validar} />
                                 <br /><br />
-                                <Alert ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} tamanho={"6"}/>
+                                <Alerta ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} tamanho={"6"}/>
                             </Form>
                         </Box>
                     </Col>

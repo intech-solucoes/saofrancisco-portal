@@ -1,6 +1,6 @@
 import React from 'react';
 import { DocumentoService } from "@intechprev/prevsystem-service";
-import { Row, Col, Button} from '@intechprev/componentes-web';
+import { Row, Col, Botao } from '@intechprev/componentes-web';
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -76,12 +76,12 @@ export default class Tabelas extends React.Component<Props> {
                                     }
 
                                     {this.props.tipo !== "pasta" &&
-                                        <Button className={"btn btn-link"} onClick={() => this.downloadDocumento(item.OID_DOCUMENTO)} titulo={item[this.props.campoTexto]} />
+                                        <Botao className={"btn btn-link"} onClick={() => this.downloadDocumento(item.OID_DOCUMENTO)} titulo={item[this.props.campoTexto]} />
                                     }
                                 </Col>
                                 
                                 <Col tamanho={"1"}>
-                                    <Button titulo={""} className={"btn btn-sm btn-danger"}
+                                    <Botao titulo={""} className={"btn btn-sm btn-danger"}
                                         onClick={async () => {
                                             if(this.props.tipo === "pasta")
                                                 await this.deletarPasta(item.OID_DOCUMENTO_PASTA);
@@ -89,7 +89,7 @@ export default class Tabelas extends React.Component<Props> {
                                                 await this.deletarDocumento(item.OID_DOCUMENTO);
                                         }}>
                                         <i className="fa fa-trash"></i>
-                                    </Button>
+                                    </Botao>
                                 </Col>
                             </Row>
                         );

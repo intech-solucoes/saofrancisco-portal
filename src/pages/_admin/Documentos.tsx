@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Tabelas from './../Documentos/Tabelas';
 
 import { Page } from "..";
-import { Row, Col, Box, Form, Button, Alert, CampoTexto, TipoAlerta, TipoBotao } from '@intechprev/componentes-web';
+import { Row, Col, Box, Form, Botao, Alerta, CampoTexto, TipoAlerta, TipoBotao } from '@intechprev/componentes-web';
 import config from '../../config.json';
 import { PageAdmin } from ".";
 
@@ -40,9 +40,9 @@ export default class Documentos extends React.Component<Props, State> {
 
     private page = React.createRef<PageAdmin>();
     private formDocumento = React.createRef<Form>();
-    private alertDocumento = React.createRef<Alert>();
+    private alertDocumento = React.createRef<Alerta>();
     private formPasta = React.createRef<Form>();
-    private alertPasta = React.createRef<Alert>();
+    private alertPasta = React.createRef<Alerta>();
 
     constructor(props: Props) {
         super(props);
@@ -197,19 +197,19 @@ export default class Documentos extends React.Component<Props, State> {
                                     
                                     {!this.state.visibilidadeFileInput && !this.state.uploading &&
                                         <div>
-                                            <Alert tipo={TipoAlerta.success} mensagem={"Arquivo enviado com sucesso"} />
-                                            <Button titulo={"Enviar outro arquivo"} tipo={TipoBotao.success}
+                                            <Alerta tipo={TipoAlerta.success} mensagem={"Arquivo enviado com sucesso"} />
+                                            <Botao titulo={"Enviar outro arquivo"} tipo={TipoBotao.success}
                                                     onClick={async () => await this.setState({ visibilidadeFileInput: true, oidArquivoUpload: 0, podeCriarDocumento: false })} />
                                             <div>trocar a cor desse botão para default</div>
                                         </div>
                                     }
                                     <hr/>
                                     
-                                    <Button titulo={"Salvar"} tipo={TipoBotao.primary} submit desativado={!this.state.podeCriarDocumento} 
+                                    <Botao titulo={"Salvar"} tipo={TipoBotao.primary} submit desativado={!this.state.podeCriarDocumento} 
                                             onClick={this.salvarDocumento} />
                                 </div>
 
-                                <Alert ref={this.alertDocumento} padraoFormulario tipo={TipoAlerta.danger} />
+                                <Alerta ref={this.alertDocumento} padraoFormulario tipo={TipoAlerta.danger} />
 
                             </Form>
                         </Box>
@@ -221,10 +221,10 @@ export default class Documentos extends React.Component<Props, State> {
                                 <hr/>
 
                                 <div className="form-group">
-                                    <Button className={"btn btn-primary"} titulo={"Salvar"} submit onClick={this.salvarPasta} />
+                                    <Botao className={"btn btn-primary"} titulo={"Salvar"} submit onClick={this.salvarPasta} />
                                 </div>
 
-                                <Alert ref={this.alertPasta} padraoFormulario tipo={TipoAlerta.danger} />
+                                <Alerta ref={this.alertPasta} padraoFormulario tipo={TipoAlerta.danger} />
 
                             </Form>
                         </Box>

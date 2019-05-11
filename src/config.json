@@ -1,4 +1,4 @@
 {
-  "apiUrl": "http://10.10.170.11/SaoFranciscoAPI/api",
+  "apiUrl": "http://localhost/SaoFranciscoAPI/api",
   "dir": "Z:\\SaoFranciscoPortal"
 }

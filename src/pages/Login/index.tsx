@@ -3,7 +3,7 @@ import packageJson from '../../../package.json';
 
 import { PageClean } from "../";
 
-import { Alert, TipoAlerta } from "@intechprev/componentes-web";
+import { Alerta, TipoAlerta } from "@intechprev/componentes-web";
 import { handleFieldChange } from "@intechprev/react-lib";
 import { UsuarioService } from "@intechprev/prevsystem-service";
 import { Link } from "react-router-dom";
@@ -93,8 +93,8 @@ export default class Login extends React.Component<Props, State> {
                     </button>
                 </div>
 
-                {this.state.mensagem !== "" && <Alert tipo={TipoAlerta.info} mensagem={this.state.mensagem} />}
-                {this.state.erro !== "" && <Alert tipo={TipoAlerta.danger} mensagem={this.state.erro} />}
+                {this.state.mensagem !== "" && <Alerta tipo={TipoAlerta.info} mensagem={this.state.mensagem} />}
+                {this.state.erro !== "" && <Alerta tipo={TipoAlerta.danger} mensagem={this.state.erro} />}
 
                 <div className="form-group">
                     <Link className="btn btn-link" id="esqueciSenha" to="/esqueciSenha">Esqueci Minha Senha / Primeiro Acesso</Link>

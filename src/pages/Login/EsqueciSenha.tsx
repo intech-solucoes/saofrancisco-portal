@@ -3,7 +3,7 @@ import React from "react";
 import { PageClean } from "..";
 
 // import { UsuarioService } from "@intechprev/prevsystem-service";
-import { Alert, TipoAlerta, Form, CampoTexto, Button, TipoBotao } from "@intechprev/componentes-web";
+import { Alerta, TipoAlerta, Form, CampoTexto, Botao, TipoBotao } from "@intechprev/componentes-web";
 
 interface Props {
     history?: any;
@@ -19,7 +19,7 @@ interface State {
 
 export default class EsqueciSenha extends React.Component<Props, State> {
 
-    private alert = React.createRef<Alert>();
+    private alert = React.createRef<Alerta>();
     private form = React.createRef<Form>();
 
     constructor(props: Props) {
@@ -80,10 +80,10 @@ export default class EsqueciSenha extends React.Component<Props, State> {
                     <CampoTexto contexto={this} nome={"dataNascimento"} valor={this.state.dataNascimento} 
                                 placeholder={"Data de Nascimento"} mascara={"99/99/9999"} />
 
-                    <Button titulo={"Enviar Nova Senha"} tipo={TipoBotao.primary} block submit usaLoading
+                    <Botao titulo={"Enviar Nova Senha"} tipo={TipoBotao.primary} block submit usaLoading
                             onClick={this.enviarSenha} />
                     <br />
-                    <Alert ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} tamanho={"12"} />
+                    <Alerta ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} tamanho={"12"} />
 
                 </Form>
             </PageClean>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Box, Button, CampoTexto, Alert, TipoAlerta, TipoBotao, Form } from "@intechprev/componentes-web";
+import { Row, Col, Box, Botao, CampoTexto, Alerta, TipoAlerta, TipoBotao, Form } from "@intechprev/componentes-web";
 import { UsuarioService } from "@intechprev/prevsystem-service";
 import { Page } from "..";
 
@@ -18,7 +18,7 @@ export class TrocarSenha extends React.Component<Props, State> {
 
     private page = React.createRef<Page>();
     private form = React.createRef<Form>();
-    private alert = React.createRef<Alert>();
+    private alert = React.createRef<Alerta>();
 
     constructor(props: Props) {
         super(props);
@@ -94,14 +94,14 @@ export class TrocarSenha extends React.Component<Props, State> {
                                 </Row>
 
                                 {this.state.mensagemSucesso &&
-                                    <Alert tipo={TipoAlerta.primary} mensagem={"Senha alterada com sucesso."} />
+                                    <Alerta tipo={TipoAlerta.primary} mensagem={"Senha alterada com sucesso."} />
                                 }
 
-                                <Alert ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} /> 
+                                <Alerta ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} /> 
                                 <hr />
 
-                                <Button submit titulo={"Trocar Senha"} tipo={TipoBotao.primary} 
-                                        onClick={() => this.trocarSenha()} usaLoading />
+                                <Botao submit titulo={"Trocar Senha"} tipo={TipoBotao.primary} 
+                                       onClick={() => this.trocarSenha()} usaLoading />
                             
                             </Form>
                         </Box>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MensagemService, ListasService } from "@intechprev/prevsystem-service";
 import { handleFieldChange } from "@intechprev/react-lib";
-import { Row, Col, Box, CampoTexto, Button, Form, Alert, Combo, TipoBotao, TipoAlerta } from "@intechprev/componentes-web";
+import { Row, Col, Box, CampoTexto, Botao, Form, Alerta, Combo, TipoBotao, TipoAlerta } from "@intechprev/componentes-web";
 import DataInvalida from '../../_utils/DataInvalida';
 import ListaMensagens from "./ListaMensagens";
 import { Page } from "..";
@@ -37,7 +37,7 @@ export default class MensagemNova extends React.Component<Props, State> {
 
     private page = React.createRef<Page>();
     private form = React.createRef<Form>();
-    private alert = React.createRef<Alert>();
+    private alert = React.createRef<Alerta>();
 
     constructor(props: Props) {
         super(props);
@@ -277,9 +277,9 @@ export default class MensagemNova extends React.Component<Props, State> {
                                     </Col>
 
                                 </Row>
-                                <Button titulo={"Enviar"} tipo={TipoBotao.primary} submit onClick={this.validar} />
+                                <Botao titulo={"Enviar"} tipo={TipoBotao.primary} submit onClick={this.validar} />
                                 <br /><br />
-                                <Alert ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} tamanho={"6"} />
+                                <Alerta ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} tamanho={"6"} />
                             </Form>      
                         </Box>
                             

@@ -3,7 +3,7 @@ import { PlanoService } from "@intechprev/prevsystem-service";
 
 import DataInvalida from '../../_utils/Data';
 import { Page } from "../";
-import { Box, CampoEstatico, CampoTexto, Button, Form, Alert, Row, Col, TipoAlerta, TipoBotao } from "@intechprev/componentes-web";
+import { Box, CampoEstatico, CampoTexto, Botao, Form, Alerta, Row, Col, TipoAlerta, TipoBotao } from "@intechprev/componentes-web";
 
 interface Props {
     match?: any;
@@ -24,7 +24,7 @@ export default class DetalhesPlano extends React.Component<Props, State> {
 
     private page = React.createRef<Page>();
     private form = React.createRef<Form>();
-    private alert = React.createRef<Alert>();
+    private alert = React.createRef<Alerta>();
 
     constructor(props: Props) {
         super(props);
@@ -97,9 +97,9 @@ export default class DetalhesPlano extends React.Component<Props, State> {
                                     <div></div>
                                 </div>
 
-                                <Alert ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} /> {/** tamanho={"5"} rowClassName={"justify-content-end"} style={{marginRight: 15}} */}
+                                <Alerta ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} /> {/** tamanho={"5"} rowClassName={"justify-content-end"} style={{marginRight: 15}} */}
                                 <div className="modal-footer">
-                                    <Button titulo={"Gerar"} tipo={TipoBotao.primary} submit onClick={this.gerarExtrato} />
+                                    <Botao titulo={"Gerar"} tipo={TipoBotao.primary} submit onClick={this.gerarExtrato} />
                                 </div>
                             </Form>
 
@@ -211,7 +211,7 @@ export default class DetalhesPlano extends React.Component<Props, State> {
 
                         <div className="form-row btn-toolbar">
                             <div className="btn-group mr-2">
-                                <Button tipo={TipoBotao.primary} className={"btn-md"} 
+                                <Botao tipo={TipoBotao.primary} className={"btn-md"} 
                                         titulo={"Gerar Extrato"} onClick={() => this.toggleModal() } />
                             </div>
 

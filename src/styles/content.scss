@@ -37,6 +37,24 @@
     }
 }
 
+.card {
+    > .card-title {
+        padding: 10px 15px 0 15px;
+        font-size: 11pt;
+
+        > .badge {
+            margin-left: 10px;
+            color: #FFF;
+        }
+    }
+
+    > .card-content {
+        padding: 0px 15px 10px 15px;
+        font-weight: bold;
+        font-size: 14pt;
+    }
+}
+
 @media (min-width: 768px) {
     .btn-menu {
         display: none;

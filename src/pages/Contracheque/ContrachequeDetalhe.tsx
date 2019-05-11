@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContrachequeService, PlanoService } from "@intechprev/prevsystem-service";
-import { Row, Col, Box, Button } from "@intechprev/componentes-web";
+import { Row, Col, Box, Botao } from "@intechprev/componentes-web";
 import { Page } from '..';
 
 interface Props {
@@ -167,7 +167,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
 
                                 </Row>
 
-                                <Button titulo={"Baixar"} className="btn btn-primary" onClick={this.gerarRelatorio} usaLoading />
+                                <Botao titulo={"Baixar"} className="btn btn-primary" onClick={this.gerarRelatorio} usaLoading />
                                 
                             </Box>
                         </Col>
