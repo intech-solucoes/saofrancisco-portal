@@ -10,7 +10,7 @@
         "not op_mini all"
     ],
     "dependencies": {
-        "@intechprev/componentes-web": "file:../_lib/componentes-web/",
+        "@intechprev/componentes-web": "file:../_lib/componentes-web",
         "@intechprev/prevsystem-service": "file:../prevsystem-service",
         "@intechprev/react-lib": "file:../_lib/react-lib",
         "@intechprev/service": "file:../_lib/service",
