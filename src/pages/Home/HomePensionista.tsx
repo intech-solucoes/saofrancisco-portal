@@ -17,6 +17,13 @@ export class HomePensionista extends React.Component<Props, State> {
 
     private page = React.createRef<Page>();
 
+    componentDidMount = async () => {
+        this.page.current.loading(true);
+        
+
+        this.page.current.loading(false);
+    }
+
     render() {
         return (
             <Page {...this.props} ref={this.page}>

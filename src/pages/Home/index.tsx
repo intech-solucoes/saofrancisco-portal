@@ -28,6 +28,7 @@ export class Home extends Component<Props, State>  {
 
     componentDidMount = async () => {
         var plano = await PlanoService.Buscar();
+        console.log(plano);
         await this.setState({ plano });
     }
 
@@ -36,7 +37,7 @@ export class Home extends Component<Props, State>  {
             return <HomePensionista {...this.props} />
         else if(this.state.plano[0].CD_CATEGORIA === "1")
             return <HomeAtivo {...this.props} />
-        else if(this.state.plano[0].CD_CATEGORIA === "3")
+        else if(this.state.plano[0].CD_CATEGORIA === "4")
             return <HomeAssistido {...this.props} />
         else
             return <Page {...this.props} />;

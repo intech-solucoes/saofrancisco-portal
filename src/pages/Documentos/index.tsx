@@ -174,64 +174,7 @@ export default class Documentos extends React.Component<Props, State> {
             <Page {...this.props} ref={this.page}>
 
                 <Row>
-                    {localStorage.getItem("admin") === 'S' &&
-                        <Col className={"lg-4"}>
-                            <Box titulo={"UPLOAD DE DOCUMENTOS"}>
-                                <Form ref={this.formDocumento}>
-                                
-                                    <CampoTexto contexto={this} nome={"nomeDocumento"} max={50} valor={this.state.nomeDocumento} label={"Título"} obrigatorio />
-                                    
-                                    <div className="form-group">
-
-                                        <label htmlFor="selecionar-documento"><b>Arquivo</b></label><br />
-
-                                        {/* {this.state.uploading &&
-                                            <div className="progress" style={{ marginBottom: 10 }}>
-                                                <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style={{width: this.state.uploadPercentage + "%"}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        } */}
-
-                                        {this.state.visibilidadeFileInput && !this.state.uploading &&
-                                            <input name="selecionar-documento" id="selecionar-documento" type="file" onChange={this.uploadFile} />
-                                        }
-                                        
-                                        {!this.state.visibilidadeFileInput && !this.state.uploading &&
-                                            <div>
-                                                <Alerta tipo={TipoAlerta.success} mensagem={"Arquivo enviado com sucesso"} />
-                                                <Botao titulo={"Enviar outro arquivo"} tipo={TipoBotao.success}
-                                                        onClick={async () => await this.setState({ visibilidadeFileInput: true, oidArquivoUpload: 0, podeCriarDocumento: false })} />
-                                                <div>trocar a cor desse botão para default</div>
-                                            </div>
-                                        }
-                                        <hr/>
-                                        
-                                        <Botao titulo={"Salvar"} tipo={TipoBotao.primary} submit desativado={!this.state.podeCriarDocumento} 
-                                                onClick={this.salvarDocumento} />
-                                    </div>
-
-                                    <Alerta ref={this.alertDocumento} padraoFormulario tipo={TipoAlerta.danger} />
-
-                                </Form>
-                            </Box>
-
-                            <Box titulo={"CRIAÇÃO DE PASTA"}>
-                                <Form ref={this.formPasta}>
-                                
-                                    <CampoTexto contexto={this} nome={"nomePasta"} max={50} valor={this.state.nomePasta} label={"Nome"} obrigatorio />
-                                    <hr/>
-
-                                    <div className="form-group">
-                                        <Botao className={"btn btn-primary"} titulo={"Salvar"} submit onClick={this.salvarPasta} />
-                                    </div>
-
-                                    <Alerta ref={this.alertPasta} padraoFormulario tipo={TipoAlerta.danger} />
-
-                                </Form>
-                            </Box>
-                        </Col>
-                    }
-
-                    <Col tamanho={"8"}>
+                    <Col tamanho={"6"}>
                         <Box>
                             {this.state.pastaAtual &&
                                 <Link className={"btn btn-primary mb-4"} to={`/documentos/${this.state.pastaPai}`}>
