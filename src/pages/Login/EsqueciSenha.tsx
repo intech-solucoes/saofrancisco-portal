@@ -2,7 +2,7 @@ import React from "react";
 
 import { PageClean } from "..";
 
-// import { UsuarioService } from "@intechprev/prevsystem-service";
+import { UsuarioService } from "@intechprev/prevsystem-service";
 import { Alerta, TipoAlerta, Form, CampoTexto, Botao, TipoBotao } from "@intechprev/componentes-web";
 
 interface Props {
@@ -48,8 +48,8 @@ export default class EsqueciSenha extends React.Component<Props, State> {
             }
 
             if(form.valido) {
-                // var resultado = await UsuarioService.PrimeiroAcesso(this.state.cpf, this.state.dataNascimento);
-                // window.alert(resultado);
+                var resultado = await UsuarioService.PrimeiroAcesso(this.state.cpf, this.state.dataNascimento);
+                window.alert(resultado);
                 this.props.history.push('/');
             }
         

@@ -40,7 +40,7 @@ function GetRotas() {
             caminho: "/dados",
             componente: (routeProps: RouteProps) => <DadosPessoais {...routeProps} />,
             mostrarMenu: true,
-            id: "dadosPessoais"
+            id: "dados"
         },
         {
             titulo: "Seus Planos",

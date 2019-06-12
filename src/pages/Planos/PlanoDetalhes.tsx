@@ -4,6 +4,7 @@ import { PlanoService } from "@intechprev/prevsystem-service";
 import DataInvalida from '../../_utils/Data';
 import { Page } from "../";
 import { Box, CampoEstatico, CampoTexto, Botao, Form, Alerta, Row, Col, TipoAlerta, TipoBotao } from "@intechprev/componentes-web";
+import { RelatorioExtrato } from './RelatorioExtrato';
 
 interface Props {
     match?: any;
@@ -25,6 +26,7 @@ export default class DetalhesPlano extends React.Component<Props, State> {
     private page = React.createRef<Page>();
     private form = React.createRef<Form>();
     private alert = React.createRef<Alerta>();
+    private relatorio = React.createRef<RelatorioExtrato>();
 
     constructor(props: Props) {
         super(props);
@@ -86,12 +88,12 @@ export default class DetalhesPlano extends React.Component<Props, State> {
                                     <Row>
                                         <Col className={"col-lg-6"}>
                                             <CampoTexto contexto={this} nome={"dataInicio"} mascara={"99/99/9999"} obrigatorio valor={this.state.dataInicio} 
-                                                        label={"Data de Início"} /> {/** adicionar propriedade underline em campo texto, se necessário seguir padrão */}
+                                                        label={"Data de Início"} tamanhoLabel={"lg-4"} />
                                         </Col>
 
                                         <Col className={"col-lg-6"}>
                                             <CampoTexto contexto={this} nome={"dataFim"} mascara={"99/99/9999"} obrigatorio valor={this.state.dataFim} 
-                                                        label={"Data Final"} />  {/** adicionar propriedade underline em campo texto, se necessário seguir padrão */}
+                                                        label={"Data Final"} tamanhoLabel={"lg-4"} />
                                         </Col>
                                     </Row>
                                     <div></div>
@@ -131,26 +133,7 @@ export default class DetalhesPlano extends React.Component<Props, State> {
                 this.alert.current.adicionarErro("A data final é superior à data atual");
     
             if(this.alert.current.state.mensagem.length === 0 && this.alert.current.props.mensagem.length === 0) {
-                dataInicio = this.state.dataInicio.replace(new RegExp('/', 'g'), '.');
-                dataFim = this.state.dataFim.replace(new RegExp('/', 'g'), '.');
-
-                var relatorio = await PlanoService.RelatorioExtratoPorPlanoReferencia(this.state.cdPlano, dataInicio, dataFim);
-    
-                console.log(relatorio);
-                const blobURL = window.URL.createObjectURL(new Blob([relatorio]));
-                const tempLink = document.createElement('a');
-                tempLink.style.display = 'none';
-                tempLink.href = blobURL;
-                tempLink.setAttribute('download', "Extrato.pdf");
-    
-                if (typeof tempLink.download === 'undefined') {
-                    tempLink.setAttribute('target', '_blank');
-                }
-    
-                document.body.appendChild(tempLink);
-                tempLink.click();
-                document.body.removeChild(tempLink);
-                window.URL.revokeObjectURL(blobURL);
+                this.relatorio.current.download();
             }
             
         } catch(err) {
@@ -172,56 +155,58 @@ export default class DetalhesPlano extends React.Component<Props, State> {
     render() {
         return(
             <Page {...this.props} ref={this.page}>
-            <Row>
-                <Col tamanho={"6"}>
-                    <Box>
-                        <div className="form-row">
-                            <CampoEstatico titulo="Plano" valor={this.state.plano.DS_PLANO} />
-                        </div>
-                        
-                        <div className="form-row">
-                            <CampoEstatico titulo="Situação no Plano" valor={this.state.plano.DS_CATEGORIA} col="6" />
-                            <CampoEstatico titulo="Data de inscrição" valor={this.state.plano.DT_INSC_PLANO} col="6" />
-                        </div>
-                        
-                    </Box>
-                </Col>
+                <Row>
+                    <Col tamanho={"6"}>
+                        <Box>
+                            <div className="form-row">
+                                <CampoEstatico titulo="Plano" valor={this.state.plano.DS_PLANO} />
+                            </div>
+                            
+                            <div className="form-row">
+                                <CampoEstatico titulo="Situação no Plano" valor={this.state.plano.DS_CATEGORIA} col="6" />
+                                <CampoEstatico titulo="Data de inscrição" valor={this.state.plano.DT_INSC_PLANO} col="6" />
+                            </div>
+                            
+                        </Box>
+                    </Col>
 
-                <Col tamanho={"6"}>
-                    <Box titulo={"RESGATE"}>
+                    <Col tamanho={"6"}>
+                        <Box titulo={"RESGATE"}>
 
-                        <div className="form-row">
-                            <CampoEstatico titulo="Saldo" valor={"R$ 231.952,00"} col="6" />
-                        </div>
-
-                        <div className="form-row">
-                            <CampoEstatico titulo="Valor Adicional" valor={"R$ 115.976,00"} col="6" />
-                            <CampoEstatico titulo="Valor Total" valor={"R$ 347.928,00"} col="6" />
-                        </div>
-
-                        <div className="form-row">
-                            <CampoEstatico titulo="Outros Descontos" valor={"R$ 231.952,00"} col="6" />
-                            <CampoEstatico titulo="Valor Isento de Tributação" valor={"R$ 7.083,63"} col="6" />
-                        </div>
-
-                        <div className="form-row">
-                            <CampoEstatico titulo="IRPF" valor={"R$ 92.862,84"} col="6" />
-                            <CampoEstatico titulo="Valor Total" valor={"R$ 210.180,16"} col="6" />
-                        </div>
-
-                        <div className="form-row btn-toolbar">
-                            <div className="btn-group mr-2">
-                                <Botao tipo={TipoBotao.primary} className={"btn-md"} 
-                                        titulo={"Gerar Extrato"} onClick={() => this.toggleModal() } />
+                            <div className="form-row">
+                                <CampoEstatico titulo="Saldo" valor={"R$ 231.952,00"} col="6" />
                             </div>
 
-                            {this.renderModal()}
+                            <div className="form-row">
+                                <CampoEstatico titulo="Valor Adicional" valor={"R$ 115.976,00"} col="6" />
+                                <CampoEstatico titulo="Valor Total" valor={"R$ 347.928,00"} col="6" />
+                            </div>
 
-                        </div>
+                            <div className="form-row">
+                                <CampoEstatico titulo="Outros Descontos" valor={"R$ 231.952,00"} col="6" />
+                                <CampoEstatico titulo="Valor Isento de Tributação" valor={"R$ 7.083,63"} col="6" />
+                            </div>
 
-                    </Box>
-                </Col>
-            </Row>
+                            <div className="form-row">
+                                <CampoEstatico titulo="IRPF" valor={"R$ 92.862,84"} col="6" />
+                                <CampoEstatico titulo="Valor Total" valor={"R$ 210.180,16"} col="6" />
+                            </div>
+
+                            <div className="form-row btn-toolbar">
+                                <div className="btn-group mr-2">
+                                    <Botao tipo={TipoBotao.primary} className={"btn-md"} 
+                                            titulo={"Gerar Extrato"} onClick={() => this.toggleModal() } />
+                                </div>
+
+                                {this.renderModal()}
+
+                            </div>
+
+                        </Box>
+                    </Col>
+                </Row>
+                <RelatorioExtrato ref={this.relatorio} preview={false} dtInicio={this.state.dataInicio} dtFim={this.state.dataFim} cdPlano={this.state.cdPlano} />
+                {/* <RelatorioExtrato ref={this.relatorio} preview={true} dtInicio={"01/01/2018"} dtFim={"01/01/2018"} cdPlano={this.state.cdPlano} /> */}
             </Page>
         );
     }

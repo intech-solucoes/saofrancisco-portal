@@ -2,6 +2,7 @@ import React from 'react';
 import { ContrachequeService, PlanoService } from "@intechprev/prevsystem-service";
 import { Row, Col, Box, Botao } from "@intechprev/componentes-web";
 import { Page } from '..';
+import { RelatorioContracheque } from './RelatorioContracheque';
 
 interface Props {
     match?: any;
@@ -14,9 +15,9 @@ interface State {
         Proventos: any,
         Descontos: any,
         Resumo: { 
-            Bruto: string,
-            Descontos: string,
-            Liquido: string
+            Bruto: any,
+            Descontos: any,
+            Liquido: any
         }
     },
     cdPlano: string,
@@ -27,6 +28,7 @@ var erro = false;
 export default class ContrachequeDetalhe extends React.Component<Props, State> {
 
     private page = React.createRef<Page>();
+    private relatorio = React.createRef<RelatorioContracheque>();
 
     constructor(props: Props) {
         super(props);
@@ -61,16 +63,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
     }
 
     gerarRelatorio = async () => {
-        var relatorio = await ContrachequeService.Relatorio(this.state.cdPlano, this.state.dataReferencia);
-
-        const url = window.URL.createObjectURL(new Blob([relatorio]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'contracheque.pdf');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
+        this.relatorio.current.download();
     }
 
     render() {
@@ -90,17 +83,17 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
 
                                     <Col className={"col-lg-4"}>
                                         <h5>BRUTO</h5>
-                                        <span className="text text-info">R$ {this.state.contracheque.Resumo.Bruto.toLocaleString()}</span> {/** 'pt-br', {minimumFractionDigits: 2} */}
+                                        <span className="text text-info">R$ {this.state.contracheque.Resumo.Bruto.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                     </Col>
 
                                     <Col className={"col-lg-4"}>
                                         <h5>DESCONTOS</h5>
-                                        <span className="text text-danger">R$ {this.state.contracheque.Resumo.Descontos.toLocaleString()}</span>
+                                        <span className="text text-danger">R$ {this.state.contracheque.Resumo.Descontos.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                     </Col>
 
                                     <Col className={"col-lg-4"}>
                                         <h5>LÍQUIDO</h5>
-                                        <span className="text text-warning">R$ {this.state.contracheque.Resumo.Liquido.toLocaleString()}</span>
+                                        <span className="text text-warning">R$ {this.state.contracheque.Resumo.Liquido.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                     </Col>
 
                                 </Row>
@@ -168,8 +161,9 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
                                 </Row>
 
                                 <Botao titulo={"Baixar"} className="btn btn-primary" onClick={this.gerarRelatorio} usaLoading />
-                                
                             </Box>
+
+                            <RelatorioContracheque ref={this.relatorio} cdPlano={this.state.cdPlano} dtReferencia={this.state.dataReferencia} preview={false} />
                         </Col>
                     </Row>
                 </Page>

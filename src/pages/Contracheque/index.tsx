@@ -25,21 +25,21 @@ export default class Contracheque extends React.Component<Props, State> {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount = async () => {
         var resultPlanos = await PlanoService.Buscar()
         await this.buscarDatas(resultPlanos);
         await this.page.current.loading(false);
     }
 
     buscarDatas = async (planos: any) => {
-        planos.forEach(async (plano: any) => {
-            var datas = await ContrachequeService.BuscarDatas(plano.CD_PLANO);
-            plano.contracheque = datas;
+        for(var i = 0; i < planos.length; i++) {
+            var datas = await ContrachequeService.BuscarDatas(planos[i].CD_PLANO);
+            planos[i].contracheque = datas;
 
             await this.setState({ 
-                planos: [...this.state.planos, plano]
+                planos: [...this.state.planos, planos[i]]
             });
-        });
+        }
     }
 
     renderTitulo = (plano: string, categoria: string) => { 
@@ -53,7 +53,6 @@ export default class Contracheque extends React.Component<Props, State> {
     render() {
         return (
             <Page {...this.props} ref={this.page}>
-
                 {
                     this.state.planos.map((plano: any, index: number) => {
                         return (

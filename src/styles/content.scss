@@ -41,6 +41,7 @@
     > .card-title {
         padding: 10px 15px 0 15px;
         font-size: 11pt;
+        text-align: center;
 
         > .badge {
             margin-left: 10px;
@@ -52,6 +53,7 @@
         padding: 0px 15px 10px 15px;
         font-weight: bold;
         font-size: 14pt;
+        text-align: center;
     }
 }
 
@@ -91,13 +93,19 @@
     clear: both;
     margin-bottom: 25px;
     padding: 0;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
 
     .box-title {
         padding: 14px 15px 7px;
         min-height: 48px;
         font-size: 16px;
         font-weight: bold;
+
+        > .badge {
+            margin-left: 10px;
+            color: #FFF;
+        }
 
         small {
             margin-left: 10px;

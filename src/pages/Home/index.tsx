@@ -33,9 +33,10 @@ export class Home extends Component<Props, State>  {
     }
 
     render() {
-        if(this.state.pensionista)
-            return <HomePensionista {...this.props} />
-        else if(this.state.plano[0].CD_CATEGORIA === "1")
+        // if(this.state.pensionista)
+        //     return <HomePensionista {...this.props} />
+        // else 
+        if(this.state.plano[0].CD_CATEGORIA === "1")
             return <HomeAtivo {...this.props} />
         else if(this.state.plano[0].CD_CATEGORIA === "4")
             return <HomeAssistido {...this.props} />

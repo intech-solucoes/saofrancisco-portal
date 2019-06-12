@@ -2,7 +2,7 @@ import React from "react";
 import { Page } from "..";
 import { Row, Col, Box, CampoEstatico, TipoCampoEstatico } from "@intechprev/componentes-web";
 import { HomeCard } from "./HomeCard";
-import { PlanoService, SalarioBaseService, FichaFinanceiraAssistidoService, ProcessoBeneficioService } from "@intechprev/prevsystem-service";
+import { PlanoService, CalendarioPagamentoService, FichaFinanceiraAssistidoService, ProcessoBeneficioService } from "@intechprev/prevsystem-service";
 
 interface Props { }
 
@@ -11,6 +11,7 @@ interface State {
     ultimaFolha: any;
     dataAposentadoria: any;
     processoBeneficio: any;
+    calendario: Array<any>;
 }
 
 export class HomeAssistido extends React.Component<Props, State> {
@@ -23,7 +24,8 @@ export class HomeAssistido extends React.Component<Props, State> {
         var planos = await PlanoService.Buscar();
         var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlano(planos[0].CD_PLANO);
         var processoBeneficio = await ProcessoBeneficioService.BuscarPorPlano(planos[0].CD_PLANO);
-        await this.setState({ planos, ultimaFolha, processoBeneficio });
+        var calendario = await CalendarioPagamentoService.Buscar();
+        await this.setState({ planos, ultimaFolha, processoBeneficio, calendario });
         
         this.page.current.loading(false);
     }
@@ -51,8 +53,28 @@ export class HomeAssistido extends React.Component<Props, State> {
                             </Col>
                         </Row>
 
+                        {this.state.processoBeneficio.SALDO_ATUAL &&
+                            <Row>
+                                <Col>
+                                    <HomeCard titulo={"Saldo de Conta Aplicável Atual (SCAA)"}>
+                                        <CampoEstatico valor={this.state.processoBeneficio.SALDO_ATUAL} tipo={TipoCampoEstatico.dinheiro} />
+                                    </HomeCard>
+                                </Col>
+                                <Col>
+                                    <HomeCard titulo={"Renda - % SCAA"}>
+                                        {this.state.processoBeneficio.VL_PARCELA_MENSAL}%
+                                    </HomeCard>
+                                </Col>
+                                <Col>
+                                    <HomeCard titulo={"Provável Encerramento do Benefício"}>
+                                        {this.state.processoBeneficio.DT_APOSENTADORIA}
+                                    </HomeCard>
+                                </Col>
+                            </Row>
+                        }
+
                         <Row className={"mt-4"}>
-                            <Col>
+                            <Col tamanho={"8"}>
                                 <Box titulo={"Contra-cheque"} label={this.state.ultimaFolha.Resumo.Referencia.substring(3)}>
                                     <h2 className={"text-center mb-5"}>Valor Líquido: <CampoEstatico valor={this.state.ultimaFolha.Resumo.Liquido} tipo={TipoCampoEstatico.dinheiro} /></h2>
 
@@ -94,6 +116,23 @@ export class HomeAssistido extends React.Component<Props, State> {
                                         </tbody>
                                     </table>
 
+                                </Box>
+                            </Col>
+
+                            <Col>
+                                <Box titulo={"Calendário de Pagamento"}>
+                                    <table className={"table table-striped table-sm"}>
+                                        <tbody>
+                                            {this.state.calendario.map((data: any, index: number) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{data.DES_MES}</td>
+                                                        <td className={"text-right"}>{data.NUM_DIA}</td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
                                 </Box>
                             </Col>
                         </Row>

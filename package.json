@@ -1,6 +1,6 @@
 {
     "name": "portal-saofrancisco",
-    "version": "0.1.1",
+    "version": "0.2.4",
     "private": true,
     "homepage": ".",
     "browserslist": [
@@ -14,13 +14,16 @@
         "@intechprev/prevsystem-service": "file:../prevsystem-service",
         "@intechprev/react-lib": "file:../_lib/react-lib",
         "@intechprev/service": "file:../_lib/service",
+        "@ronymmoura/react-reports": "^0.2.9",
         "@types/jest": "23.3.13",
+        "@types/lodash": "^4.14.129",
         "@types/node": "10.12.18",
         "@types/react": "16.7.20",
         "@types/react-dom": "16.0.11",
         "@types/react-router-dom": "^4.3.1",
         "bootstrap": "^4.3.1",
         "css-loader": "0.28.7",
+        "lodash": "^4.17.11",
         "postcss-flexbugs-fixes": "3.2.0",
         "postcss-loader": "2.0.8",
         "react": "^16.7.0",
@@ -32,7 +35,7 @@
     "scripts": {
         "watch:css": "sass --watch ./src/styles/main.scss:./public/css/main.css",
         "start": "react-scripts start",
-        "build": "node ./buiild.js",
+        "build": "node ./build.js",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "styles:build": "sass ./src/styles/main.scss:./public/css/main.css",
