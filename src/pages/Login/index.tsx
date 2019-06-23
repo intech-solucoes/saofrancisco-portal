@@ -39,7 +39,7 @@ export default class Login extends React.Component<Props, State> {
     }
 
     onSubmit = async () => {
-        await this.setState({ loading: true });
+        await this.setState({ erro: "", loading: true });
 
         try {
             var login = await UsuarioService.Login(this.state.cpf, this.state.senha);

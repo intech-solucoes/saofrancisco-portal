@@ -45,7 +45,7 @@ export default class Contracheque extends React.Component<Props, State> {
     renderTitulo = (plano: string, categoria: string) => { 
         return (
             <div className={"cc-title"}>
-                PLANO {plano} <small className={"cc-small"}>SITUAÇÃO: {categoria}</small>
+                PLANO {plano} <small className={"cc-small"}>ESPÉCIE: {categoria}</small>
             </div>
         )
     }
@@ -69,6 +69,7 @@ export default class Contracheque extends React.Component<Props, State> {
                                                 <thead>
                                                     <tr>
                                                         <th>Referência</th>
+                                                        <th>Tipo</th>
                                                         <th>Bruto</th>
                                                         <th>Descontos</th>
                                                         <th>Líquido</th>
@@ -83,6 +84,9 @@ export default class Contracheque extends React.Component<Props, State> {
                                                                 <tr key={index} >
                                                                     <td>
                                                                         {valor.DT_REFERENCIA}
+                                                                    </td>
+                                                                    <td>
+                                                                        {valor.DS_TIPO_FOLHA}
                                                                     </td>
                                                                     <td className="text-info">
                                                                         {valor.VAL_BRUTO.toLocaleString('pt-br', {minimumFractionDigits: 2})}

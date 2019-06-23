@@ -83,19 +83,24 @@ export class HomeAtivo extends React.Component<Props, State> {
                                     {this.state.plano.DT_INSC_PLANO}
                                 </HomeCard>
                             </Col>
+                            <Col>
+                                <HomeCard titulo={"Regime de Tributação"}>
+                                    {this.state.plano.TIPO_IRRF === "2" ? "Regressivo" : "Progressivo"}
+                                </HomeCard>
+                            </Col>
                         </Row>
 
                         <Row className={"mt-4"}>
                             <Col>
-                                <Box titulo={"Sua Última Contribuição"} label={`Posição de ${this.state.ultimaContribuicao.DataReferencia.substring(3)}`}>
+                                <Box renderRow={true} titulo={"Sua Última Contribuição"} label={`Posição de ${this.state.ultimaContribuicao.DataReferencia.substring(3)}`}>
                                     
                                     <table className={"table table-striped table-sm"}>
                                         <tbody>
-                                            {this.state.ultimaContribuicao.Itens.map((contrib: any, index: number) => {
+                                            {this.state.ultimaContribuicao.Contribuicoes.map((contrib: any, index: number) => {
                                                 // Define o tipo de linha (td ou th) baseado no index. Se for o ultimo, será o total, e será th
                                                 var Td = (props: any) => <td className={props.className}>{props.children}</td>;
 
-                                                if(index == this.state.ultimaContribuicao.Itens.length - 1)
+                                                if(index == this.state.ultimaContribuicao.Contribuicoes.length - 1)
                                                     Td = (props: any) => <th className={props.className}>{props.children}</th>;
 
                                                 return (
@@ -103,6 +108,31 @@ export class HomeAtivo extends React.Component<Props, State> {
                                                         <Td>{contrib.Item1}</Td>
                                                         <Td className={"text-right"}>
                                                             <CampoEstatico valor={contrib.Item2} tipo={TipoCampoEstatico.dinheiro} />
+                                                        </Td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
+
+                                </Box>
+                                
+                                <Box renderRow={true} titulo={"Descontos"} label={`Posição de ${this.state.ultimaContribuicao.DataReferencia.substring(3)}`}>
+                                    
+                                    <table className={"table table-striped table-sm"}>
+                                        <tbody>
+                                            {this.state.ultimaContribuicao.Descontos.map((desconto: any, index: number) => {
+                                                // Define o tipo de linha (td ou th) baseado no index. Se for o ultimo, será o total, e será th
+                                                var Td = (props: any) => <td className={props.className}>{props.children}</td>;
+
+                                                if(index == this.state.ultimaContribuicao.Descontos.length - 1)
+                                                    Td = (props: any) => <th className={props.className}>{props.children}</th>;
+
+                                                return (
+                                                    <tr key={index}>
+                                                        <Td>{desconto.Item1}</Td>
+                                                        <Td className={"text-right"}>
+                                                            <CampoEstatico valor={desconto.Item2} tipo={TipoCampoEstatico.dinheiro} />
                                                         </Td>
                                                     </tr>
                                                 )
@@ -156,7 +186,7 @@ export class HomeAtivo extends React.Component<Props, State> {
                                     </div>
                                     
                                     <p className={"text-info"}>
-                                        Valor da cota: <CampoEstatico valor={this.state.saldos.VL_COTA} tipo={TipoCampoEstatico.texto} />
+                                        Valor da cota em {this.state.saldos.DT_FECHAMENTO.substring(3)}: <CampoEstatico valor={this.state.saldos.VL_COTA} tipo={TipoCampoEstatico.texto} />
                                     </p>
                                 </Box>
                             </Col>

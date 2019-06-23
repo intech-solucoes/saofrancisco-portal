@@ -51,6 +51,13 @@ export class HomeAssistido extends React.Component<Props, State> {
                                     {this.state.processoBeneficio.DT_INICIO_FUND}
                                 </HomeCard>
                             </Col>
+                            {this.state.planos[0].CD_PLANO !== "0001" && 
+                                <Col>
+                                    <HomeCard titulo={"Regime de Tributação"}>
+                                        {this.state.planos[0].TIPO_IRRF === "2" ? "Regressivo" : "Progressivo"}
+                                    </HomeCard>
+                                </Col>
+                            }
                         </Row>
 
                         {this.state.processoBeneficio.SALDO_ATUAL &&
@@ -75,7 +82,7 @@ export class HomeAssistido extends React.Component<Props, State> {
 
                         <Row className={"mt-4"}>
                             <Col tamanho={"8"}>
-                                <Box titulo={"Contra-cheque"} label={this.state.ultimaFolha.Resumo.Referencia.substring(3)}>
+                                <Box titulo={"Contracheque"} label={this.state.ultimaFolha.Resumo.Referencia.substring(3)}>
                                     <h2 className={"text-center mb-5"}>Valor Líquido: <CampoEstatico valor={this.state.ultimaFolha.Resumo.Liquido} tipo={TipoCampoEstatico.dinheiro} /></h2>
 
                                     <table className={"table table-striped table-sm"}>
