@@ -8,6 +8,7 @@ import Rotas from "../Rotas";
 
 interface Props {
     history?: any;
+    titulo?: string;
 }
 
 interface State {
@@ -83,17 +84,21 @@ export default class Page extends React.Component<Props, State> {
 
     render() {
         var Title = () => {
-            var rota = this.props.history.location.pathname;
+            if(this.props.titulo) {
+                return <h2 id="titulo">{this.props.titulo}</h2>;
+            } else {
+                var rota = this.props.history.location.pathname;
 
-            var titulo;
+                var titulo;
 
-            for (var i = 0; i < Rotas.length; i++) {
-                if (rota === Rotas[i].caminho || rota === Rotas[i].caminho || rota.includes(Rotas[i].caminho)) {
-                    titulo = <h2 id="titulo">{Rotas[i].titulo}</h2>;
+                for (var i = 0; i < Rotas.length; i++) {
+                    if (rota === Rotas[i].caminho || rota === Rotas[i].caminho || rota.includes(Rotas[i].caminho)) {
+                        titulo = <h2 id="titulo">{Rotas[i].titulo}</h2>;
+                    }
                 }
-            }
 
-            return titulo;
+                return titulo;
+        }
         };
 
         return (

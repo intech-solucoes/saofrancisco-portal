@@ -1,8 +1,9 @@
 import React from 'react';
 import { ContrachequeService, PlanoService } from "@intechprev/prevsystem-service";
-import { Row, Col, Box, Botao } from "@intechprev/componentes-web";
+import { Row, Col, Box, Botao, CampoEstatico } from "@intechprev/componentes-web";
 import { Page } from '..';
 import { RelatorioContracheque } from './RelatorioContracheque';
+import { HomeCard } from '../Home/HomeCard';
 
 interface Props {
     match?: any;
@@ -75,8 +76,20 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
             );
         } else {
             return (
-                <Page {...this.props} ref={this.page}>
+                <Page {...this.props} ref={this.page} titulo={"Contracheque " + this.state.dataReferencia.replace(".", "/").replace(".", "/").substring(3)}>
                     <Row>
+                        <Col tamanho={"3"}>
+                            <HomeCard titulo={this.state.plano.DS_PLANO}>
+                                {this.state.plano.DS_CATEGORIA}
+                            </HomeCard>
+                        </Col>
+                        {this.state.contracheque.Proventos.length > 0 &&
+                            <Col tamanho={"3"}>
+                                <HomeCard titulo={"ESPÉCIE"}>
+                                    {this.state.contracheque.Proventos[0].DS_ESPECIE}
+                                </HomeCard>
+                            </Col>
+                        }
                         <Col className={"col-lg-4"}>
                             <Box>
                                 <Row className={"text-center"}>
