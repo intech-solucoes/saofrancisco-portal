@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FuncionarioService } from "@intechprev/prevsystem-service";
+import { FuncionarioService, DependenteService } from "@intechprev/prevsystem-service";
 
 import { Page } from "..";
 import { CampoEstatico, Row, Col, Box } from "@intechprev/componentes-web";
@@ -18,7 +18,8 @@ interface State {
         CPF: string,
         IDADE: string,
         CEP: string
-    }
+    },
+    dependentes: any
 }
 
 export class DadosPessoais extends Component<Props, State> {
@@ -38,14 +39,19 @@ export class DadosPessoais extends Component<Props, State> {
                 CPF: "",
                 IDADE: "",
                 CEP: ""
-            }
+            },
+            dependentes: []
         };
 
     }
 
     async componentWillMount() {
         var dados = await FuncionarioService.Buscar();
-        await this.setState({ dados });
+        var dependentes = await DependenteService.Buscar();
+        await this.setState({ 
+            dados,
+            dependentes
+        });
         await this.page.current.loading(false);
     }
 
@@ -54,7 +60,7 @@ export class DadosPessoais extends Component<Props, State> {
             <Page {...this.props} ref={this.page}>
                 {this.page.current && 
                     <Row>
-                        <Col>
+                        <Col tamanho={"12"} className={"col-lg-6"}>
                             <Box titulo={"Dados Pessoais"}>
                             
                                 <div className="form-row">
@@ -96,8 +102,11 @@ export class DadosPessoais extends Component<Props, State> {
                                     <CampoEstatico titulo="E-mail" valor={this.state.dados.DadosPessoais.EMAIL_AUX} col="6" id="16" />
                                 </div>
 
-                                <hr />
-
+                            </Box>
+                        </Col>
+                        
+                        <Col>
+                            <Box titulo={"Endereço"}>
                                 <div className="form-row">
                                     <CampoEstatico titulo="Endereço" valor={this.state.dados.Entidade.END_ENTID} id="17" />
                                     <CampoEstatico titulo="Número" valor={this.state.dados.Entidade.NR_END_ENTID} id="18" />
@@ -111,9 +120,53 @@ export class DadosPessoais extends Component<Props, State> {
                                     <CampoEstatico titulo="UF" valor={this.state.dados.Entidade.UF_ENTID} col="2" id="22" />
                                     <CampoEstatico titulo="CEP" valor={this.state.dados.CEP} id="23" />
                                 </div>
-                                <br />
-
                             </Box>
+
+                            <Box titulo={"Dados Bancários"}>
+                                <div className="form-row">
+                                    <CampoEstatico titulo="Banco" valor={this.state.dados.Entidade.NUM_BANCO} col="4" id="24" />
+                                    <CampoEstatico titulo="Agência" valor={this.state.dados.Entidade.NUM_AGENCIA} col="4" id="25" />
+                                    <CampoEstatico titulo="Conta" valor={this.state.dados.Entidade.NUM_CONTA} col="4" id="26" />
+                                </div>
+
+                                <div className="form-row">
+                                </div>
+                            </Box>
+
+                            {
+                                this.state.dependentes.length > 0 &&
+
+                                <Box titulo={"Dependentes"}>
+                                    <table className="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style={{width:"250"}}>Nome</th>
+                                                <th style={{width:"150"}}>Data de Nascimento</th>
+                                                <th style={{width:"150"}}>Grau de Parentesco</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                this.state.dependentes.map((dependente: any, index: number) => { 
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td>
+                                                                {dependente.NOME_DEP}
+                                                            </td>
+                                                            <td>
+                                                                {dependente.DT_NASC_DEP}
+                                                            </td>
+                                                            <td>
+                                                                {dependente.DS_GRAU_PARENTESCO}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+                                </Box>
+                            }
                         </Col>
                     </Row>
                 }
