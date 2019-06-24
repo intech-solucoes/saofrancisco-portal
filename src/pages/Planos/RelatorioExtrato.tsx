@@ -46,14 +46,28 @@ export class RelatorioExtrato extends React.Component<Props, State> {
 
     preencherRelatorio = async () => {
         var relatorio = await PlanoService.RelatorioExtratoPorPlanoReferencia(this.props.cdPlano, this.props.dtInicio, this.props.dtFim);
-        await this.setState({ relatorio });
+
+        const blobURL = window.URL.createObjectURL(new Blob([relatorio]));
+        const tempLink = document.createElement('a');
+        tempLink.style.display = 'none';
+        tempLink.href = blobURL;
+        tempLink.setAttribute('download', "Extrato.pdf");
+
+        if (typeof tempLink.download === 'undefined') {
+            tempLink.setAttribute('target', '_blank');
+        }
+
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+        window.URL.revokeObjectURL(blobURL);
     }
 
     render() {
         return (
             <Report ref={this.report} preview={this.props.preview} downloadURL={`${config.apiUrl}/relatorios`}>
                 <ReportHeader height={350}>
-                    <table className={"table table-borderless table-sm"}>
+                    <table className={"table table-borderless table-sm mt-5"}>
                         <tbody>
                             <tr>
                                 <td>

@@ -64,7 +64,16 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
     }
 
     gerarRelatorio = async () => {
-        this.relatorio.current.download();
+        // this.relatorio.current.download();
+
+        var relatorio = await ContrachequeService.Relatorio(this.state.cdPlano, this.state.dataReferencia);
+
+        const url = window.URL.createObjectURL(new Blob([relatorio]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'contracheque.pdf');
+        document.body.appendChild(link);
+        link.click();
     }
 
     render() {
@@ -175,8 +184,6 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
 
                                 <Botao titulo={"Baixar"} className="btn btn-primary" onClick={this.gerarRelatorio} usaLoading />
                             </Box>
-
-                            <RelatorioContracheque ref={this.relatorio} cdPlano={this.state.cdPlano} dtReferencia={this.state.dataReferencia} preview={false} />
                         </Col>
                     </Row>
                 </Page>

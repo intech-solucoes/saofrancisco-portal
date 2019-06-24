@@ -133,7 +133,24 @@ export default class DetalhesPlano extends React.Component<Props, State> {
                 this.alert.current.adicionarErro("A data final é superior à data atual");
     
             if(this.alert.current.state.mensagem.length === 0 && this.alert.current.props.mensagem.length === 0) {
-                this.relatorio.current.download();
+                
+                var relatorio = await PlanoService.RelatorioExtratoPorPlanoReferencia(this.state.cdPlano, this.state.dataInicio, this.state.dataFim);
+                
+                const blobURL = window.URL.createObjectURL(new Blob([relatorio]));
+                const tempLink = document.createElement('a');
+                tempLink.style.display = 'none';
+                tempLink.href = blobURL;
+                tempLink.setAttribute('download', "Extrato.pdf");
+
+                if (typeof tempLink.download === 'undefined') {
+                    tempLink.setAttribute('target', '_blank');
+                }
+
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
+                window.URL.revokeObjectURL(blobURL);
+
             }
             
         } catch(err) {

@@ -51,20 +51,13 @@ export class HomeAssistido extends React.Component<Props, State> {
                                     {this.state.processoBeneficio.DT_INICIO_FUND}
                                 </HomeCard>
                             </Col>
-                            {this.state.planos[0].CD_PLANO !== "0001" && 
-                                <Col>
-                                    <HomeCard titulo={"Regime de Tributação"}>
-                                        {this.state.planos[0].TIPO_IRRF === "2" ? "Regressivo" : "Progressivo"}
-                                    </HomeCard>
-                                </Col>
-                            }
                         </Row>
 
-                        {this.state.processoBeneficio.SALDO_ATUAL &&
+                        {this.state.processoBeneficio.SALDO_ATUAL > 0 &&
                             <Row>
                                 <Col>
-                                    <HomeCard titulo={"Saldo de Conta Aplicável Atual (SCAA)"}>
-                                        <CampoEstatico valor={this.state.processoBeneficio.SALDO_ATUAL} tipo={TipoCampoEstatico.dinheiro} />
+                                    <HomeCard titulo={"Saldo de Conta Aplicável Atual - SCAA (em cotas) "}>
+                                        <CampoEstatico valor={this.state.processoBeneficio.SALDO_ATUAL} />
                                     </HomeCard>
                                 </Col>
                                 <Col>
@@ -77,6 +70,13 @@ export class HomeAssistido extends React.Component<Props, State> {
                                         {this.state.processoBeneficio.DT_APOSENTADORIA}
                                     </HomeCard>
                                 </Col>
+                                {this.state.planos[0].CD_PLANO !== "0001" && 
+                                    <Col>
+                                        <HomeCard titulo={"Regime de Tributação"}>
+                                            {this.state.planos[0].TIPO_IRRF === "2" ? "Regressivo" : "Progressivo"}
+                                        </HomeCard>
+                                    </Col>
+                                }
                             </Row>
                         }
 
