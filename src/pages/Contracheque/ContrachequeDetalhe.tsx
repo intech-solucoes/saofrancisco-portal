@@ -2,7 +2,6 @@ import React from 'react';
 import { ContrachequeService, PlanoService } from "@intechprev/prevsystem-service";
 import { Row, Col, Box, Botao, CampoEstatico } from "@intechprev/componentes-web";
 import { Page } from '..';
-import { RelatorioContracheque } from './RelatorioContracheque';
 import { HomeCard } from '../Home/HomeCard';
 
 interface Props {
@@ -11,43 +10,44 @@ interface Props {
 
 interface State {
     plano: any,
-    resumo: any,
     contracheque: {
         Proventos: any,
         Descontos: any,
         Resumo: { 
             Bruto: any,
             Descontos: any,
-            Liquido: any
+            Liquido: any,
+            DesTipoFolha: string
         }
     },
     cdPlano: string,
-    dataReferencia: string
+    dataReferencia: string,
+    cdTipoFolha: string
 }
 
 var erro = false;
 export default class ContrachequeDetalhe extends React.Component<Props, State> {
 
     private page = React.createRef<Page>();
-    private relatorio = React.createRef<RelatorioContracheque>();
 
     constructor(props: Props) {
         super(props);
 
         this.state = {
             plano: {},
-            resumo: {},
             contracheque: {
                 Proventos: [],
                 Descontos: [],
                 Resumo: { 
                     Bruto: "",
                     Descontos: "",
-                    Liquido: ""
+                    Liquido: "",
+                    DesTipoFolha: ""
                 }
             },
             cdPlano: props.match.params.plano,
-            dataReferencia: props.match.params.data
+            dataReferencia: props.match.params.data,
+            cdTipoFolha: props.match.params.cdTipoFolha
         };
 
         this.page = React.createRef();
@@ -57,7 +57,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
         var plano = await PlanoService.BuscarPorCodigo(this.state.cdPlano);
         await this.setState({ plano });
 
-        var contracheque = await ContrachequeService.BuscarPorPlanoReferenciaTipoFolha(this.state.cdPlano, this.state.dataReferencia);
+        var contracheque = await ContrachequeService.BuscarPorPlanoReferenciaTipoFolha(this.state.cdPlano, this.state.dataReferencia, this.state.cdTipoFolha);
         await this.setState({ contracheque });
 
         await this.page.current.loading(false);
@@ -66,7 +66,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
     gerarRelatorio = async () => {
         // this.relatorio.current.download();
 
-        var relatorio = await ContrachequeService.Relatorio(this.state.cdPlano, this.state.dataReferencia);
+        var relatorio = await ContrachequeService.Relatorio(this.state.cdPlano, this.state.dataReferencia, this.state.cdTipoFolha);
 
         const url = window.URL.createObjectURL(new Blob([relatorio]));
         const link = document.createElement('a');
@@ -92,8 +92,13 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
                                 {this.state.plano.DS_CATEGORIA}
                             </HomeCard>
                         </Col>
+                        <Col tamanho={"3"}>
+                            <HomeCard titulo={"Tipo"}>
+                                {this.state.contracheque.Resumo.DesTipoFolha}
+                            </HomeCard>
+                        </Col>
                         {this.state.contracheque.Proventos.length > 0 &&
-                            <Col tamanho={"3"}>
+                            <Col tamanho={"6"}>
                                 <HomeCard titulo={"ESPÉCIE"}>
                                     {this.state.contracheque.Proventos[0].DS_ESPECIE}
                                 </HomeCard>

@@ -141,6 +141,7 @@ export class DadosPessoais extends Component<Props, State> {
                                         <thead>
                                             <tr>
                                                 <th style={{width:"250"}}>Nome</th>
+                                                <th>Sexo</th>
                                                 <th style={{width:"150"}}>Data de Nascimento</th>
                                                 <th style={{width:"150"}}>Grau de Parentesco</th>
                                             </tr>
@@ -152,6 +153,9 @@ export class DadosPessoais extends Component<Props, State> {
                                                         <tr key={index}>
                                                             <td>
                                                                 {dependente.NOME_DEP}
+                                                            </td>
+                                                            <td>
+                                                                {dependente.SEXO_DEP == "F" ? "FEMININO" : "MASCULINO"}
                                                             </td>
                                                             <td>
                                                                 {dependente.DT_NASC_DEP}

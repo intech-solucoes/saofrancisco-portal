@@ -38,11 +38,15 @@ export default class Login extends React.Component<Props, State> {
         }
     }
 
-    onSubmit = async () => {
+    onSubmit = async (e: any) => {
+        e.preventDefault();
+
         await this.setState({ erro: "", loading: true });
 
         try {
             var login = await UsuarioService.Login(this.state.cpf, this.state.senha);
+
+            console.log(login);
             
             await localStorage.setItem("token", login.AccessToken);
             await localStorage.setItem("token-admin", login.AccessToken);
@@ -84,7 +88,7 @@ export default class Login extends React.Component<Props, State> {
                 </div>
 
                 <div className="form-group">
-                    <button type="submit" id="entrar" className="btn btn-block btn-primary" onClick={this.onSubmit} disabled={this.state.loading}>
+                    <button id="entrar" className="btn btn-block btn-primary" onClick={this.onSubmit} disabled={this.state.loading}>
                         {!this.state.loading && 
                             <span>Entrar</span>}
 

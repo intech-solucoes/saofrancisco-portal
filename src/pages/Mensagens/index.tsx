@@ -64,13 +64,11 @@ export default class Mensagens extends React.Component<Props, State> {
                             return (
                                 <Col key={index}>
                                     <Box titulo={"Mensagens"}>
-                                        {localStorage.getItem("admin") === "S" &&
                                             <div>
                                                 <Botao titulo={"Nova Mensagem"} tipo={TipoBotao.primary} onClick={this.handleClick} />
                                                 <br/>
                                                 <br/>
                                             </div>
-                                        }
 
                                         {plano.mensagens.length > 0 &&
                                             <ListaMensagens mostrarDados={false} mensagens={plano.mensagens} />}
