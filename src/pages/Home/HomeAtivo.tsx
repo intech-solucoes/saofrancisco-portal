@@ -117,7 +117,7 @@ export class HomeAtivo extends React.Component<Props, State> {
 
                                 </Box>
                                 
-                                <Box renderRow={true} titulo={"Descontos"} label={`Posição de ${this.state.ultimaContribuicao.DataReferencia.substring(3)}`}>
+                                <Box renderRow={true} titulo={"Custeio"} label={`Posição de ${this.state.ultimaContribuicao.DataReferencia.substring(3)}`}>
                                     
                                     <table className={"table table-striped table-sm"}>
                                         <tbody>

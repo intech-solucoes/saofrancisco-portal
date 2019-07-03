@@ -144,6 +144,7 @@ export class DadosPessoais extends Component<Props, State> {
                                                 <th>Sexo</th>
                                                 <th style={{width:"150"}}>Data de Nascimento</th>
                                                 <th style={{width:"150"}}>Grau de Parentesco</th>
+                                                <th>CPF</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -162,6 +163,11 @@ export class DadosPessoais extends Component<Props, State> {
                                                             </td>
                                                             <td>
                                                                 {dependente.DS_GRAU_PARENTESCO}
+                                                            </td>
+                                                            <td>
+                                                                {
+                                                                    typeof(dependente.CPF) !== 'undefined' || dependente.CPF === "" ? dependente.CPF : "-"
+                                                                }
                                                             </td>
                                                         </tr>
                                                     );
