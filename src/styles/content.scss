@@ -11,6 +11,8 @@
         h2 {
             font-size: 18px;
             color: $color-page-header-text;
+            margin-top: 4px;
+            margin-left: 10px;
         }
 
         .user-icon {
@@ -77,10 +79,6 @@
     .navbar-default.nav-open {
         display: block;
         width: 250px;
-    }
-
-    .page-wrapper.nav-open {
-        margin-left: 250px;
     }
 }
 

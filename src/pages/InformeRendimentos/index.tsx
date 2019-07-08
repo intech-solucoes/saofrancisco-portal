@@ -81,7 +81,7 @@ export class InformeRendimentos extends React.Component<Props, State> {
             return (
                 <Page {...this.props} ref={this.page}>
                     <Row>
-                        <Col className="col-lg-6">
+                        <Col className="col-lg-8">
                             <Box titulo={"Resumo"}>
                                 <Form ref={this.form}>
                                     <Row className={"form-group"}>
@@ -111,7 +111,7 @@ export class InformeRendimentos extends React.Component<Props, State> {
                                                                     return (
                                                                         <tr key={index}>
                                                                             <td>{linha.DES_INFO_REND}</td>
-                                                                            <td className="text-right">
+                                                                            <td className="text-right" style={{ width: 150 }}>
                                                                                 <b>R$ {linha.VAL_LINHA.toLocaleString('pt-br', {minimumFractionDigits: 2})}</b>
                                                                             </td>
                                                                         </tr>

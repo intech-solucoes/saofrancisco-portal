@@ -4,8 +4,6 @@ import { Row, Col, Box, Botao, TipoBotao } from '@intechprev/componentes-web';
 
 import ListaMensagens from "./ListaMensagens";
 import { Page } from "..";
-import MensagemNova from './MensagemNova';
-export { MensagemNova }
 
 interface Props {
     history?: any
@@ -64,12 +62,6 @@ export default class Mensagens extends React.Component<Props, State> {
                             return (
                                 <Col key={index}>
                                     <Box titulo={"Mensagens"}>
-                                            <div>
-                                                <Botao titulo={"Nova Mensagem"} tipo={TipoBotao.primary} onClick={this.handleClick} />
-                                                <br/>
-                                                <br/>
-                                            </div>
-
                                         {plano.mensagens.length > 0 &&
                                             <ListaMensagens mostrarDados={false} mensagens={plano.mensagens} />}
 

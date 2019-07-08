@@ -50,7 +50,7 @@ export default class Login extends React.Component<Props, State> {
             
             await localStorage.setItem("token", login.AccessToken);
             await localStorage.setItem("token-admin", login.AccessToken);
-            // await localStorage.setItem("pensionista", login.pensionista.toString());
+            await localStorage.setItem("pensionista", login.Pensionista.toString());
             
             document.location.href = ".";
         } catch(erro) {

@@ -3,8 +3,8 @@ import { MensagemService, ListasService } from "@intechprev/prevsystem-service";
 import { handleFieldChange } from "@intechprev/react-lib";
 import { Row, Col, Box, CampoTexto, Botao, Form, Alerta, Combo, TipoBotao, TipoAlerta } from "@intechprev/componentes-web";
 import DataInvalida from '../../_utils/DataInvalida';
-import ListaMensagens from "./ListaMensagens";
-import { Page } from "..";
+import ListaMensagens from "../Mensagens/ListaMensagens";
+import { PageAdmin } from '.';
 
 interface Props {}
 
@@ -33,9 +33,9 @@ interface State {
     modalVisivel: false
 }
 
-export default class MensagemNova extends React.Component<Props, State> {
+export class MensagemNova extends React.Component<Props, State> {
 
-    private page = React.createRef<Page>();
+    private page = React.createRef<PageAdmin>();
     private form = React.createRef<Form>();
     private alert = React.createRef<Alerta>();
 
@@ -81,7 +81,8 @@ export default class MensagemNova extends React.Component<Props, State> {
             await this.setState({
                 listas,
                 listaFundacao: listas.Fundacoes,
-                listaSituacaoPlano: listas.SitPlanos
+                listaSituacaoPlano: listas.SitPlanos,
+                fundacao: listas.Fundacoes[0].CD_FUNDACAO
             });
             
             await this.page.current.loading(false);
@@ -183,17 +184,17 @@ export default class MensagemNova extends React.Component<Props, State> {
     }
 
     validarData = async () => {
-        var dataObjeto: any;
-        dataObjeto = this.state.dataExpiracao.split("/");
-        dataObjeto = new Date(dataObjeto[2], dataObjeto[1] - 1, dataObjeto[0]);
-        var dataInvalida = DataInvalida(dataObjeto, this.state.dataExpiracao);
+        // var dataObjeto: any;
+        // dataObjeto = this.state.dataExpiracao.split("/");
+        // dataObjeto = new Date(dataObjeto[2], dataObjeto[1] - 1, dataObjeto[0]);
+        // var dataInvalida = DataInvalida(dataObjeto, this.state.dataExpiracao);
 
-        if(dataObjeto < new Date()) {
-            await this.alert.current.adicionarErro("A Data de Expiração deve ser superior à data atual.");
-        } else {
-            if(dataInvalida)
-                await this.alert.current.adicionarErro("Campo \"Data de Expiração\" inválido.");
-        }
+        // if(dataObjeto < new Date()) {
+        //     await this.alert.current.adicionarErro("A Data de Expiração deve ser superior à data atual.");
+        // } else {
+        //     if(dataInvalida)
+        //         await this.alert.current.adicionarErro("Campo \"Data de Expiração\" inválido.");
+        // }
     }
 
     /**
@@ -217,7 +218,7 @@ export default class MensagemNova extends React.Component<Props, State> {
 
     render () {
         return (
-            <Page {...this.props} ref={this.page}>
+            <PageAdmin {...this.props} ref={this.page}>
                 <Row>
                     <Col>
                         <Box titulo={"NOVA MENSAGEM"}>
@@ -253,9 +254,8 @@ export default class MensagemNova extends React.Component<Props, State> {
                                     </Col>
             
                                     <Col className={"col-lg-6"}>
-
                                         <Combo contexto={this} label={"Fundação"} onChange={this.onChangeFundacao}
-                                               nome={"fundacao"} valor={this.state.fundacao} obrigatorio textoVazio="Selecione uma fundação"
+                                               nome={"fundacao"} valor={this.state.fundacao} obrigatorio
                                                opcoes={this.state.listaFundacao} nomeMembro={"NOME_ENTID"} valorMembro={"CD_FUNDACAO"} />
 
                                         <Combo contexto={this} label={"Empresa"} onChange={this.onChangeEmpresa}
@@ -295,7 +295,7 @@ export default class MensagemNova extends React.Component<Props, State> {
                         </Box>
                     </Col>
                 </Row>
-            </Page>
+            </PageAdmin>
         );
     }
 }

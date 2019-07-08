@@ -1,19 +1,22 @@
 import PageClean from "./PageClean";
 import Page from "./Page";
+
+import { NotFoundPage } from "./NotFoundPage";
+
 import Login, { EsqueciSenha } from './Login';
 import { Home } from './Home';
 import { DadosPessoais } from './DadosPessoais';
 import { Relacionamento } from './Relacionamento';
 import { TrocarSenha } from './TrocarSenha';
-import Planos, { PlanoDetalhes } from './Planos';
+import Planos from './Planos';
 import { ListarParticipantes } from './ListarParticipantes';
 import { InformeRendimentos } from './InformeRendimentos';
 import Contracheque, { ContrachequeDetalhe } from './Contracheque';
 import Documentos from './Documentos'
-import Mensagens, { MensagemNova } from './Mensagens';
+import Mensagens from './Mensagens';
 
 export {
-    PageClean, Page,
+    PageClean, Page, NotFoundPage,
     Login, EsqueciSenha,
     Home,
     DadosPessoais,
@@ -22,9 +25,8 @@ export {
     Planos,
     ListarParticipantes,
     InformeRendimentos, 
-    PlanoDetalhes,
     Contracheque,
     ContrachequeDetalhe,
     Documentos,
-    Mensagens, MensagemNova
+    Mensagens
 }

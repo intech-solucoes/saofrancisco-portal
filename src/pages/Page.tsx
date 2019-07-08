@@ -15,6 +15,10 @@ interface State {
     nomeUsuario: string;
     loading: boolean;
     admin: boolean;
+    menuAberto: boolean;
+    sessaoExpirada: boolean;
+    failure: boolean;
+    exception: any;
 }
 
 export default class Page extends React.Component<Props, State> {
@@ -25,7 +29,11 @@ export default class Page extends React.Component<Props, State> {
         this.state = {
             nomeUsuario: "",
             loading: true,
-            admin: false
+            menuAberto: false,
+            admin: false,
+            sessaoExpirada: true,
+            failure: false,
+            exception: {}
         }
     }
 
@@ -60,6 +68,16 @@ export default class Page extends React.Component<Props, State> {
             }
         }
 
+    }
+
+    componentDidCatch(error: any, info: any) {
+        console.log(error);
+        console.log(info);
+    }
+
+    static getDerivedStateFromError(error: any) {
+        console.log(error);
+        return { failure: true, exception: error };
     }
 
     loading = async (valor: boolean) => {
@@ -101,14 +119,21 @@ export default class Page extends React.Component<Props, State> {
         }
         };
 
+        if (this.state.failure) {
+            return <h1>I listened to your problems, now listen to mine: {this.state.exception}</h1>;
+        }
         return (
             <div>
                 <div style={{opacity: 0.5}} className="loader" hidden={!this.state.loading}>
                     <img style={{width: 300, height: 200}} src="./imagens/loading.gif" alt="loading" />
                 </div>
+
+                <div className="modal-sessao" hidden={!this.state.sessaoExpirada}>
+
+                </div>
                 
                 <div className="wrapper">
-                    <nav className="navbar-default nav-open">
+                    <nav className={"navbar-default " + (this.state.menuAberto ? "nav-open" : "")}>
                         <ul>
                             <li className="navbar-header">
                                 <img src="imagens/logo.png" alt="logo" />
@@ -139,19 +164,25 @@ export default class Page extends React.Component<Props, State> {
                         </ul>
                     </nav>
 
-                    <div className="page-wrapper nav-open">
-                        <Row className="page-heading">
-                            <Col>
-                                <button className="btn btn-primary btn-menu" >
-                                    <i className="fa fa-list"></i>
-                                </button>
+                    <button className={"btn btn-primary btn-menu-close " + (this.state.menuAberto ? "nav-open" : "")} onClick={() => this.setState({ menuAberto: false })}>
+                        <i className="fas fa-times fa-3x"></i>
+                    </button>
 
+                    <div className={"page-wrapper " + (this.state.menuAberto ? "nav-open" : "")}>
+                        <Row className="page-heading">
+                        <Col tamanho={"1"} className={"btn-menu"}>
+                                <button className="btn btn-primary" onClick={() => this.setState({ menuAberto: !this.state.menuAberto })}>
+                                    <i className="fa fa-bars"></i>
+                                </button>
+                            </Col>
+
+                            <Col>
                                 <Title />
                             </Col>
 
-                            <Col tamanho={"sm-4"} className={"text-right user-icon"}>
+                            <Col tamanho={"4"} className={"col-lg-4 col-6 text-right user-icon"}>
                                 <Row>
-                                    <Col className={"nome-usuario"}>
+                                    <Col className={"nome-usuario d-sm-none d-none d-sm-block"}>
                                         {this.state.nomeUsuario}
 
                                         {this.state.admin &&

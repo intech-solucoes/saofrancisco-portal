@@ -46,12 +46,16 @@ export class DadosPessoais extends Component<Props, State> {
     }
 
     async componentWillMount() {
+        if(localStorage.getItem("pensionista") === "false")  {
+            var dependentes = await DependenteService.Buscar();
+            await this.setState({ dependentes });
+        }
+        
         var dados = await FuncionarioService.Buscar();
-        var dependentes = await DependenteService.Buscar();
         await this.setState({ 
-            dados,
-            dependentes
+            dados
         });
+        
         await this.page.current.loading(false);
     }
 
@@ -137,7 +141,7 @@ export class DadosPessoais extends Component<Props, State> {
                                 this.state.dependentes.length > 0 &&
 
                                 <Box titulo={"Dependentes"}>
-                                    <table className="table table-hover">
+                                    <table className="table">
                                         <thead>
                                             <tr>
                                                 <th style={{width:"250"}}>Nome</th>

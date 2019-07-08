@@ -130,9 +130,9 @@ export class HomeAtivo extends React.Component<Props, State> {
 
                                                 return (
                                                     <tr key={index}>
-                                                        <Td>{desconto.Item1}</Td>
+                                                        <Td>{desconto.DS_AGRUPADOR_WEB}</Td>
                                                         <Td className={"text-right"}>
-                                                            <CampoEstatico valor={desconto.Item2} tipo={TipoCampoEstatico.dinheiro} />
+                                                            <CampoEstatico valor={desconto.CONTRIB_PARTICIPANTE} tipo={TipoCampoEstatico.dinheiro} />
                                                         </Td>
                                                     </tr>
                                                 )

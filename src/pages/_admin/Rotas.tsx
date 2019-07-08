@@ -2,7 +2,8 @@ import React from 'react';
 
 import {
     Home,
-    Documentos
+    Documentos,
+    MensagemNova
 } from "./";
 import { RouteProps } from 'react-router';
 
@@ -25,6 +26,15 @@ function GetRotas() {
             componente: (routeProps: RouteProps) => <Documentos {...routeProps} />,
             mostrarMenu: true,
             id: "documentos"
+        },
+        {
+            titulo: "Nova Mensagem",
+            icone: "fas fa-envelope",
+            caminho: "/mensagem/nova",
+            componente: (routeProps: RouteProps) => <MensagemNova {...routeProps} />,
+            mostrarMenu: true,
+            exact: true,
+            id: "novaMensagem"
         }
     ];
 
