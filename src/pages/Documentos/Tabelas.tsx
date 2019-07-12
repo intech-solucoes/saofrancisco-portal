@@ -81,15 +81,13 @@ export default class Tabelas extends React.Component<Props> {
                                 </Col>
                                 
                                 <Col tamanho={"1"}>
-                                    <Botao titulo={""} className={"btn btn-sm btn-danger"}
+                                    <Botao titulo={""} className={"btn btn-sm btn-danger"} icone={"fa fa-trash"}
                                         onClick={async () => {
                                             if(this.props.tipo === "pasta")
                                                 await this.deletarPasta(item.OID_DOCUMENTO_PASTA);
                                             else
                                                 await this.deletarDocumento(item.OID_DOCUMENTO);
-                                        }}>
-                                        <i className="fa fa-trash"></i>
-                                    </Botao>
+                                        }} />
                                 </Col>
                             </Row>
                         );

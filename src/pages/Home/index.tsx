@@ -5,11 +5,16 @@ import { PlanoService } from "@intechprev/prevsystem-service";
 import { HomeAtivo } from "./HomeAtivo";
 import { HomeAssistido } from "./HomeAssistido";
 import { HomePensionista } from "./HomePensionista";
+import { HomeAtivoSaldado } from "./HomeAtivoSaldado";
+import { Combo } from "@intechprev/componentes-web";
+import _ from "lodash";
 
 interface Props { }
 
 interface State {
-    plano: Array<any>;
+    planos: Array<any>;
+    plano: any;
+    cdPlano: string;
     pensionista: boolean;
 }
 
@@ -19,28 +24,56 @@ export class Home extends Component<Props, State>  {
         super(props);
 
         this.state = {
-            plano: [
+            planos: [
                 {}
             ],
+            plano: {},
+            cdPlano: "",
             pensionista: localStorage.getItem("pensionista") === "true"
         };
     }
 
     componentDidMount = async () => {
-        var plano = await PlanoService.Buscar();
-        console.log(plano);
-        await this.setState({ plano });
+        var planos = await PlanoService.Buscar();
+        await this.setState({ 
+            planos,
+            plano: planos[0],
+            cdPlano: planos[0].CD_PLANO
+         });
+    }
+
+    carregarPlano = async () => {
+        var plano = _.filter(this.state.planos, (plano: any) => plano.CD_PLANO === this.state.cdPlano)[0];
+
+        await this.setState({
+            plano
+        });
     }
 
     render() {
-        // if(this.state.pensionista)
-        //     return <HomePensionista {...this.props} />
-        // else 
-        if(this.state.plano[0].CD_CATEGORIA === "1")
-            return <HomeAtivo {...this.props} />
-        else if(this.state.plano[0].CD_CATEGORIA === "4")
-            return <HomeAssistido {...this.props} />
-        else
-            return <Page {...this.props} />;
+        
+        return (
+            <div>
+                {this.state.planos.length > 1 &&
+                    <Combo contexto={this} label={"Selecione um plano"} onChange={this.carregarPlano}
+                            nome={"cdPlano"} valor={this.state.cdPlano} obrigatorio
+                            opcoes={this.state.planos} nomeMembro={"DS_PLANO"} valorMembro={"CD_PLANO"} />
+                }
+
+                {this.state.plano.CD_PLANO === "0003" && this.state.plano.CD_CATEGORIA === "1" &&
+                    <HomeAtivoSaldado {...this.props} />
+                }
+                {/* {this.state.plano.CD_CATEGORIA === "1" &&
+                    <HomeAtivo {...this.props} />
+                }
+                {this.state.plano.CD_CATEGORIA === "4" &&
+                    <HomeAssistido {...this.props} />
+                }
+
+                {this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA !== "1" && this.state.plano.CD_CATEGORIA !== "1" && this.state.plano.CD_CATEGORIA === "4" &&
+                    <Page {...this.props} />
+                } */}
+            </div>
+        )
     }
 }

@@ -41,7 +41,7 @@ export class HomeAtivo extends React.Component<Props, State> {
         var saldos = await FichaFechamentoService.BuscarSaldoPorPlano(this.state.cdPlano);
 
         var plano = _.filter(this.state.planos, (plano: any) => plano.CD_PLANO === this.state.cdPlano)[0];
-
+        console.log(plano);
         await this.setState({ 
             ultimaContribuicao, 
             saldos,
@@ -54,14 +54,6 @@ export class HomeAtivo extends React.Component<Props, State> {
             <Page {...this.props} ref={this.page}>
                 {this.page.current && this.state.plano &&
                     <div>
-                        {this.state.planos.length > 1 &&
-                            <div>
-                                <Combo contexto={this} label={"Selecione um plano"} onChange={this.carregarPlano}
-                                        nome={"cdPlano"} valor={this.state.cdPlano} obrigatorio
-                                        opcoes={this.state.planos} nomeMembro={"DS_PLANO"} valorMembro={"CD_PLANO"} />
-                            </div>
-                        }
-                    
                         <Row>
                             <Col>
                                 <HomeCard titulo={this.state.plano.DS_PLANO}>
@@ -139,6 +131,8 @@ export class HomeAtivo extends React.Component<Props, State> {
                                             })}
                                         </tbody>
                                     </table>
+
+                                    <b>Valor Liquido: <CampoEstatico valor={this.state.ultimaContribuicao.Liquido} tipo={TipoCampoEstatico.dinheiro} /></b>
 
                                 </Box>
                             </Col>

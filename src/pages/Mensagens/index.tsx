@@ -30,11 +30,12 @@ export default class Mensagens extends React.Component<Props, State> {
     async componentDidMount() {
 
         try {
-            var plano = await PlanoService.Buscar();
+            var planos = await PlanoService.Buscar();
             var funcionario = await FuncionarioService.Buscar();
-            plano.map(async (plano: any) => {
 
-                var mensagens = await MensagemService.BuscarPorFundacaoEmpresaPlano(funcionario.Funcionario.CD_FUNDACAO, funcionario.Usuario.CD_EMPRESA, plano.CD_PLANO);
+            planos.map(async (plano: any) => {
+
+                var mensagens = await MensagemService.BuscarPorFundacaoEmpresaPlano(funcionario.Funcionario.CD_FUNDACAO, funcionario.Funcionario.CD_EMPRESA, plano.CD_PLANO);
                 plano.mensagens = mensagens;
                 await this.setState({
                     planos: [...this.state.planos, plano]
