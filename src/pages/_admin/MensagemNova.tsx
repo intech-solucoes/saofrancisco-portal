@@ -84,6 +84,8 @@ export class MensagemNova extends React.Component<Props, State> {
                 listaSituacaoPlano: listas.SitPlanos,
                 fundacao: listas.Fundacoes[0].CD_FUNDACAO
             });
+
+            await this.onChangeFundacao(null);
             
             await this.page.current.loading(false);
         } catch(err) {

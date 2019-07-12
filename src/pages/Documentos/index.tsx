@@ -74,7 +74,7 @@ export default class Documentos extends React.Component<Props, State> {
     }
 
     buscarLista = async () => {
-        var resultado = await DocumentoService.BuscarPorPasta(this.state.oidPasta);
+        var resultado = await DocumentoService.BuscarPorPlanoPasta("0003", this.state.oidPasta);
 
         var pastaPai = "";
 
@@ -185,8 +185,8 @@ export default class Documentos extends React.Component<Props, State> {
 
                             {(this.state.pastas.length > 0 || this.state.documentos.length > 0) &&
                                 <div>
-                                    <Tabelas {...this.props} itens={this.state.pastas} campoTexto={"NOM_PASTA"} icone={"fa-folder-open text-warning"} tipo={"pasta"} />
-                                    <Tabelas {...this.props} itens={this.state.documentos} campoTexto={"TXT_TITULO"} icone={"fa-file text-info"} tipo={"documento"} />
+                                    <Tabelas {...this.props} itens={this.state.pastas} campoTexto={"NOM_PASTA"} icone={"fa-folder-open text-warning"} tipo={"pasta"} admin={false} />
+                                    <Tabelas {...this.props} itens={this.state.documentos} campoTexto={"TXT_TITULO"} icone={"fa-file text-info"} tipo={"documento"} admin={false} />
                                 </div>
                             }
 

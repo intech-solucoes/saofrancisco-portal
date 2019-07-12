@@ -132,21 +132,25 @@ export default class Planos extends React.Component<Props, State> {
                 
                 var relatorio = await PlanoService.RelatorioExtratoPorPlanoReferencia(this.state.cdPlano, "01/" + this.state.dataInicio, "01/" + this.state.dataFim);
                 
-                const blobURL = window.URL.createObjectURL(new Blob([relatorio]));
-                const tempLink = document.createElement('a');
-                tempLink.style.display = 'none';
-                tempLink.href = blobURL;
-                tempLink.setAttribute('download', "Extrato.pdf");
+                if (navigator.msSaveBlob) { // IE10+ : (has Blob, but not a[download] or URL)
+                    return navigator.msSaveBlob(new Blob([relatorio]), "Extrato.pdf");
+                } else {
 
-                if (typeof tempLink.download === 'undefined') {
-                    tempLink.setAttribute('target', '_blank');
+                    const blobURL = window.URL.createObjectURL(new Blob([relatorio]));
+                    const tempLink = document.createElement('a');
+                    tempLink.style.display = 'none';
+                    tempLink.href = blobURL;
+                    tempLink.setAttribute('download', "Extrato.pdf");
+
+                    if (typeof tempLink.download === 'undefined') {
+                        tempLink.setAttribute('target', '_blank');
+                    }
+
+                    document.body.appendChild(tempLink);
+                    tempLink.click();
+                    document.body.removeChild(tempLink);
+                    window.URL.revokeObjectURL(blobURL);
                 }
-
-                document.body.appendChild(tempLink);
-                tempLink.click();
-                document.body.removeChild(tempLink);
-                window.URL.revokeObjectURL(blobURL);
-
             }
             
         } catch(err) {

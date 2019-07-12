@@ -20,6 +20,8 @@ interface State {
 
 export class Home extends Component<Props, State>  {
 
+    public page = React.createRef<Page>();
+
     constructor(props: Props) {
         super(props);
 
@@ -51,9 +53,8 @@ export class Home extends Component<Props, State>  {
     }
 
     render() {
-        
         return (
-            <div>
+            <Page {...this.props} ref={this.page}>
                 {this.state.planos.length > 1 &&
                     <Combo contexto={this} label={"Selecione um plano"} onChange={this.carregarPlano}
                             nome={"cdPlano"} valor={this.state.cdPlano} obrigatorio
@@ -61,19 +62,15 @@ export class Home extends Component<Props, State>  {
                 }
 
                 {this.state.plano.CD_PLANO === "0003" && this.state.plano.CD_CATEGORIA === "1" &&
-                    <HomeAtivoSaldado {...this.props} />
+                    <HomeAtivoSaldado {...this.props} page={this.page} />
                 }
-                {/* {this.state.plano.CD_CATEGORIA === "1" &&
-                    <HomeAtivo {...this.props} />
+                {this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA === "1" &&
+                    <HomeAtivo {...this.props} page={this.page} />
                 }
-                {this.state.plano.CD_CATEGORIA === "4" &&
-                    <HomeAssistido {...this.props} />
+                {this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA === "4" &&
+                    <HomeAssistido {...this.props} page={this.page} />
                 }
-
-                {this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA !== "1" && this.state.plano.CD_CATEGORIA !== "1" && this.state.plano.CD_CATEGORIA === "4" &&
-                    <Page {...this.props} />
-                } */}
-            </div>
+            </Page>
         )
     }
 }

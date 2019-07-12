@@ -1,10 +1,11 @@
 import React from "react";
-import { Page } from "..";
 import { Row, Col, Box, CampoEstatico, TipoCampoEstatico } from "@intechprev/componentes-web";
 import { HomeCard } from "./HomeCard";
 import { PlanoService, CalendarioPagamentoService, FichaFinanceiraAssistidoService, ProcessoBeneficioService } from "@intechprev/prevsystem-service";
 
-interface Props { }
+interface Props {
+    page: any;
+}
 
 interface State {
     planos: Array<any>;
@@ -16,10 +17,20 @@ interface State {
 
 export class HomeAssistido extends React.Component<Props, State> {
 
-    private page = React.createRef<Page>();
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            planos: [],
+            ultimaFolha: null,
+            dataAposentadoria: null,
+            processoBeneficio: null,
+            calendario: null
+        }
+    }
 
     componentDidMount = async () => {
-        this.page.current.loading(true);
+        this.props.page.current.loading(true);
 
         var planos = await PlanoService.Buscar();
         var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlano(planos[0].CD_PLANO);
@@ -27,13 +38,13 @@ export class HomeAssistido extends React.Component<Props, State> {
         var calendario = await CalendarioPagamentoService.Buscar();
         await this.setState({ planos, ultimaFolha, processoBeneficio, calendario });
         
-        this.page.current.loading(false);
+        this.props.page.current.loading(false);
     }
 
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
-                {this.page.current &&
+            <div>
+                {this.state.calendario && 
                     <div>
                         <Row>
                             <Col>
@@ -83,7 +94,7 @@ export class HomeAssistido extends React.Component<Props, State> {
                         <Row className={"mt-4"}>
                             <Col tamanho={"8"}>
                                 <Box titulo={`Contracheque de ${this.state.ultimaFolha.Resumo.Referencia.substring(3)}`} 
-                                     label={this.state.planos[0].CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
+                                        label={this.state.planos[0].CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
                                     <h6 className={"text-right text-secondary mb-4"}></h6>
                                     <h2 className={"text-center mb-5"}>Valor Líquido: <CampoEstatico valor={this.state.ultimaFolha.Resumo.Liquido} tipo={TipoCampoEstatico.dinheiro} /></h2>
 
@@ -147,7 +158,7 @@ export class HomeAssistido extends React.Component<Props, State> {
                         </Row>
                     </div>
                 }
-            </Page>
+            </div>
         );
     }
 }

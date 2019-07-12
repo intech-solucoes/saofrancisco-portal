@@ -70,16 +70,6 @@ export default class Page extends React.Component<Props, State> {
 
     }
 
-    componentDidCatch(error: any, info: any) {
-        console.log(error);
-        console.log(info);
-    }
-
-    static getDerivedStateFromError(error: any) {
-        console.log(error);
-        return { failure: true, exception: error };
-    }
-
     loading = async (valor: boolean) => {
         await this.setState({
             loading: valor
@@ -118,10 +108,7 @@ export default class Page extends React.Component<Props, State> {
                 return titulo;
         }
         };
-
-        if (this.state.failure) {
-            return <h1>I listened to your problems, now listen to mine: {this.state.exception}</h1>;
-        }
+        
         return (
             <div>
                 <div style={{opacity: 0.5}} className="loader" hidden={!this.state.loading}>

@@ -1,10 +1,11 @@
 import React from "react";
-import { Page } from "..";
-import { Row, Col } from "@intechprev/componentes-web";
+import { Row, Col, CampoEstatico, TipoCampoEstatico } from "@intechprev/componentes-web";
 import { HomeCard } from "./HomeCard";
 import { PlanoService } from "@intechprev/prevsystem-service";
 
-interface Props { }
+interface Props {
+    page: any;
+}
 
 interface State {
     plano: any;
@@ -12,10 +13,16 @@ interface State {
 
 export class HomeAtivoSaldado extends React.Component<Props, State> {
 
-    private page = React.createRef<Page>();
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            plano: null
+        }
+    }
 
     componentDidMount = async () => {
-        this.page.current.loading(true);
+        this.props.page.current.loading(true);
         
         var plano = await PlanoService.BuscarSaldado();
 
@@ -23,41 +30,41 @@ export class HomeAtivoSaldado extends React.Component<Props, State> {
             plano
         });
 
-        this.page.current.loading(false);
+        this.props.page.current.loading(false);
     }
 
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
-                {this.page.current &&
+            <div>
+                {this.state.plano &&
                     <div>
                         <Row>
                             <Col>
-                                <HomeCard titulo={this.state.plano.DS_PLANO}>
-                                    {this.state.plano.DS_CATEGORIA}
+                                <HomeCard titulo={"PLANO BD SALDADO"}>
+                                    {this.state.plano.DS_SIT_PLANO}
                                 </HomeCard>
                             </Col>
                             <Col>
-                                <HomeCard titulo={this.state.plano.DS_PLANO}>
-                                    {this.state.plano.DS_CATEGORIA}
+                                <HomeCard titulo={"Data Saldamento"}>
+                                    {this.state.plano.DT_INSC_PLANO}
                                 </HomeCard>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <HomeCard titulo={this.state.plano.DS_PLANO}>
-                                    {this.state.plano.DS_CATEGORIA}
+                                <HomeCard titulo={"Valor Inicial do Saldamento"}>
+                                    <CampoEstatico valor={this.state.plano.VL_BENEF_SALDADO_INICIAL} tipo={TipoCampoEstatico.dinheiro} />
                                 </HomeCard>
                             </Col>
                             <Col>
-                                <HomeCard titulo={this.state.plano.DS_PLANO}>
-                                    {this.state.plano.DS_CATEGORIA}
+                                <HomeCard titulo={"Valor Atualizado"}>
+                                    <CampoEstatico valor={this.state.plano.VL_BENEF_SALDADO_ATUAL} tipo={TipoCampoEstatico.dinheiro} />
                                 </HomeCard>
                             </Col>
                         </Row>
                     </div>
                 }
-            </Page>
+            </div>
         );
     }
 }

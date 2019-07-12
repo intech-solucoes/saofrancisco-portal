@@ -1,11 +1,11 @@
 import React from "react";
 import axios from "axios";
-import { DocumentoService } from "@intechprev/prevsystem-service";
+import { DocumentoService, PlanoService } from "@intechprev/prevsystem-service";
 import { Link } from "react-router-dom";
 import Tabelas from './../Documentos/Tabelas';
 
 import { Page } from "..";
-import { Row, Col, Box, Form, Botao, Alerta, CampoTexto, TipoAlerta, TipoBotao } from '@intechprev/componentes-web';
+import { Row, Col, Box, Form, Botao, Alerta, CampoTexto, TipoAlerta, TipoBotao, Combo } from '@intechprev/componentes-web';
 import config from '../../config.json';
 import { PageAdmin } from ".";
 
@@ -21,6 +21,7 @@ interface Props {
 
 interface State {
     planos: any,
+    plano: any,
     documentos: any,
     pastas: any,
     nomePasta: string
@@ -49,6 +50,7 @@ export default class Documentos extends React.Component<Props, State> {
 
         this.state = {
             planos: [],
+            plano: null,
             documentos: [],
             pastas: [],
             nomePasta: "",
@@ -75,6 +77,7 @@ export default class Documentos extends React.Component<Props, State> {
     }
 
     buscarLista = async () => {
+        var planos = await PlanoService.BuscarTodos();
         var resultado = await DocumentoService.BuscarPorPasta(this.state.oidPasta);
 
         var pastaPai = "";
@@ -86,7 +89,8 @@ export default class Documentos extends React.Component<Props, State> {
             documentos: resultado.documentos,
             pastas: resultado.pastas,
             pastaAtual: resultado.pastaAtual,
-            pastaPai
+            pastaPai,
+            planos
         });
     }
 
@@ -154,7 +158,7 @@ export default class Documentos extends React.Component<Props, State> {
                 var oidPasta = this.state.oidPasta;
                 if(oidPasta === undefined)
                     oidPasta = ""
-                await DocumentoService.Criar(this.state.oidArquivoUpload, this.state.nomeDocumento, "SIM", 1, oidPasta);
+                await DocumentoService.Criar(this.state.oidArquivoUpload, this.state.nomeDocumento, "SIM", 1, this.state.plano, oidPasta);
                 await this.setState ({
                     nomeDocumento: "",
                     arquivoUpload: "",
@@ -175,12 +179,16 @@ export default class Documentos extends React.Component<Props, State> {
             <PageAdmin {...this.props} ref={this.page}>
 
                 <Row>
-                    <Col className={"lg-4"}>
+                    <Col tamanho={"lg-5"}>
                         <Box titulo={"UPLOAD DE DOCUMENTOS"}>
                             <Form ref={this.formDocumento}>
                             
                                 <CampoTexto contexto={this} nome={"nomeDocumento"} max={50} valor={this.state.nomeDocumento} label={"Título"} obrigatorio />
                                 
+                                <Combo contexto={this} label={"Plano"} obrigatorio={false}
+                                        nome={"plano"} valor={this.state.plano} textoVazio="Todas(os)"
+                                        opcoes={this.state.planos} nomeMembro={"DS_PLANO"} valorMembro={"CD_PLANO"} />
+                                        
                                 <div className="form-group">
 
                                     <label htmlFor="selecionar-documento"><b>Arquivo</b></label><br />
@@ -198,9 +206,8 @@ export default class Documentos extends React.Component<Props, State> {
                                     {!this.state.visibilidadeFileInput && !this.state.uploading &&
                                         <div>
                                             <Alerta tipo={TipoAlerta.success} mensagem={"Arquivo enviado com sucesso"} />
-                                            <Botao titulo={"Enviar outro arquivo"} tipo={TipoBotao.success}
+                                            <Botao titulo={"Enviar outro arquivo"} tipo={TipoBotao.primary}
                                                     onClick={async () => await this.setState({ visibilidadeFileInput: true, oidArquivoUpload: 0, podeCriarDocumento: false })} />
-                                            <div>trocar a cor desse botão para default</div>
                                         </div>
                                     }
                                     <hr/>
@@ -230,10 +237,10 @@ export default class Documentos extends React.Component<Props, State> {
                         </Box>
                     </Col>
 
-                    <Col tamanho={"8"}>
+                    <Col>
                         <Box>
                             {this.state.pastaAtual &&
-                                <Link className={"btn btn-primary mb-4"} to={`/documentos/${this.state.pastaPai}`}>
+                                <Link className={"btn btn-primary mb-4"} to={`/admin/documentos/${this.state.pastaPai}`}>
                                     <i className={"fa fa-chevron-left mr-2"}></i>
                                     Voltar
                                 </Link>
@@ -241,8 +248,8 @@ export default class Documentos extends React.Component<Props, State> {
 
                             {(this.state.pastas.length > 0 || this.state.documentos.length > 0) &&
                                 <div>
-                                    <Tabelas {...this.props} itens={this.state.pastas} campoTexto={"NOM_PASTA"} icone={"fa-folder-open text-warning"} tipo={"pasta"} />
-                                    <Tabelas {...this.props} itens={this.state.documentos} campoTexto={"TXT_TITULO"} icone={"fa-file text-info"} tipo={"documento"} />
+                                    <Tabelas {...this.props} itens={this.state.pastas} campoTexto={"NOM_PASTA"} icone={"fa-folder-open text-warning"} tipo={"pasta"} admin={true} />
+                                    <Tabelas {...this.props} itens={this.state.documentos} campoTexto={"TXT_TITULO"} icone={"fa-file text-info"} tipo={"documento"} admin={true} />
                                 </div>
                             }
 

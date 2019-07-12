@@ -6,7 +6,9 @@ import { PlanoService, FichaFinanceiraService, FichaFechamentoService } from "@i
 
 import * as _ from "lodash";
 
-interface Props { }
+interface Props {
+    page: any;
+}
 
 interface State {
     planos: Array<any>;
@@ -19,21 +21,33 @@ interface State {
 
 export class HomeAtivo extends React.Component<Props, State> {
 
-    private page = React.createRef<Page>();
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            planos: [],
+            plano: null,
+            cdPlano: "",
+            salario: {},
+            ultimaContribuicao: null,
+            saldos: null
+        }
+    }
 
     componentDidMount = async () => {
-        this.page.current.loading(true);
+        this.props.page.current.loading(true);
         
         var planos = await PlanoService.Buscar();
 
         await this.setState({
             planos,
+            plano: planos[0],
             cdPlano: planos[0].CD_PLANO,
-        })
+        });
 
         await this.carregarPlano();
 
-        this.page.current.loading(false);
+        this.props.page.current.loading(false);
     }
 
     carregarPlano = async() => {
@@ -41,7 +55,7 @@ export class HomeAtivo extends React.Component<Props, State> {
         var saldos = await FichaFechamentoService.BuscarSaldoPorPlano(this.state.cdPlano);
 
         var plano = _.filter(this.state.planos, (plano: any) => plano.CD_PLANO === this.state.cdPlano)[0];
-        console.log(plano);
+        
         await this.setState({ 
             ultimaContribuicao, 
             saldos,
@@ -51,8 +65,8 @@ export class HomeAtivo extends React.Component<Props, State> {
 
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
-                {this.page.current && this.state.plano &&
+            <div>
+                {this.state.ultimaContribuicao && 
                     <div>
                         <Row>
                             <Col>
@@ -187,7 +201,7 @@ export class HomeAtivo extends React.Component<Props, State> {
                         </Row>
                     </div>
                 }
-            </Page>
+            </div>
         );
     }
 }
