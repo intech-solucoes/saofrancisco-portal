@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { DocumentoService } from "@intechprev/prevsystem-service";
+import { DocumentoService, PlanoService } from "@intechprev/prevsystem-service";
 import { Link, RouteComponentProps } from "react-router-dom";
 import Tabelas from './Tabelas';
 
@@ -65,6 +65,12 @@ export default class Documentos extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
+        var planos = await PlanoService.Buscar();
+
+        await this.setState({
+            planos
+        });
+        
         await this.buscarLista();
         await this.page.current.loading(false);
     }
@@ -74,7 +80,7 @@ export default class Documentos extends React.Component<Props, State> {
     }
 
     buscarLista = async () => {
-        var resultado = await DocumentoService.BuscarPorPlanoPasta("0003", this.state.oidPasta);
+        var resultado = await DocumentoService.BuscarPorPlanoPasta(this.state.planos[0].CD_PLANO, this.state.oidPasta);
 
         var pastaPai = "";
 

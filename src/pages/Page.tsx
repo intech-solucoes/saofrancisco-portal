@@ -44,7 +44,7 @@ export default class Page extends React.Component<Props, State> {
 
             if (token) {
                 var dados = await FuncionarioService.Buscar();
-                var nomeUsuario = dados.Funcionario.NOME_ENTID;
+                var nomeUsuario = dados.DadosPessoais.NOME_ENTID;
                 var { data: admin } = await UsuarioService.VerificarAdmin();
 
                 await this.setState({

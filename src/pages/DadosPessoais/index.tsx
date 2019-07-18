@@ -68,7 +68,7 @@ export class DadosPessoais extends Component<Props, State> {
                             <Box titulo={"Dados Pessoais"}>
                             
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Nome" valor={this.state.dados.Funcionario.NOME_ENTID} col="12" id="0" />
+                                    <CampoEstatico titulo="Nome" valor={this.state.dados.DadosPessoais.NOME_ENTID} col="12" id="0" />
                                 </div>
 
                                 <div className="form-row">

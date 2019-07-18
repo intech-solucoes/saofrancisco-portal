@@ -25,7 +25,7 @@ export default class Tabelas extends React.Component<Props> {
     }
 
     deletarPasta = async (oidDocumentPasta: number) => {
-        if(window.confirm('Deseja realmente excluir a pasta e todo seu conteĂºdo?')) {
+        if(window.confirm('Deseja realmente excluir a pasta e todo seu conteúdo?')) {
             await DocumentoService.DeletarPasta(oidDocumentPasta);
             document.location.reload();
         }
