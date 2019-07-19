@@ -39,18 +39,11 @@ export default class Planos extends React.Component<Props, State> {
 
     componentDidMount = async () => {
         var listaPlanos = await PlanoService.Buscar();
-        
-        if(localStorage.getItem("pensionista") === "false" && listaPlanos[0].CD_PLANO !== "0001" && listaPlanos[0].CD_PLANO !== "0003")  {
-            var datasExtrato = await FichaFechamentoService.BuscarDatasExtrato(listaPlanos[0].CD_PLANO);
-            await this.setState({
-                dataInicio: datasExtrato.DataInicial.substring(3),
-                dataFim: datasExtrato.DataFinal.substring(3)
-            });
-        }
 
         await this.setState({ 
             listaPlanos
         });
+
         await this.page.current.loading(false);
     }
 
@@ -59,6 +52,13 @@ export default class Planos extends React.Component<Props, State> {
      * permanecer vazios e os states de erro devem receber'false'. Ao abrir a modal, os states recebem os valores default. 
      */ 
     toggleModal = async (cdPlano: string) => {
+        if(!this.state.modalVisivel) {
+            var datasExtrato = await FichaFechamentoService.BuscarDatasExtrato(cdPlano);
+            await this.setState({
+                dataInicio: datasExtrato.DataInicial.substring(3),
+                dataFim: datasExtrato.DataFinal.substring(3),
+            });
+        }
         await this.setState({
             modalVisivel: !this.state.modalVisivel,
             cdPlano
@@ -193,7 +193,7 @@ export default class Planos extends React.Component<Props, State> {
                                             <td>{plano.DS_CATEGORIA}</td>
                                             <td>{plano.DT_INSC_PLANO}</td>
                                             <td align="center">
-                                                {plano.CD_CATEGORIA !== "4" && plano.CD_PLANO !== "0001" && plano.CD_PLANO !== "0003" &&
+                                                {plano.CD_CATEGORIA !== "4" && plano.CD_PLANO !== "0001" &&
                                                     <Botao tipo={TipoBotao.primary} tamanho={TamanhoBotao.pequeno} titulo={"Extrato"}
                                                         onClick={() => { localStorage.setItem("empresa", plano.CD_EMPRESA); this.toggleModal(plano.CD_PLANO); }} />
                                                 }
