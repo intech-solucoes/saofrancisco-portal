@@ -279,7 +279,7 @@ export class MensagemNova extends React.Component<Props, State> {
                                     </Col>
 
                                 </Row>
-                                <Botao titulo={"Enviar"} tipo={TipoBotao.primary} submit onClick={this.validar} />
+                                <Botao titulo={"Enviar"} tipo={TipoBotao.primary} submit onClick={this.validar} usaLoading={true} />
                                 <br /><br />
                                 <Alerta ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} tamanho={"6"} />
                             </Form>      

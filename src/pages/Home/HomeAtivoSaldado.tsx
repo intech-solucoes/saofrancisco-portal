@@ -57,7 +57,7 @@ export class HomeAtivoSaldado extends React.Component<Props, State> {
                                 </HomeCard>
                             </Col>
                             <Col>
-                                <HomeCard titulo={"Valor Atualizado"}>
+                                <HomeCard titulo={"Valor Atualizado"} label={`em ${this.state.plano.DT_INIC_VALIDADE.substring(3)}`}>
                                     <CampoEstatico valor={this.state.plano.VL_BENEF_SALDADO_ATUAL} tipo={TipoCampoEstatico.dinheiro} />
                                 </HomeCard>
                             </Col>

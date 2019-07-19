@@ -146,7 +146,7 @@ export class HomeAtivo extends React.Component<Props, State> {
                                         </tbody>
                                     </table>
 
-                                    <b>Valor Liquido: <CampoEstatico valor={this.state.ultimaContribuicao.Liquido} tipo={TipoCampoEstatico.dinheiro} /></b>
+                                    <b>Valor Líquido (Contribuição Total - Custeio Total): <CampoEstatico valor={this.state.ultimaContribuicao.Liquido} tipo={TipoCampoEstatico.dinheiro} /></b>
 
                                 </Box>
                             </Col>
