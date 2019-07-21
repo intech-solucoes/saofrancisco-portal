@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { FuncionarioService, UsuarioService } from "@intechprev/prevsystem-service";
+import { FuncionarioService, UsuarioService, LGPDService } from "@intechprev/prevsystem-service";
 import { Row, Col } from "@intechprev/componentes-web";
 
 import Rotas from "../Rotas";
@@ -37,20 +37,26 @@ export default class Page extends React.Component<Props, State> {
         }
     }
 
-    componentWillMount = async () => {
+    componentDidMount = async () => {
         try {
 
             var token = await localStorage.getItem("token");
 
             if (token) {
-                var dados = await FuncionarioService.Buscar();
-                var nomeUsuario = dados.DadosPessoais.NOME_ENTID;
-                var { data: admin } = await UsuarioService.VerificarAdmin();
+                var termo = await LGPDService.Buscar();
 
-                await this.setState({
-                    nomeUsuario,
-                    admin
-                });
+                if(!termo) {
+                    this.props.history.push('/termos');
+                } else {
+                    var dados = await FuncionarioService.Buscar();
+                    var nomeUsuario = dados.DadosPessoais.NOME_ENTID;
+                    var { data: admin } = await UsuarioService.VerificarAdmin();
+
+                    await this.setState({
+                        nomeUsuario,
+                        admin
+                    });
+                }
                 
             } else {
                 localStorage.removeItem("token");

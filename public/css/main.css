@@ -9695,6 +9695,10 @@ label {
   color: #FFF;
 }
 
+.btn.btn-light {
+  border-color: #d2d2d2;
+}
+
 .navbar-default {
   position: fixed;
   display: none;
@@ -9748,7 +9752,8 @@ label {
   position: fixed;
   left: 250px;
   z-index: 9999;
-  background-color: #005670;
+  background-color: #005670 !important;
+  border: none;
 }
 .btn-menu-close.nav-open {
   display: block;
@@ -9901,11 +9906,11 @@ label {
   width: 350px;
 }
 .panel-login .logo {
-  width: 100%;
   margin-bottom: 50px;
+  text-align: center;
 }
 .panel-login .logo img {
-  width: 100%;
+  width: 300px;
 }
 .panel-login h4 {
   text-align: center;

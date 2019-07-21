@@ -5,6 +5,7 @@ import {
     Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos,
     Contracheque, ContrachequeDetalhe, Documentos, Mensagens
 } from "./pages";
+import { Termos } from './pages/Login';
 
 function GetRotas() {
     const rotas = [
@@ -21,6 +22,14 @@ function GetRotas() {
             titulo: "Esqueci Minha Senha",
             caminho: "/esqueciSenha",
             componente: (routeProps: RouteProps) => <EsqueciSenha {...routeProps} />,
+            mostrarMenu: false,
+            exact: false,
+            id: ""
+        },
+        {
+            titulo: "Termos",
+            caminho: "/termos",
+            componente: (routeProps: RouteProps) => <Termos {...routeProps} />,
             mostrarMenu: false,
             exact: false,
             id: ""
