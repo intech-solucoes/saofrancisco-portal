@@ -57,23 +57,19 @@ export default class Mensagens extends React.Component<Props, State> {
     render() {
         return (
             <Page {...this.props} ref={this.page}>
-                <Row>
-                    {
-                        this.state.planos.map((plano: any, index: number) => {
-                            return (
-                                <Col key={index}>
-                                    <Box titulo={"Mensagens"}>
-                                        {plano.mensagens.length > 0 &&
-                                            <ListaMensagens mostrarDados={false} mensagens={plano.mensagens} />}
+                {this.state.planos.length > 0 &&
+                    <Row>
+                        <Col>
+                            <Box titulo={"Mensagens"}>
+                                {this.state.planos[0].mensagens.length > 0 &&
+                                    <ListaMensagens mostrarDados={false} mensagens={this.state.planos[0].mensagens} />}
 
-                                        {plano.mensagens.length === 0 &&
-                                            <div id="alertMensagem" className="alert alert-danger">Nenhuma mensagem enviada.</div>}
-                                    </Box>
-                                </Col>
-                            )
-                        })
-                    }
-                </Row>
+                                {this.state.planos[0].mensagens.length === 0 &&
+                                    <div id="alertMensagem" className="alert alert-danger">Nenhuma mensagem enviada.</div>}
+                            </Box>
+                        </Col>
+                    </Row>
+                }
             </Page>
         );
     }

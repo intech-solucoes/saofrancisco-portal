@@ -210,7 +210,6 @@ export class MensagemNova extends React.Component<Props, State> {
             enviarPortal: false,
             // enviarMobile: false,
             dataExpiracao: "",
-            fundacao: "",
             empresa: "",
             plano: "",
             situacaoPlano: "",
@@ -237,12 +236,12 @@ export class MensagemNova extends React.Component<Props, State> {
                                             <label><b>Enviar via</b></label>
                                             <Row>
                                                 <Col className={"col-lg-2"}>
-                                                    <input name="enviarEmail" id="enviarEmail" type={"checkbox"} checked={this.state.enviarEmail} onChange={(e) => handleFieldChange(this, e)} />&nbsp;
+                                                    <input name="enviarEmail" id="enviarEmail" type={"checkbox"} checked={this.state.enviarEmail} onChange={(e) => this.setState({ enviarEmail: !this.state.enviarEmail })} />&nbsp;
                                                     <label htmlFor="enviarEmail">E-mail</label>
                                                 </Col>
 
                                                 <Col className={"col-lg-2"}>
-                                                    <input name="enviarPortal" id="enviarPortal" type="checkbox" checked={this.state.enviarPortal} onChange={(e) => handleFieldChange(this, e)} />&nbsp;
+                                                    <input name="enviarPortal" id="enviarPortal" type="checkbox" checked={this.state.enviarPortal} onChange={(e) => this.setState({ enviarPortal: !this.state.enviarPortal })} />&nbsp;
                                                     <label htmlFor="enviarPortal">Portal</label>
                                                 </Col>
                                             </Row>
