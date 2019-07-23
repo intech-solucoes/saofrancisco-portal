@@ -43,19 +43,23 @@ export default class Page extends React.Component<Props, State> {
             var token = await localStorage.getItem("token");
 
             if (token) {
+                var { data: admin } = await UsuarioService.VerificarAdmin();
                 var termo = await LGPDService.Buscar();
-
-                if(!termo) {
+                
+                if(!termo && !admin) {
                     this.props.history.push('/termos');
                 } else {
                     var dados = await FuncionarioService.Buscar();
                     var nomeUsuario = dados.DadosPessoais.NOME_ENTID;
-                    var { data: admin } = await UsuarioService.VerificarAdmin();
-
-                    await this.setState({
-                        nomeUsuario,
-                        admin
-                    });
+                    
+                    if(dados.Usuario.IND_PRIMEIRO_ACESSO === "S") {
+                        this.props.history.push('/trocarSenhaPrimeiroAcesso');
+                    } else {
+                        await this.setState({
+                            nomeUsuario,
+                            admin
+                        });
+                    }
                 }
                 
             } else {

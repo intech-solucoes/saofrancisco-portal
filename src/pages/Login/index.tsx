@@ -10,10 +10,12 @@ import { Link } from "react-router-dom";
 
 import EsqueciSenha from "./EsqueciSenha";
 import Termos from "./Termos";
+import TrocarSenhaPrimeiroAcesso from "./TrocarSenhaPrimeiroAcesso";
 
 export {
     EsqueciSenha,
-    Termos
+    Termos,
+    TrocarSenhaPrimeiroAcesso
 }
 
 interface Props {

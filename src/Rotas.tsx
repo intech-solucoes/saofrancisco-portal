@@ -5,7 +5,7 @@ import {
     Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos,
     Contracheque, ContrachequeDetalhe, Documentos, Mensagens
 } from "./pages";
-import { Termos } from './pages/Login';
+import { Termos, TrocarSenhaPrimeiroAcesso } from './pages/Login';
 
 function GetRotas() {
     const rotas = [
@@ -30,6 +30,14 @@ function GetRotas() {
             titulo: "Termos",
             caminho: "/termos",
             componente: (routeProps: RouteProps) => <Termos {...routeProps} />,
+            mostrarMenu: false,
+            exact: false,
+            id: ""
+        },
+        {
+            titulo: "Trocar Senha",
+            caminho: "/trocarSenhaPrimeiroAcesso",
+            componente: (routeProps: RouteProps) => <TrocarSenhaPrimeiroAcesso {...routeProps} />,
             mostrarMenu: false,
             exact: false,
             id: ""

@@ -22,7 +22,7 @@ export default class EsqueciSenha extends React.Component<Props, State> {
     aceitar = async () => {
         try {
             await LGPDService.Inserir(1);
-            this.props.history.push('/');
+            this.props.history.push('/trocarSenhaPrimeiroAcesso');
         } catch(erro) {
             if(erro.response) {
                 //await this.loginForm.current.mostrarErro(erro.response.data);
