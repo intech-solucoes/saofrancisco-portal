@@ -5,16 +5,21 @@ import { PageClean } from "../";
 
 import { Alerta, TipoAlerta } from "@intechprev/componentes-web";
 import { handleFieldChange } from "@intechprev/react-lib";
-import { UsuarioService } from "@intechprev/prevsystem-service";
+import { UsuarioService, LGPDService } from "@intechprev/prevsystem-service";
 import { Link } from "react-router-dom";
 
 import EsqueciSenha from "./EsqueciSenha";
+import Termos from "./Termos";
+import TrocarSenhaPrimeiroAcesso from "./TrocarSenhaPrimeiroAcesso";
 
 export {
-    EsqueciSenha
+    EsqueciSenha,
+    Termos,
+    TrocarSenhaPrimeiroAcesso
 }
 
 interface Props {
+    history?: any;
 }
 
 interface State {
@@ -52,7 +57,9 @@ export default class Login extends React.Component<Props, State> {
             await localStorage.setItem("token-admin", login.AccessToken);
             await localStorage.setItem("pensionista", login.Pensionista.toString());
             
-            document.location.href = ".";
+            this.props.history.push('/');
+            
+            //document.location.href = ".";
         } catch(erro) {
             if(erro.response) {
                 //await this.loginForm.current.mostrarErro(erro.response.data);
