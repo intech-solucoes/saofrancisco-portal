@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContrachequeService, PlanoService } from "@intechprev/prevsystem-service";
-import { Row, Col, Box } from "@intechprev/componentes-web";
+import { Row, Col, Box, Alerta, TipoAlerta } from "@intechprev/componentes-web";
 import { Page } from "..";
 import { Link } from "react-router-dom";
 import ContrachequeDetalhe from './ContrachequeDetalhe';
@@ -116,6 +116,10 @@ export default class Contracheque extends React.Component<Props, State> {
                         })
                     }
                 </Row>
+
+                {this.state.especies.length === 0 && 
+                    <Alerta tipo={TipoAlerta.danger} mensagem={"Nenhum contracheque disponível para este plano."} />
+                }
 
             </Page>
         );

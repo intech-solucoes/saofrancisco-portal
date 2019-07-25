@@ -67,7 +67,7 @@ export class Home extends Component<Props, State>  {
                 {this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA === "1" &&
                     <HomeAtivo {...this.props} page={this.page} />
                 }
-                {this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA === "4" &&
+                {this.state.plano.CD_CATEGORIA === "4" &&
                     <HomeAssistido {...this.props} page={this.page} />
                 }
             </Page>

@@ -36,7 +36,7 @@ export default class EsqueciSenha extends React.Component<Props, State> {
     }
 
     recusar = async () => {
-        await alert("Sem o consentimento expresso no termo, o acesso ao Portal do Participante e à área restrita do Aplicativo Mobile nã será permitido.");
+        await alert("Sem o consentimento expresso no termo, o acesso ao Portal do Participante e à área restrita do Aplicativo Mobile não será permitido.");
         localStorage.removeItem("token");
         localStorage.removeItem("token-admin");
         await this.props.history.push('/login');

@@ -5,7 +5,7 @@ import { PageClean } from "../";
 
 import { Alerta, TipoAlerta } from "@intechprev/componentes-web";
 import { handleFieldChange } from "@intechprev/react-lib";
-import { UsuarioService, LGPDService } from "@intechprev/prevsystem-service";
+import { UsuarioService } from "@intechprev/prevsystem-service";
 import { Link } from "react-router-dom";
 
 import EsqueciSenha from "./EsqueciSenha";
