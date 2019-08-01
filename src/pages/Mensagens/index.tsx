@@ -50,10 +50,6 @@ export default class Mensagens extends React.Component<Props, State> {
             
     }
 
-    handleClick = () => {
-        this.props.history.push('/mensagem/nova');
-    }
-
     render() {
         return (
             <Page {...this.props} ref={this.page}>
