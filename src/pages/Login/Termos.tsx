@@ -13,7 +13,7 @@ interface State {
     
 }
 
-export default class EsqueciSenha extends React.Component<Props, State> {
+export default class Termos extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
