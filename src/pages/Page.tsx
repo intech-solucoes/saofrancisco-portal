@@ -52,7 +52,7 @@ export default class Page extends React.Component<Props, State> {
                     var dados = await FuncionarioService.Buscar();
                     var nomeUsuario = dados.DadosPessoais.NOME_ENTID;
                     
-                    if(dados.Usuario.IND_PRIMEIRO_ACESSO === "S") {
+                    if(!admin && dados.Usuario && dados.Usuario.IND_PRIMEIRO_ACESSO === "S") {
                         this.props.history.push('/trocarSenhaPrimeiroAcesso');
                     } else {
                         await this.setState({
@@ -177,7 +177,7 @@ export default class Page extends React.Component<Props, State> {
                                 <Title />
                             </Col>
 
-                            <Col tamanho={"4"} className={"col-lg-4 col-6 text-right user-icon"}>
+                            <Col tamanho={"5"} className={"col-lg-5 col-6 text-right user-icon"}>
                                 <Row>
                                     <Col className={"nome-usuario d-sm-none d-none d-sm-block"}>
                                         {this.state.nomeUsuario}

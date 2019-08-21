@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { Row, Col, Box, Form, CampoTexto, Botao, TipoBotao, TamanhoBotao } from '@intechprev/componentes-web';
 
 import { FuncionarioService, UsuarioService } from "@intechprev/prevsystem-service";
+import { func } from 'prop-types';
 
-interface Props {}
+interface Props {
+    history?: any;
+}
 
 interface State {
     matricula: string,
@@ -30,7 +33,7 @@ export class ListarParticipantes extends Component<Props, State> {
         await this.setState({ resultadoPesquisa });
     }
 
-    selecionar = async (cpf: string) => {
+    selecionar = async (cpf: string, cdPlano: string) => {
         try {
             var login = await UsuarioService.SelecionarParticipante(cpf);
             await localStorage.setItem("token", login.AccessToken);
@@ -39,8 +42,10 @@ export class ListarParticipantes extends Component<Props, State> {
 
             await localStorage.setItem("fundacao", dados.Funcionario.CD_FUNDACAO);
             await localStorage.setItem("empresa", dados.Funcionario.CD_EMPRESA);
+            await localStorage.setItem("pensionista", login.Pensionista.toString());
 
-            document.location.href = '.';
+            this.props.history.push(`/`);
+            //document.location.href = '.';
         } catch(e) {
             alert(e.response.data);
         }
@@ -64,14 +69,15 @@ export class ListarParticipantes extends Component<Props, State> {
                             <div>
                                 <br/>
 
-                                <table className={"table"}>
+                                <table className={"table table-hover"}>
                                     <thead>
                                         <tr>
+                                            <th style={{ width: "1px" }}></th>
                                             <th>Nome</th>
                                             <th>Matrícula</th>
-                                            <th>Inscrição</th>
                                             <th>CPF</th>
                                             <th>Empresa</th>
+                                            <th>Plano</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -80,14 +86,19 @@ export class ListarParticipantes extends Component<Props, State> {
                                         {this.state.resultadoPesquisa.map((func: any, index: number) => {
                                             return (
                                                 <tr key={index}>
+                                                    <td>
+                                                        {func.PENSIONISTA === "S" && 
+                                                            <div className={"badge badge-success"}>PENSIONISTA</div>
+                                                        }
+                                                    </td>
                                                     <td>{func.NOME_ENTID}</td>
                                                     <td>{func.NUM_MATRICULA}</td>
-                                                    <td>{func.NUM_INSCRICAO}</td>
                                                     <td>{func.CPF_CGC}</td>
                                                     <td>{func.CD_EMPRESA}</td>
+                                                    <td>{func.CD_PLANO}</td>
                                                     <td>
                                                         <Botao titulo={"Selecionar"} tipo={TipoBotao.primary} tamanho={TamanhoBotao.pequeno}
-                                                               onClick={async () => await this.selecionar(func.CPF_CGC)} />
+                                                               onClick={async () => await this.selecionar(func.CPF_CGC, func.CD_PLANO)} />
                                                     </td>
                                                 </tr>
                                             )
@@ -95,6 +106,10 @@ export class ListarParticipantes extends Component<Props, State> {
                                     </tbody>
                                 </table>
                             </div>
+                        }
+
+                        {this.state.resultadoPesquisa.length < 0 && 
+                            <div className={"alert alert-danger"}>A pesquisa não retornou resultados</div>
                         }
                     </Box>
                 </Col>

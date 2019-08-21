@@ -22,7 +22,8 @@ interface State {
     },
     cdPlano: string,
     dataReferencia: string,
-    cdTipoFolha: string
+    cdTipoFolha: string,
+    cdEspecie: string
 }
 
 var erro = false;
@@ -47,7 +48,8 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
             },
             cdPlano: props.match.params.plano,
             dataReferencia: props.match.params.data,
-            cdTipoFolha: props.match.params.cdTipoFolha
+            cdTipoFolha: props.match.params.cdTipoFolha,
+            cdEspecie: props.match.params.cdEspecie
         };
 
         this.page = React.createRef();
@@ -57,7 +59,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
         var plano = await PlanoService.BuscarPorCodigo(this.state.cdPlano);
         await this.setState({ plano });
 
-        var contracheque = await ContrachequeService.BuscarPorPlanoReferenciaTipoFolha(this.state.cdPlano, this.state.dataReferencia, this.state.cdTipoFolha);
+        var contracheque = await ContrachequeService.BuscarPorPlanoReferenciaTipoFolhaEspecie(this.state.cdPlano, this.state.dataReferencia, this.state.cdTipoFolha, this.state.cdEspecie);
         await this.setState({ contracheque });
 
         await this.page.current.loading(false);
@@ -66,7 +68,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
     gerarRelatorio = async () => {
         // this.relatorio.current.download();
 
-        var relatorio = await ContrachequeService.Relatorio(this.state.cdPlano, this.state.dataReferencia, this.state.cdTipoFolha);
+        var relatorio = await ContrachequeService.Relatorio(this.state.cdPlano, this.state.dataReferencia, this.state.cdTipoFolha, this.state.cdEspecie);
 
         const url = window.URL.createObjectURL(new Blob([relatorio]));
         const link = document.createElement('a');

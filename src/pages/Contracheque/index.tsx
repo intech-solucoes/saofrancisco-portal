@@ -57,9 +57,13 @@ export default class Contracheque extends React.Component<Props, State> {
                                         <Box titulo={""}>
                                             <div className={"cc-title"}>
                                                 PLANO {this.state.planos[0].DS_PLANO} 
-                                                <small className={"ml-2 cc-small"}>ESPÉCIE: {especie.DS_ESPECIE}</small>
                                             </div>
                                             <br />
+                                            
+                                            <div className={"mb-4"}>
+                                                <b>ESPÉCIE:</b> {especie.Especie.DS_ESPECIE}<br/>
+                                                <b>PROCESSO:</b> {especie.Especie.NUM_PROCESSO}/{especie.Especie.ANO_PROCESSO}
+                                            </div>
 
                                             {especie.Lista.length > 0 && 
                                                 <table className="table">
@@ -96,7 +100,7 @@ export default class Contracheque extends React.Component<Props, State> {
                                                                             {valor.VAL_LIQUIDO.toLocaleString('pt-br', {minimumFractionDigits: 2})}
                                                                         </td>
                                                                         <td>
-                                                                            <Link className={"btn btn-primary btn-sm"} to={`/contracheque/${this.state.planos[0].CD_PLANO}/${valor.DT_REFERENCIA.replace(new RegExp('/', 'g'), '.')}/${valor.CD_TIPO_FOLHA}` }>Detalhar</Link>
+                                                                            <Link className={"btn btn-primary btn-sm"} to={`/contracheque/${this.state.planos[0].CD_PLANO}/${valor.DT_REFERENCIA.replace(new RegExp('/', 'g'), '.')}/${valor.CD_TIPO_FOLHA}/${valor.CD_ESPECIE}` }>Detalhar</Link>
                                                                         </td>
                                                                     </tr>
                                                                 );

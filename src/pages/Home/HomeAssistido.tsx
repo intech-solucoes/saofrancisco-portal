@@ -5,6 +5,7 @@ import { PlanoService, CalendarioPagamentoService, FichaFinanceiraAssistidoServi
 
 interface Props {
     page: any;
+    processo?: any;
 }
 
 interface State {
@@ -33,12 +34,27 @@ export class HomeAssistido extends React.Component<Props, State> {
         this.props.page.current.loading(true);
 
         var planos = await PlanoService.Buscar();
-        var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlano(planos[0].CD_PLANO);
         var processoBeneficio = await ProcessoBeneficioService.BuscarPorPlano(planos[0].CD_PLANO);
-        var calendario = await CalendarioPagamentoService.Buscar();
-        await this.setState({ planos, ultimaFolha, processoBeneficio, calendario });
+        var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(planos[0].CD_PLANO, processoBeneficio[0].CD_ESPECIE, processoBeneficio[0].ANO_PROCESSO, processoBeneficio[0].NUM_PROCESSO);
+        var calendario = await CalendarioPagamentoService.BuscarPorPlano(planos[0].CD_PLANO);
+
+        await this.setState({ 
+            planos, 
+            ultimaFolha, 
+            processoBeneficio: processoBeneficio[0],
+            calendario 
+        });
         
         this.props.page.current.loading(false);
+    }
+
+    selecionarProcesso = async (processoBeneficio: any) => {
+
+        var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(processoBeneficio.CD_PLANO, processoBeneficio.CD_ESPECIE, processoBeneficio.ANO_PROCESSO, processoBeneficio.NUM_PROCESSO);
+        await this.setState({
+            ultimaFolha,
+            processoBeneficio
+        });
     }
 
     render() {
@@ -93,50 +109,52 @@ export class HomeAssistido extends React.Component<Props, State> {
 
                         <Row className={"mt-4"}>
                             <Col tamanho={"8"}>
-                                <Box titulo={`Contracheque de ${this.state.ultimaFolha.Resumo.Referencia.substring(3)}`} 
-                                        label={this.state.planos[0].CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
-                                    <h6 className={"text-right text-secondary mb-4"}></h6>
-                                    <h2 className={"text-center mb-5"}>Valor Líquido: <CampoEstatico valor={this.state.ultimaFolha.Resumo.Liquido} tipo={TipoCampoEstatico.dinheiro} /></h2>
+                                {this.state.ultimaFolha.Proventos.length > 0 || this.state.ultimaFolha.Descontos.length > 0 &&
+                                    <Box titulo={`Contracheque de ${this.state.ultimaFolha.Resumo.Referencia.substring(3)}`} 
+                                            label={this.state.planos[0].CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
+                                        <h6 className={"text-right text-secondary mb-4"}></h6>
+                                        <h2 className={"text-center mb-5"}>Valor Líquido: <CampoEstatico valor={this.state.ultimaFolha.Resumo.Liquido} tipo={TipoCampoEstatico.dinheiro} /></h2>
 
-                                    <table className={"table table-striped table-sm"}>
-                                        <thead>
-                                            <tr>
-                                                <th>Rubrica</th>
-                                                <th>Tipo</th>
-                                                <th>Competência</th>
-                                                <th className={"text-right"}>Valor</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.state.ultimaFolha.Proventos.map((rubrica: any, index: number) => {
-                                                return (
-                                                    <tr key={index}>
-                                                        <td>{rubrica.DS_RUBRICA}</td>
-                                                        <td className={"text-success"}>Provento</td>
-                                                        <td>{rubrica.DT_COMPETENCIA}</td>
-                                                        <td className={"text-right"}>
-                                                            <CampoEstatico valor={rubrica.VALOR_MC} tipo={TipoCampoEstatico.dinheiro} />
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            })}
+                                        <table className={"table table-striped table-sm"}>
+                                            <thead>
+                                                <tr>
+                                                    <th>Rubrica</th>
+                                                    <th>Tipo</th>
+                                                    <th>Competência</th>
+                                                    <th className={"text-right"}>Valor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.state.ultimaFolha.Proventos.map((rubrica: any, index: number) => {
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td>{rubrica.DS_RUBRICA}</td>
+                                                            <td className={"text-success"}>Provento</td>
+                                                            <td>{rubrica.DT_COMPETENCIA}</td>
+                                                            <td className={"text-right"}>
+                                                                <CampoEstatico valor={rubrica.VALOR_MC} tipo={TipoCampoEstatico.dinheiro} />
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })}
 
-                                            {this.state.ultimaFolha.Descontos.map((rubrica: any, index: number) => {
-                                                return (
-                                                    <tr key={index}>
-                                                        <td>{rubrica.DS_RUBRICA}</td>
-                                                        <td className={"text-danger"}>Desconto</td>
-                                                        <td>{rubrica.DT_COMPETENCIA}</td>
-                                                        <td className={"text-right"}>
-                                                            <CampoEstatico valor={rubrica.VALOR_MC} tipo={TipoCampoEstatico.dinheiro} />
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </table>
+                                                {this.state.ultimaFolha.Descontos.map((rubrica: any, index: number) => {
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td>{rubrica.DS_RUBRICA}</td>
+                                                            <td className={"text-danger"}>Desconto</td>
+                                                            <td>{rubrica.DT_COMPETENCIA}</td>
+                                                            <td className={"text-right"}>
+                                                                <CampoEstatico valor={rubrica.VALOR_MC} tipo={TipoCampoEstatico.dinheiro} />
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
 
-                                </Box>
+                                    </Box>
+                                }
                             </Col>
 
                             <Col>

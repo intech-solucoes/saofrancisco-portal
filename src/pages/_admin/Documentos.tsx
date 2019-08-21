@@ -148,7 +148,8 @@ export default class Documentos extends React.Component<Props, State> {
     }
 
     salvarDocumento = async (e: any) => {
-        //e.preventDefault();
+        if(e)
+            e.preventDefault();
 
         await this.alertDocumento.current.limparErros();
         await this.formDocumento.current.validar();

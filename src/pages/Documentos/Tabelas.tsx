@@ -39,24 +39,19 @@ export default class Tabelas extends React.Component<Props> {
 
             const blobURL = window.URL.createObjectURL(new Blob([documentoBlob]));
             const tempLink = document.createElement('a');
-            tempLink.style.display = 'none';
             tempLink.href = blobURL;
             tempLink.setAttribute('download', documento.NOM_ARQUIVO_LOCAL);
-
-            if (typeof tempLink.download === 'undefined') {
-                tempLink.setAttribute('target', '_blank');
-            }
-
             document.body.appendChild(tempLink);
             tempLink.click();
-            document.body.removeChild(tempLink);
-            window.URL.revokeObjectURL(blobURL);
 
         } catch (err) {
-            if(err.response)
+            if(err.response) {
+                alert(err.response.data);
                 console.error(err.response.data);
-            else
+            }
+            else {
                 console.error(err);
+            }
         }
     }
 

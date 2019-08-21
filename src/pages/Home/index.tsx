@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Page } from "../";
 
-import { PlanoService } from "@intechprev/prevsystem-service";
+import { PlanoService, ProcessoBeneficioService } from "@intechprev/prevsystem-service";
 import { HomeAtivo } from "./HomeAtivo";
 import { HomeAssistido } from "./HomeAssistido";
 import { HomePensionista } from "./HomePensionista";
@@ -9,18 +9,25 @@ import { HomeAtivoSaldado } from "./HomeAtivoSaldado";
 import { Combo } from "@intechprev/componentes-web";
 import _ from "lodash";
 
-interface Props { }
+interface Props {
+    match?: any;
+    cdPlano?: string;
+}
 
 interface State {
     planos: Array<any>;
     plano: any;
     cdPlano: string;
+    processosBeneficio: any;
+    processo: any;
     pensionista: boolean;
+    especieAnoNumProcesso: string;
 }
 
 export class Home extends Component<Props, State>  {
 
     public page = React.createRef<Page>();
+    public homeAssistido = React.createRef<HomeAssistido>();
 
     constructor(props: Props) {
         super(props);
@@ -31,24 +38,73 @@ export class Home extends Component<Props, State>  {
             ],
             plano: {},
             cdPlano: "",
+            processosBeneficio: {},
+            processo: {},
+            especieAnoNumProcesso: "",
             pensionista: localStorage.getItem("pensionista") === "true"
         };
     }
 
     componentDidMount = async () => {
         var planos = await PlanoService.Buscar();
+        
+        var plano = planos[0];
+        var cdPlano = plano.CD_PLANO;
+
+        if(plano.CD_CATEGORIA === "4") {
+            var processosBeneficio = await ProcessoBeneficioService.BuscarPorPlano(planos[0].CD_PLANO);
+            console.log(processosBeneficio);
+        
+            var processo = processosBeneficio[0];
+            var especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
+            
+            await this.setState({
+                processosBeneficio,
+                processo,
+                especieAnoNumProcesso
+            });
+        }
+        
         await this.setState({ 
             planos,
-            plano: planos[0],
-            cdPlano: planos[0].CD_PLANO
-         });
+            plano,
+            cdPlano
+        });
     }
 
     carregarPlano = async () => {
-        var plano = _.filter(this.state.planos, (plano: any) => plano.CD_PLANO === this.state.cdPlano)[0];
+        var plano = null;
+        var cdPlano = "";
+        
+        if(this.state.cdPlano)
+            plano = _.filter(this.state.planos, (plano: any) => plano.CD_PLANO === this.state.cdPlano)[0];
+        else
+            plano = this.state.planos[0];
+
+        cdPlano = plano.CD_PLANO;
 
         await this.setState({
-            plano
+            plano,
+            cdPlano
+        });
+    }
+
+    carregarProcesso = async () => {
+        var processo = null;
+        var especieAnoNumProcesso = "";
+        
+        if(this.state.especieAnoNumProcesso)
+            processo = _.filter(this.state.processosBeneficio, (processo: any) => processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO === this.state.especieAnoNumProcesso)[0];
+        else
+            processo = this.state.processosBeneficio[0];
+
+            especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
+
+        await this.homeAssistido.current.selecionarProcesso(processo);
+
+        await this.setState({
+            processo,
+            especieAnoNumProcesso
         });
     }
 
@@ -61,14 +117,20 @@ export class Home extends Component<Props, State>  {
                             opcoes={this.state.planos} nomeMembro={"DS_PLANO"} valorMembro={"CD_PLANO"} />
                 }
 
-                {this.state.plano.CD_PLANO === "0003" && this.state.plano.CD_CATEGORIA === "1" &&
+                {this.state.processosBeneficio.length > 1 &&
+                    <Combo contexto={this} label={"Selecione um processo de benefício"} onChange={this.carregarProcesso}
+                            nome={"especieAnoNumProcesso"} valor={this.state.especieAnoNumProcesso} obrigatorio
+                            opcoes={this.state.processosBeneficio} nomeMembro={"DS_PROCESSO"} valorMembro={"ESPECIE_ANO_NUM_PROCESSO"} />
+                }
+
+                {this.state.plano.CD_PLANO === "0003" && (this.state.plano.CD_CATEGORIA === "1" || this.state.plano.CD_CATEGORIA === "3")  &&
                     <HomeAtivoSaldado {...this.props} page={this.page} />
                 }
-                {this.state.plano.CD_PLANO !== "0003" && this.state.plano.CD_CATEGORIA === "1" &&
+                {this.state.plano.CD_PLANO !== "0003" && (this.state.plano.CD_CATEGORIA === "1" || this.state.plano.CD_CATEGORIA === "3") &&
                     <HomeAtivo {...this.props} page={this.page} />
                 }
                 {this.state.plano.CD_CATEGORIA === "4" &&
-                    <HomeAssistido {...this.props} page={this.page} />
+                    <HomeAssistido ref={this.homeAssistido} {...this.props} page={this.page} processo={this.state.processo} />
                 }
             </Page>
         )

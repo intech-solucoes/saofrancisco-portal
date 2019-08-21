@@ -3,9 +3,9 @@ import packageJson from '../../../package.json';
 
 import { PageClean } from "../";
 
-import { Alerta, TipoAlerta } from "@intechprev/componentes-web";
+import { Alerta, TipoAlerta, Row, Col } from "@intechprev/componentes-web";
 import { handleFieldChange } from "@intechprev/react-lib";
-import { UsuarioService } from "@intechprev/prevsystem-service";
+import { UsuarioService, FuncionarioService } from "@intechprev/prevsystem-service";
 import { Link } from "react-router-dom";
 
 import EsqueciSenha from "./EsqueciSenha";
@@ -28,6 +28,8 @@ interface State {
     loading: boolean;
     mensagem: string;
     erro: string;
+    loginFeito: boolean;
+    matriculas: Array<string>;
 }
 
 export default class Login extends React.Component<Props, State> {
@@ -39,7 +41,9 @@ export default class Login extends React.Component<Props, State> {
             senha: "",
             loading: false,
             mensagem: "",
-            erro: ""
+            erro: "",
+            loginFeito: false,
+            matriculas: []
         }
     }
 
@@ -56,8 +60,19 @@ export default class Login extends React.Component<Props, State> {
             await localStorage.setItem("token", login.AccessToken);
             await localStorage.setItem("token-admin", login.AccessToken);
             await localStorage.setItem("pensionista", login.Pensionista.toString());
+
+            var matriculas = await UsuarioService.BuscarMatriculas();
             
-            this.props.history.push('/');
+            if(matriculas.length > 1) {
+                await this.setState({
+                    matriculas,
+                    loginFeito: true
+                });
+            } else {
+                this.props.history.push('/');
+            }
+
+            //this.props.history.push('/');
             
             //document.location.href = ".";
         } catch(erro) {
@@ -74,6 +89,18 @@ export default class Login extends React.Component<Props, State> {
         }
     }
 
+    selecionar = async (matricula: string) => {
+        var funcionarioResult = await FuncionarioService.Buscar();
+        await localStorage.setItem("fundacao", funcionarioResult.Funcionario.CD_FUNDACAO);
+        await localStorage.setItem("empresa", funcionarioResult.Funcionario.CD_EMPRESA);
+
+        var funcionarioLogin = await UsuarioService.SelecionarMatricula(matricula);
+        await localStorage.setItem("token", funcionarioLogin.AccessToken);
+        await localStorage.setItem("admin", funcionarioLogin.Admin);
+
+        this.props.history.push('/');
+    }
+
     render() {
         return (
 			<PageClean {...this.props}>
@@ -86,31 +113,60 @@ export default class Login extends React.Component<Props, State> {
                 </h5>
                 
                 <form>
-                <div className="form-group">
-                    <input name="cpf" id="cpf" placeholder="CPF (somente números)" className="form-control" value={this.state.cpf} onChange={(e) => handleFieldChange(this, e)} />
-                </div>
+                    {!this.state.loginFeito && 
+                        <div>
+                            <div className="form-group">
+                                <input name="cpf" id="cpf" placeholder="CPF (somente números)" className="form-control" value={this.state.cpf} onChange={(e) => handleFieldChange(this, e)} />
+                            </div>
 
-                <div className="form-group">
-                    <input name="senha" id="senha" placeholder="Senha" type="password" className="form-control" value={this.state.senha} onChange={(e) => handleFieldChange(this, e)} />
-                </div>
+                            <div className="form-group">
+                                <input name="senha" id="senha" placeholder="Senha" type="password" className="form-control" value={this.state.senha} onChange={(e) => handleFieldChange(this, e)} />
+                            </div>
 
-                <div className="form-group">
-                    <button id="entrar" className="btn btn-block btn-primary" onClick={this.onSubmit} disabled={this.state.loading}>
-                        {!this.state.loading && 
-                            <span>Entrar</span>}
+                            <div className="form-group">
+                                <button id="entrar" className="btn btn-block btn-primary" onClick={this.onSubmit} disabled={this.state.loading}>
+                                    {!this.state.loading && 
+                                        <span>Entrar</span>}
 
-                        {this.state.loading &&
-                            <i className="fas fa-spinner fa-pulse"></i>}
-                    </button>
-                </div>
+                                    {this.state.loading &&
+                                        <i className="fas fa-spinner fa-pulse"></i>}
+                                </button>
+                            </div>
 
-                {this.state.mensagem !== "" && <Alerta tipo={TipoAlerta.info} mensagem={this.state.mensagem} />}
-                {this.state.erro !== "" && <Alerta tipo={TipoAlerta.danger} mensagem={this.state.erro} />}
+                            {this.state.mensagem !== "" && <Alerta tipo={TipoAlerta.info} mensagem={this.state.mensagem} />}
+                            {this.state.erro !== "" && <Alerta tipo={TipoAlerta.danger} mensagem={this.state.erro} />}
 
-                <div className="form-group">
-                    <Link className="btn btn-link" id="esqueciSenha" to="/esqueciSenha">Esqueci Minha Senha / Primeiro Acesso</Link>
-                </div>
-            </form>
+                            <div className="form-group">
+                                <Link className="btn btn-link" id="esqueciSenha" to="/esqueciSenha">Esqueci Minha Senha / Primeiro Acesso</Link>
+                            </div>
+                        </div>
+                    }
+                    
+                    {this.state.loginFeito &&
+                        <div>
+                            <h5><b>Selecione uma matrícula:</b></h5>
+
+                            <br/>
+                            <br/>
+
+                            {this.state.matriculas.map((matricula, index) => {
+                                return (
+                                    <Row key={index} className={"mb-3"}>
+                                        <Col>
+                                            <div className="matricula-card" onClick={() => this.selecionar(matricula)}>
+                                                <Row>
+                                                    <Col>
+                                                        <b>Matrícula: </b><label style={{fontSize: 15}}>{matricula}</label><br/>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                )
+                            })}
+                        </div>
+                    }
+                </form>
                 
                 <br/>
                 <br/>
