@@ -109,7 +109,7 @@ export class HomeAssistido extends React.Component<Props, State> {
 
                         <Row className={"mt-4"}>
                             <Col tamanho={"8"}>
-                                {this.state.ultimaFolha.Proventos.length > 0 || this.state.ultimaFolha.Descontos.length > 0 &&
+                                {this.state.ultimaFolha.Proventos.length > 0 &&
                                     <Box titulo={`Contracheque de ${this.state.ultimaFolha.Resumo.Referencia.substring(3)}`} 
                                             label={this.state.planos[0].CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
                                         <h6 className={"text-right text-secondary mb-4"}></h6>
