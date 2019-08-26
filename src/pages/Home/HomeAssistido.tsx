@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Box, CampoEstatico, TipoCampoEstatico } from "@intechprev/componentes-web";
+import { Row, Col, Box, CampoEstatico, TipoCampoEstatico, Alerta, TipoAlerta } from "@intechprev/componentes-web";
 import { HomeCard } from "./HomeCard";
 import { PlanoService, CalendarioPagamentoService, FichaFinanceiraAssistidoService, ProcessoBeneficioService } from "@intechprev/prevsystem-service";
 
@@ -35,15 +35,18 @@ export class HomeAssistido extends React.Component<Props, State> {
 
         var planos = await PlanoService.Buscar();
         var processoBeneficio = await ProcessoBeneficioService.BuscarPorPlano(planos[0].CD_PLANO);
-        var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(planos[0].CD_PLANO, processoBeneficio[0].CD_ESPECIE, processoBeneficio[0].ANO_PROCESSO, processoBeneficio[0].NUM_PROCESSO);
-        var calendario = await CalendarioPagamentoService.BuscarPorPlano(planos[0].CD_PLANO);
 
-        await this.setState({ 
-            planos, 
-            ultimaFolha, 
-            processoBeneficio: processoBeneficio[0],
-            calendario 
-        });
+        if(processoBeneficio.length > 0) {
+            var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(planos[0].CD_PLANO, processoBeneficio[0].CD_ESPECIE, processoBeneficio[0].ANO_PROCESSO, processoBeneficio[0].NUM_PROCESSO);
+            var calendario = await CalendarioPagamentoService.BuscarPorPlano(planos[0].CD_PLANO);
+
+            await this.setState({ 
+                planos, 
+                ultimaFolha, 
+                processoBeneficio: processoBeneficio[0],
+                calendario 
+            });
+        }
         
         this.props.page.current.loading(false);
     }
@@ -175,6 +178,10 @@ export class HomeAssistido extends React.Component<Props, State> {
                             </Col>
                         </Row>
                     </div>
+                }
+
+                {!this.state.processoBeneficio &&
+                    <Alerta tipo={TipoAlerta.danger} mensagem={"Nenhum processo de benefício disponível para este plano."} />
                 }
             </div>
         );
