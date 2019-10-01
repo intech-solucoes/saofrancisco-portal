@@ -54,8 +54,6 @@ export default class Login extends React.Component<Props, State> {
 
         try {
             var login = await UsuarioService.Login(this.state.cpf, this.state.senha);
-
-            console.log(login);
             
             await localStorage.setItem("token", login.AccessToken);
             await localStorage.setItem("token-admin", login.AccessToken);
