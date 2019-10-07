@@ -1,6 +1,6 @@
 {
     "name": "portal-saofrancisco",
-    "version": "0.2.29",
+    "version": "0.2.31",
     "private": true,
     "homepage": ".",
     "browserslist": [
@@ -25,6 +25,7 @@
         "css-loader": "0.28.7",
         "es6-promise": "^4.2.8",
         "lodash": "^4.17.11",
+        "moment": "^2.24.0",
         "postcss-flexbugs-fixes": "3.2.0",
         "postcss-loader": "2.0.8",
         "react": "^16.7.0",
