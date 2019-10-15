@@ -8,6 +8,7 @@ import * as _ from "lodash";
 
 interface Props {
     page: any;
+    plano: any;
 }
 
 interface State {
@@ -26,8 +27,8 @@ export class HomeAtivo extends React.Component<Props, State> {
 
         this.state = {
             planos: [],
-            plano: null,
-            cdPlano: "",
+            plano: props.plano,
+            cdPlano: props.plano.CD_PLANO,
             salario: {},
             ultimaContribuicao: null,
             saldos: null
@@ -36,13 +37,18 @@ export class HomeAtivo extends React.Component<Props, State> {
 
     componentDidMount = async () => {
         this.props.page.current.loading(true);
-        
-        var planos = await PlanoService.Buscar();
 
-        this.setState({
-            planos,
-            plano: planos[0],
-            cdPlano: planos[0].CD_PLANO,
+        await this.carregarPlano();
+
+        this.props.page.current.loading(false);
+    }
+
+    selecionarPlano = async(plano: any) => {
+        this.props.page.current.loading(true);
+
+        await this.setState({
+            plano,
+            cdPlano: plano.CD_PLANO,
         });
 
         await this.carregarPlano();
@@ -52,16 +58,15 @@ export class HomeAtivo extends React.Component<Props, State> {
 
     carregarPlano = async() => {
         try {
+            this.props.page.current.loading(true);
             var ultimaContribuicao = await FichaFinanceiraService.BuscarUltimaExibicaoPorPlano(this.state.cdPlano);
             var saldos = await FichaFechamentoService.BuscarSaldoPorPlano(this.state.cdPlano);
-
-            var plano = _.filter(this.state.planos, (plano: any) => plano.CD_PLANO === this.state.cdPlano)[0];
             
             this.setState({ 
                 ultimaContribuicao, 
-                saldos,
-                plano
+                saldos
             });
+            this.props.page.current.loading(false);
         } catch(err) {
             if(err.response) {
                 alert(err.response.data);

@@ -28,6 +28,7 @@ export class Home extends Component<Props, State>  {
 
     public page = React.createRef<Page>();
     public homeAssistido = React.createRef<HomeAssistido>();
+    public homeAtivo = React.createRef<HomeAtivo>();
 
     constructor(props: Props) {
         super(props);
@@ -53,16 +54,17 @@ export class Home extends Component<Props, State>  {
 
         if(plano.CD_CATEGORIA === "4") {
             var processosBeneficio = await ProcessoBeneficioService.BuscarPorPlano(planos[0].CD_PLANO);
-            console.log(processosBeneficio);
         
-            var processo = processosBeneficio[0];
-            var especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
-            
-            await this.setState({
-                processosBeneficio,
-                processo,
-                especieAnoNumProcesso
-            });
+            if(processosBeneficio.length > 0) {
+                var processo = processosBeneficio[0];
+                var especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
+                
+                await this.setState({
+                    processosBeneficio,
+                    processo,
+                    especieAnoNumProcesso
+                });
+            }
         }
         
         await this.setState({ 
@@ -87,6 +89,9 @@ export class Home extends Component<Props, State>  {
             plano,
             cdPlano
         });
+
+        if(this.homeAtivo.current)
+            await this.homeAtivo.current.selecionarPlano(plano);
     }
 
     carregarProcesso = async () => {
@@ -98,9 +103,10 @@ export class Home extends Component<Props, State>  {
         else
             processo = this.state.processosBeneficio[0];
 
-            especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
+        especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
 
-        await this.homeAssistido.current.selecionarProcesso(processo);
+        if(await this.homeAssistido.current)
+            await this.homeAssistido.current.selecionarProcesso(processo);
 
         await this.setState({
             processo,
@@ -127,7 +133,7 @@ export class Home extends Component<Props, State>  {
                     <HomeAtivoSaldado {...this.props} page={this.page} />
                 }
                 {this.state.plano.CD_PLANO !== "0003" && (this.state.plano.CD_CATEGORIA === "1" || this.state.plano.CD_CATEGORIA === "3") &&
-                    <HomeAtivo {...this.props} page={this.page} />
+                    <HomeAtivo ref={this.homeAtivo} {...this.props} page={this.page} plano={this.state.plano} />
                 }
                 {this.state.plano.CD_CATEGORIA === "4" &&
                     <HomeAssistido ref={this.homeAssistido} {...this.props} page={this.page} processo={this.state.processo} />
