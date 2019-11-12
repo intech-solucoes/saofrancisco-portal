@@ -68,7 +68,7 @@ export class DadosPessoais extends Component<Props, State> {
                             <Box titulo={"Dados Pessoais"}>
                             
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Nome" valor={this.state.dados.DadosPessoais.NOME_ENTID} col="12" id="0" />
+                                    <CampoEstatico titulo="Nome" valor={this.state.dados.DadosPessoais.NOME_ENTID} tamanhoCampo="12" id="0" />
                                 </div>
 
                                 <div className="form-row">
@@ -87,7 +87,7 @@ export class DadosPessoais extends Component<Props, State> {
                                 </div>
                                 <div className="form-row">
                                     <CampoEstatico titulo="Emissão RG" valor={this.state.dados.DadosPessoais.DT_EMIS_IDENT} id="7" />
-                                    <CampoEstatico titulo="CPF" valor={this.state.dados.CPF} col="6" id="8" />
+                                    <CampoEstatico titulo="CPF" valor={this.state.dados.CPF} tamanhoCampo="6" id="8" />
                                 </div>
                                 <div className="form-row">
                                     <CampoEstatico titulo="Data de nascimento" valor={this.state.dados.DadosPessoais.DT_NASCIMENTO} id="9" />
@@ -103,7 +103,7 @@ export class DadosPessoais extends Component<Props, State> {
                                 </div>
                                 <div className="form-row">
                                     {/* <CampoEstatico titulo="Contrato Único" valor={"Não Assinado"} id="15" /> */}
-                                    <CampoEstatico titulo="E-mail" valor={this.state.dados.DadosPessoais.EMAIL_AUX} col="6" id="16" />
+                                    <CampoEstatico titulo="E-mail" valor={this.state.dados.DadosPessoais.EMAIL_AUX} tamanhoCampo="6" id="16" />
                                 </div>
 
                             </Box>
@@ -120,17 +120,17 @@ export class DadosPessoais extends Component<Props, State> {
                                     <CampoEstatico titulo="Bairro" valor={this.state.dados.Entidade.BAIRRO_ENTID} id="20" />
                                 </div>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Cidade" valor={this.state.dados.Entidade.CID_ENTID} col="4" id="21" />
-                                    <CampoEstatico titulo="UF" valor={this.state.dados.Entidade.UF_ENTID} col="2" id="22" />
+                                    <CampoEstatico titulo="Cidade" valor={this.state.dados.Entidade.CID_ENTID} tamanhoCampo="4" id="21" />
+                                    <CampoEstatico titulo="UF" valor={this.state.dados.Entidade.UF_ENTID} tamanhoCampo="2" id="22" />
                                     <CampoEstatico titulo="CEP" valor={this.state.dados.CEP} id="23" />
                                 </div>
                             </Box>
 
                             <Box titulo={"Dados Bancários"}>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Banco" valor={this.state.dados.Entidade.NUM_BANCO} col="4" id="24" />
-                                    <CampoEstatico titulo="Agência" valor={this.state.dados.Entidade.NUM_AGENCIA} col="4" id="25" />
-                                    <CampoEstatico titulo="Conta" valor={this.state.dados.Entidade.NUM_CONTA} col="4" id="26" />
+                                    <CampoEstatico titulo="Banco" valor={this.state.dados.Entidade.NUM_BANCO} tamanhoCampo="4" id="24" />
+                                    <CampoEstatico titulo="Agência" valor={this.state.dados.Entidade.NUM_AGENCIA} tamanhoCampo="4" id="25" />
+                                    <CampoEstatico titulo="Conta" valor={this.state.dados.Entidade.NUM_CONTA} tamanhoCampo="4" id="26" />
                                 </div>
 
                                 <div className="form-row">

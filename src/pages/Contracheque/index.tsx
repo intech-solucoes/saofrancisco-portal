@@ -56,7 +56,7 @@ export default class Contracheque extends React.Component<Props, State> {
                                     <Col key={index} className={"col-lg-6"}>
                                         <Box titulo={""}>
                                             <div className={"cc-title"}>
-                                                PLANO {this.state.planos[0].DS_PLANO} 
+                                                {especie.Especie.DS_PLANO} 
                                             </div>
                                             <br />
                                             
@@ -100,7 +100,7 @@ export default class Contracheque extends React.Component<Props, State> {
                                                                             {valor.VAL_LIQUIDO.toLocaleString('pt-br', {minimumFractionDigits: 2})}
                                                                         </td>
                                                                         <td>
-                                                                            <Link className={"btn btn-primary btn-sm"} to={`/contracheque/${this.state.planos[0].CD_PLANO}/${valor.DT_REFERENCIA.replace(new RegExp('/', 'g'), '.')}/${valor.CD_TIPO_FOLHA}/${valor.CD_ESPECIE}` }>Detalhar</Link>
+                                                                            <Link className={"btn btn-primary btn-sm"} to={`/contracheque/${especie.Especie.CD_PLANO}/${valor.DT_REFERENCIA.replace(new RegExp('/', 'g'), '.')}/${valor.CD_TIPO_FOLHA}/${valor.CD_ESPECIE}` }>Detalhar</Link>
                                                                         </td>
                                                                     </tr>
                                                                 );
