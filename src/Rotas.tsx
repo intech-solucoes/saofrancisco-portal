@@ -3,7 +3,8 @@ import { RouteProps, Route } from 'react-router-dom';
 
 import {
     Login, EsqueciSenha, Home, DadosPessoais, Relacionamento, TrocarSenha, Planos, ListarParticipantes, InformeRendimentos,
-    Contracheque, ContrachequeDetalhe, Documentos, Mensagens
+    SimuladorBeneficios,
+    Contracheque, ContrachequeDetalhe, Documentos, Mensagens, Maior8, Menor8
 } from "./pages";
 import { Termos, TrocarSenhaPrimeiroAcesso } from './pages/Login';
 
@@ -69,6 +70,33 @@ function GetRotas() {
             id: "planos"
         },
         {
+            titulo: "Simulador",
+            icone: "fas fa-chart-bar",
+            caminho: "/simulador",
+            componente: (routeProps: RouteProps) => <SimuladorBeneficios {...routeProps} />,
+            mostrarMenu: true, 
+            exact: true,
+            id: "simulador"
+        },
+        {
+            titulo: "Simulador de Benefícios - CODEPREV",
+            icone: "fas fa-chart-bar",
+            caminho: "/simulador/menor8",
+            componente: (routeProps: RouteProps) => <Menor8 {...routeProps} />,
+            mostrarMenu: false, 
+            exact: true,
+            id: "simuladorMenor8"
+        },
+        {
+            titulo: "Simulador de Benefícios - CODEPREV",
+            icone: "fas fa-chart-bar",
+            caminho: "/simulador/maior8",
+            componente: (routeProps: RouteProps) => <Maior8 {...routeProps} />,
+            mostrarMenu: false, 
+            exact: true,
+            id: "simuladorMaior8"
+        },
+        {
             titulo: "Contracheque",
             icone: "fas fa-closed-captioning",
             caminho: "/contracheque",
@@ -115,7 +143,7 @@ function GetRotas() {
         },
         {
             titulo: "Relacionamento",
-            icone: "fas fa-envelope",
+            icone: "fas fa-comment-alt",
             caminho: "/relacionamento",
             componente: (routeProps: RouteProps) => <Relacionamento {...routeProps} />,
             mostrarMenu: true,
@@ -123,7 +151,7 @@ function GetRotas() {
         },
         {
             titulo: "Trocar senha",
-            icone: "fas fa-lock",
+            icone: "fas fa-key",
             caminho: "/trocarSenha",
             componente: (routeProps: RouteProps) => <TrocarSenha {...routeProps} />,
             mostrarMenu: true,

@@ -86,7 +86,7 @@ export class HomeAssistido extends React.Component<Props, State> {
                         {this.state.processoBeneficio.SALDO_ATUAL > 0 &&
                             <Row>
                                 <Col>
-                                    <HomeCard titulo={"Saldo de Conta Aplicável Atual - SCAA (em cotas) "}>
+                                    <HomeCard titulo={"Saldo de Conta Aplicável Atual - SCAA (em cotas)"}>
                                         <CampoEstatico valor={this.state.processoBeneficio.SALDO_ATUAL} />
                                     </HomeCard>
                                 </Col>

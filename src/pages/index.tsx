@@ -14,6 +14,9 @@ import { InformeRendimentos } from './InformeRendimentos';
 import Contracheque, { ContrachequeDetalhe } from './Contracheque';
 import Documentos from './Documentos'
 import Mensagens from './Mensagens';
+import SimuladorBeneficios from "./SimuladorBeneficios";
+import Menor8 from "./SimuladorBeneficios/Menor8";
+import Maior8 from "./SimuladorBeneficios/Maior8";
 
 export {
     PageClean, Page, NotFoundPage,
@@ -28,5 +31,6 @@ export {
     Contracheque,
     ContrachequeDetalhe,
     Documentos,
-    Mensagens
+    Mensagens,
+    SimuladorBeneficios, Maior8, Menor8
 }

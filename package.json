@@ -10,7 +10,7 @@
         "not op_mini all"
     ],
     "dependencies": {
-        "@intechprev/componentes-web": "file:../_lib/componentes-web",
+        "@intechprev/componentes-web": "^1.4.0",
         "@intechprev/prevsystem-service": "file:../prevsystem-service",
         "@intechprev/react-lib": "file:../_lib/react-lib",
         "@intechprev/service": "file:../_lib/service",
@@ -18,6 +18,7 @@
         "@types/jest": "23.3.13",
         "@types/lodash": "^4.14.129",
         "@types/node": "10.12.18",
+        "@types/rc-slider": "^8.6.5",
         "@types/react": "16.7.20",
         "@types/react-dom": "16.0.11",
         "@types/react-router-dom": "^4.3.1",
@@ -28,6 +29,7 @@
         "moment": "^2.24.0",
         "postcss-flexbugs-fixes": "3.2.0",
         "postcss-loader": "2.0.8",
+        "rc-slider": "^8.7.1",
         "react": "^16.7.0",
         "react-app-polyfill": "^1.0.1",
         "react-dom": "^16.7.0",

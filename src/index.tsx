@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import { NotFoundPage } from "./pages";
+import 'rc-slider/assets/index.css';
 
 const Rotas = require(`./Rotas`).default;
 const RotasAdmin = require(`./pages/_admin/Rotas`).default;

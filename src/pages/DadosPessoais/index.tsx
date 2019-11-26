@@ -48,11 +48,11 @@ export class DadosPessoais extends Component<Props, State> {
     async componentWillMount() {
         if(localStorage.getItem("pensionista") === "false")  {
             var dependentes = await DependenteService.Buscar();
-            await this.setState({ dependentes });
+            this.setState({ dependentes });
         }
         
         var dados = await FuncionarioService.Buscar();
-        await this.setState({ 
+        this.setState({
             dados
         });
         
