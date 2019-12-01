@@ -12,6 +12,8 @@ import EsqueciSenha from "./EsqueciSenha";
 import Termos from "./Termos";
 import TrocarSenhaPrimeiroAcesso from "./TrocarSenhaPrimeiroAcesso";
 
+import config from "../../config.json";
+
 export {
     EsqueciSenha,
     Termos,
@@ -55,8 +57,8 @@ export default class Login extends React.Component<Props, State> {
         try {
             var login = await UsuarioService.Login(this.state.cpf, this.state.senha);
             
-            await localStorage.setItem("token", login.AccessToken);
-            await localStorage.setItem("token-admin", login.AccessToken);
+            await localStorage.setItem(`@${config.appName}:token`, login.AccessToken);
+            await localStorage.setItem(`@${config.appName}:token-admin`, login.AccessToken);
             await localStorage.setItem("pensionista", login.Pensionista.toString());
 
             var matriculas = await UsuarioService.BuscarMatriculas();
@@ -69,10 +71,6 @@ export default class Login extends React.Component<Props, State> {
             } else {
                 this.props.history.push('/');
             }
-
-            //this.props.history.push('/');
-            
-            //document.location.href = ".";
         } catch(erro) {
             if(erro.response) {
                 //await this.loginForm.current.mostrarErro(erro.response.data);

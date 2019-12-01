@@ -902,7 +902,7 @@
 "@intechprev/prevsystem-service@file:../prevsystem-service":
   version "2.0.1"
   dependencies:
-    "@intechprev/service" "file:../../../Users/Rony/AppData/Local/Yarn/Cache/v4/npm-@intechprev-prevsystem-service-2.0.1-2d8ac16f-d585-4b03-850d-c14c1bc7b38b-1574735062226/node_modules/@intechprev/_lib/service"
+    "@intechprev/service" "2.0.0"
 
 "@intechprev/react-lib@^1.0.6":
   version "1.0.6"
@@ -910,12 +910,20 @@
   integrity sha512-J8DslalIQCfILaxheZuCDgqjp+n4zBj6PgUqhac9mPR0ofxoaPfEuN9lLvMzBRSjCuMR2PBbU6VzN0E11q2tDg==
 
 "@intechprev/react-lib@file:../_lib/react-lib":
-  version "1.0.4"
+  version "1.0.6"
 
-"@intechprev/service@file:../_lib/service":
+"@intechprev/service@2.0.0":
   version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@intechprev/service/-/service-2.0.0.tgz#07192d9cc37c395e01d228aced942bd5c637de92"
+  integrity sha512-5C43JxesUi+dtU+xGpIQshsm2Z/3bSpKaDb3lhaaAXu5/7KTX6fO4Tl7Y0ZQZyjQIwk0mMlsk2uylhbGIm6lYg==
   dependencies:
     axios "^0.18.0"
+
+"@intechprev/service@file:../_lib/service":
+  version "2.1.0"
+  dependencies:
+    axios "^0.18.0"
+    es6-promise "^4.2.8"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

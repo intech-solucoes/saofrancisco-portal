@@ -6,6 +6,8 @@ import { Row, Col } from "@intechprev/componentes-web";
 
 import Rotas from "../Rotas";
 
+import config from "../config.json";
+
 interface Props {
     history?: any;
     titulo?: string;
@@ -40,7 +42,7 @@ export default class Page extends React.Component<Props, State> {
     componentDidMount = async () => {
         try {
 
-            var token = await localStorage.getItem("token");
+            var token = await localStorage.getItem(`@${config.appName}:token`);
 
             if (token) {
                 var { data: admin } = await UsuarioService.VerificarAdmin();
@@ -63,14 +65,14 @@ export default class Page extends React.Component<Props, State> {
                 }
                 
             } else {
-                localStorage.removeItem("token");
-                localStorage.removeItem("token-admin");
+                localStorage.removeItem(`@${config.appName}:token`);
+                localStorage.removeItem(`@${config.appName}:token-admin`);
                 this.props.history.push("/login");
             }
         } catch (err) {
             if (err.message.indexOf("401") > -1) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("token-admin");
+                localStorage.removeItem(`@${config.appName}:token`);
+                localStorage.removeItem(`@${config.appName}:token-admin`);
                 this.props.history.push("/login");
             } else {
                 alert("Ops! Ocorreu um erro ao processar sua requisição.");
@@ -95,7 +97,7 @@ export default class Page extends React.Component<Props, State> {
     // }
 
     logout() {
-        localStorage.removeItem("token");
+        localStorage.removeItem(`@${config.appName}:token`);
         localStorage.removeItem("token-admin");
         this.props.history.push("/login");
     }
