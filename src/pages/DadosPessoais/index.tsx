@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FuncionarioService, DependenteService } from "@intechprev/prevsystem-service";
 
 import { Page } from "..";
-import { CampoEstatico, Row, Col, Box } from "@intechprev/componentes-web";
+import { CampoEstatico, Row, Col, Box, PosicaoTituloCampoEstatico } from "@intechprev/componentes-web";
 
 interface Props {
 }
@@ -68,42 +68,42 @@ export class DadosPessoais extends Component<Props, State> {
                             <Box titulo={"Dados Pessoais"}>
                             
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Nome" valor={this.state.dados.DadosPessoais.NOME_ENTID} tamanhoCampo="12" id="0" />
+                                    <CampoEstatico titulo="Nome" valor={this.state.dados.DadosPessoais.NOME_ENTID} tamanhoCampo="12" id="0" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
 
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Empresa" valor={this.state.dados.NOME_EMPRESA} id="1" />
-                                    <CampoEstatico titulo="Matrícula" valor={this.state.dados.Funcionario.NUM_MATRICULA} id="2" />
+                                    <CampoEstatico titulo="Empresa" valor={this.state.dados.NOME_EMPRESA} id="1" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Matrícula" valor={this.state.dados.Funcionario.NUM_MATRICULA} id="2" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
 
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Sexo" valor={this.state.dados.SEXO} id="3" />
-                                    <CampoEstatico titulo="Estado Civil" valor={this.state.dados.DS_ESTADO_CIVIL} id="4" />
+                                    <CampoEstatico titulo="Sexo" valor={this.state.dados.SEXO} id="3" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Estado Civil" valor={this.state.dados.DS_ESTADO_CIVIL} id="4" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
 
                                 <div className="form-row">
-                                    <CampoEstatico titulo="RG" valor={this.state.dados.DadosPessoais.NU_IDENT} id="5" />
-                                    <CampoEstatico titulo="Órgão Emissor RG" valor={this.state.dados.DadosPessoais.ORG_EMIS_IDENT} id="6" />
+                                    <CampoEstatico titulo="RG" valor={this.state.dados.DadosPessoais.NU_IDENT} id="5" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Órgão Emissor RG" valor={this.state.dados.DadosPessoais.ORG_EMIS_IDENT} id="6" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Emissão RG" valor={this.state.dados.DadosPessoais.DT_EMIS_IDENT} id="7" />
-                                    <CampoEstatico titulo="CPF" valor={this.state.dados.CPF} tamanhoCampo="6" id="8" />
+                                    <CampoEstatico titulo="Emissão RG" valor={this.state.dados.DadosPessoais.DT_EMIS_IDENT} id="7" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="CPF" valor={this.state.dados.CPF} tamanhoCampo="6" id="8" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Data de nascimento" valor={this.state.dados.DadosPessoais.DT_NASCIMENTO} id="9" />
-                                    <CampoEstatico titulo="Idade" valor={this.state.dados.IDADE} id="10" />
+                                    <CampoEstatico titulo="Data de nascimento" valor={this.state.dados.DadosPessoais.DT_NASCIMENTO} id="9" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Idade" valor={this.state.dados.IDADE} id="10" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Data de Admissão" valor={this.state.dados.Funcionario.DT_ADMISSAO} id="11" />
-                                    <CampoEstatico titulo="Data de Recadastro" valor={this.state.dados.Funcionario.DT_RECADASTRO} id="12" />
+                                    <CampoEstatico titulo="Data de Admissão" valor={this.state.dados.Funcionario.DT_ADMISSAO} id="11" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Data de Recadastro" valor={this.state.dados.Funcionario.DT_RECADASTRO} id="12" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Nome do Pai" valor={this.state.dados.DadosPessoais.NOME_PAI} id="13" />
-                                    <CampoEstatico titulo="Nome da Mãe" valor={this.state.dados.DadosPessoais.NOME_MAE} id="14" />
+                                    <CampoEstatico titulo="Nome do Pai" valor={this.state.dados.DadosPessoais.NOME_PAI} id="13" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Nome da Mãe" valor={this.state.dados.DadosPessoais.NOME_MAE} id="14" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
                                 <div className="form-row">
                                     {/* <CampoEstatico titulo="Contrato Único" valor={"Não Assinado"} id="15" /> */}
-                                    <CampoEstatico titulo="E-mail" valor={this.state.dados.DadosPessoais.EMAIL_AUX} tamanhoCampo="6" id="16" />
+                                    <CampoEstatico titulo="E-mail" valor={this.state.dados.DadosPessoais.EMAIL_AUX} tamanhoCampo="6" id="16" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
 
                             </Box>
@@ -112,25 +112,25 @@ export class DadosPessoais extends Component<Props, State> {
                         <Col>
                             <Box titulo={"Endereço"}>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Endereço" valor={this.state.dados.Entidade.END_ENTID} id="17" />
-                                    <CampoEstatico titulo="Número" valor={this.state.dados.Entidade.NR_END_ENTID} id="18" />
+                                    <CampoEstatico titulo="Endereço" valor={this.state.dados.Entidade.END_ENTID} id="17" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Número" valor={this.state.dados.Entidade.NR_END_ENTID} id="18" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Complemento" valor={this.state.dados.Entidade.COMP_END_ENTID} id="19" />
-                                    <CampoEstatico titulo="Bairro" valor={this.state.dados.Entidade.BAIRRO_ENTID} id="20" />
+                                    <CampoEstatico titulo="Complemento" valor={this.state.dados.Entidade.COMP_END_ENTID} id="19" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Bairro" valor={this.state.dados.Entidade.BAIRRO_ENTID} id="20" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Cidade" valor={this.state.dados.Entidade.CID_ENTID} tamanhoCampo="4" id="21" />
-                                    <CampoEstatico titulo="UF" valor={this.state.dados.Entidade.UF_ENTID} tamanhoCampo="2" id="22" />
+                                    <CampoEstatico titulo="Cidade" valor={this.state.dados.Entidade.CID_ENTID} tamanhoCampo="4" id="21" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="UF" valor={this.state.dados.Entidade.UF_ENTID} tamanhoCampo="2" id="22" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                     <CampoEstatico titulo="CEP" valor={this.state.dados.CEP} id="23" />
                                 </div>
                             </Box>
 
                             <Box titulo={"Dados Bancários"}>
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Banco" valor={this.state.dados.Entidade.NUM_BANCO} tamanhoCampo="4" id="24" />
-                                    <CampoEstatico titulo="Agência" valor={this.state.dados.Entidade.NUM_AGENCIA} tamanhoCampo="4" id="25" />
-                                    <CampoEstatico titulo="Conta" valor={this.state.dados.Entidade.NUM_CONTA} tamanhoCampo="4" id="26" />
+                                    <CampoEstatico titulo="Banco" valor={this.state.dados.Entidade.NUM_BANCO} tamanhoCampo="4" id="24" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Agência" valor={this.state.dados.Entidade.NUM_AGENCIA} tamanhoCampo="4" id="25" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Conta" valor={this.state.dados.Entidade.NUM_CONTA} tamanhoCampo="4" id="26" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
 
                                 <div className="form-row">

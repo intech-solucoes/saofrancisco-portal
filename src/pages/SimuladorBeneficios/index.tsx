@@ -61,8 +61,8 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
         var saldos = await FichaFechamentoService.BuscarSaldoPorPlano(cdPlano);
         var ultimaContribuicao = await FichaFinanceiraService.BuscarUltimaExibicaoPorPlano(cdPlano);
 
-        var dataInscricao = plano.DT_INSC_PLANO;
-        var dataNascimento = dados.DadosPessoais.DT_NASCIMENTO;
+        var dataInscricao = moment(plano.DT_INSC_PLANO, "DD/MM/YYYY");
+        var dataNascimento = moment(dados.DadosPessoais.DT_NASCIMENTO, "DD/MM/YYYY");
 
         var idadePlano = moment().diff(dataInscricao, "years");
         var idadeAtual = moment().diff(dataNascimento, "years");
@@ -70,7 +70,7 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
         var idadeMinima = this.state.idadeMinima;
         var idadeMaxima = this.state.idadeMaxima;
 
-        if(idadeAtual > 58 && idadePlano > 5)
+        if(idadeAtual > this.state.idadeMinima && idadePlano > 5)
             idadeMinima = idadeAtual;
 
         if(idadeAtual >= 80)
@@ -83,6 +83,7 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
             percentualContrib: ultimaContribuicao.Percentual,
             idadeMinima,
             idadeMaxima,
+            idadeAposentadoria: idadeMinima,
             idadeAtual
         });
 
@@ -124,7 +125,7 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
                             até o momento, com o acréscimo das suas contribuições futuras até a data da sua aposentadoria.
                         </h5>
 
-                        <h4 className={"mt-5 mb-2"}>Seu Saldo Acumulador Atualizado</h4>
+                        <h4 className={"mt-5 mb-2"}>Seu Saldo Acumulado Atualizado</h4>
                         <h5 className={"text-secondary"}><CampoEstatico valor={this.state.saldoAcumulado} tipo={TipoCampoEstatico.dinheiro} /></h5>
 
                         <h4 className={"mt-5 mb-2"}>Seu Último Salário de Contribuição (em {this.state.dataUltimoSalario})</h4>

@@ -3,6 +3,7 @@ import { Row, Col, Box, Form, CampoTexto, Botao, TipoBotao, TamanhoBotao } from 
 
 import { FuncionarioService, UsuarioService } from "@intechprev/prevsystem-service";
 import { func } from 'prop-types';
+import { Session } from '@intechprev/service';
 
 interface Props {
     history?: any;
@@ -36,7 +37,7 @@ export class ListarParticipantes extends Component<Props, State> {
     selecionar = async (cpf: string, cdPlano: string) => {
         try {
             var login = await UsuarioService.SelecionarParticipante(cpf);
-            await localStorage.setItem("token", login.AccessToken);
+            await Session.setToken(login.AccessToken, false);
                         
             var dados = await FuncionarioService.Buscar();
 

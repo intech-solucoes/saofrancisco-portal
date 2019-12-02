@@ -907,18 +907,29 @@
 "@intechprev/prevsystem-service@file:../prevsystem-service":
   version "2.0.1"
   dependencies:
-    "@intechprev/service" "file:../../../Users/Rony/AppData/Local/Yarn/Cache/v6/npm-@intechprev-prevsystem-service-2.0.1-7a53a2b5-568a-4f31-b112-18118296c5fb-1575235199442/node_modules/@intechprev/_lib/service"
+    "@intechprev/service" "2.0.0"
 
 "@intechprev/react-lib@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@intechprev/react-lib/-/react-lib-1.0.6.tgz#7fad2905dcef4319aa6827d87457643f7062dcb2"
   integrity sha512-J8DslalIQCfILaxheZuCDgqjp+n4zBj6PgUqhac9mPR0ofxoaPfEuN9lLvMzBRSjCuMR2PBbU6VzN0E11q2tDg==
 
-"@intechprev/react-lib@file:../_lib/react-lib":
-  version "1.1.0"
+"@intechprev/react-lib@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@intechprev/react-lib/-/react-lib-1.1.1.tgz#727a72d986ee29530177631b47466a629aa940bf"
+  integrity sha512-o4iA+G/+rVxCeP3w8F6ygMJ902C30hs+xkN0feJPra+NWFX7aDrhEut68duWwJtv4gPHaJ7j/BGe+l7nFSRIow==
 
-"@intechprev/service@file:../_lib/service":
-  version "2.2.8"
+"@intechprev/service@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@intechprev/service/-/service-2.0.0.tgz#07192d9cc37c395e01d228aced942bd5c637de92"
+  integrity sha512-5C43JxesUi+dtU+xGpIQshsm2Z/3bSpKaDb3lhaaAXu5/7KTX6fO4Tl7Y0ZQZyjQIwk0mMlsk2uylhbGIm6lYg==
+  dependencies:
+    axios "^0.18.0"
+
+"@intechprev/service@^2.2.11":
+  version "2.2.11"
+  resolved "https://registry.yarnpkg.com/@intechprev/service/-/service-2.2.11.tgz#f67240c4519316ad235f8c84e7f04e46f00816e7"
+  integrity sha512-dvxkKHaDtQf08ARKCt1l4TDwdJDyUgYYoQYuEsPHAQ/jVNHrnCYjh/dMjJb0wX1ibY1K0T9OVAyPHkMua9qOLA==
   dependencies:
     axios "^0.18.0"
     es6-promise "^4.2.8"

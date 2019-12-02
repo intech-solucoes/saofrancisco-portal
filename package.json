@@ -1,6 +1,6 @@
 {
     "name": "portal-saofrancisco",
-    "version": "0.3.0",
+    "version": "0.3.4",
     "private": true,
     "homepage": ".",
     "browserslist": [
@@ -12,8 +12,8 @@
     "dependencies": {
         "@intechprev/componentes-web": "file:../_lib/componentes-web",
         "@intechprev/prevsystem-service": "file:../prevsystem-service",
-        "@intechprev/react-lib": "file:../_lib/react-lib",
-        "@intechprev/service": "file:../_lib/service",
+        "@intechprev/react-lib": "^1.1.1",
+        "@intechprev/service": "^2.2.11",
         "@types/jest": "23.3.13",
         "@types/lodash": "^4.14.129",
         "@types/node": "10.12.18",
