@@ -5,6 +5,7 @@ import { PageClean } from "../";
 
 import { Alerta, TipoAlerta, Row, Col } from "@intechprev/componentes-web";
 import { handleFieldChange } from "@intechprev/react-lib";
+import { Session } from "@intechprev/service";
 import { UsuarioService, FuncionarioService } from "@intechprev/prevsystem-service";
 import { Link } from "react-router-dom";
 
@@ -57,8 +58,7 @@ export default class Login extends React.Component<Props, State> {
         try {
             var login = await UsuarioService.Login(this.state.cpf, this.state.senha);
             
-            await localStorage.setItem(`@${config.appName}:token`, login.AccessToken);
-            await localStorage.setItem(`@${config.appName}:token-admin`, login.AccessToken);
+            await Session.setToken(login.AccessToken);
             await localStorage.setItem("pensionista", login.Pensionista.toString());
 
             var matriculas = await UsuarioService.BuscarMatriculas();

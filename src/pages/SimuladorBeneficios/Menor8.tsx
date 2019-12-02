@@ -3,12 +3,13 @@ import { History } from 'history';
 import { Box, CampoEstatico, TipoCampoEstatico, Row, Col, Botao, TipoBotao } from "@intechprev/componentes-web";
 
 import { Page } from "..";
+import { SimuladorCodeprevService } from "@intechprev/prevsystem-service";
 
 interface RendaMensal {
-    percentual: number;
-    renda5: number;
-    renda8: number;
-    tempoRecebimento: string;
+    Percentual: number;
+    Renda: number;
+    Renda8: number;
+    StringTempoRecebimento: string;
 }
 
 interface Props {
@@ -37,22 +38,42 @@ export default class Menor8 extends React.Component<Props, State> {
         saldoProjetado8: 0,
         valorResgate5: 0,
         valorResgate8: 0,
-        rendaMensal: [
-            { percentual: 0.1, renda5: 1306.44, renda8: 2306.44, tempoRecebimento: "83 anos 3 meses" },
-            { percentual: 0.2, renda5: 1306.44, renda8: 2306.44, tempoRecebimento: "83 anos 3 meses" },
-            { percentual: 0.3, renda5: 1306.44, renda8: 2306.44, tempoRecebimento: "83 anos 3 meses" },
-            { percentual: 0.4, renda5: 1306.44, renda8: 2306.44, tempoRecebimento: "83 anos 3 meses" },
-            { percentual: 0.5, renda5: 1306.44, renda8: 2306.44, tempoRecebimento: "83 anos 3 meses" },
-        ]
+        rendaMensal: []
     }
 
-    componentDidMount = async () => {
-        await this.setState({
-            idadeAtual: this.props.location.state.idadeAtual,
-            idadeAposentadoria: this.props.location.state.idadeAposentadoria
-        });
+    componentWillMount = async() => {
+        this.load();
+        //this.props.navigation.addListener('willFocus', this.load);
+    }
 
-        await this.page.current.loading(false);
+    load = async () => {
+        if (!this.props.location.state) {
+            this.props.history.goBack();
+        }
+        else {
+            var dados = {
+                IdadeAposentadoria: this.props.location.state.idadeAposentadoria,
+                PercentualContrib: this.props.location.state.percentualContrib,
+                PercentualSaque: this.props.location.state.percentualAVista,
+                Aporte: this.props.location.state.aporte,
+                SaldoAcumulado: this.props.location.state.saldoAcumulado,
+                SalarioContribuicao: this.props.location.state.salarioContribuicao
+            };
+
+            var dadosSimulacao = await SimuladorCodeprevService.Simular(dados);
+
+            await this.setState({
+                idadeAtual: this.props.location.state.idadeAtual,
+                idadeAposentadoria: this.props.location.state.idadeAposentadoria,
+                saldoProjetado5: dadosSimulacao.SaldoProjetado,
+                saldoProjetado8: dadosSimulacao.SaldoProjetado8,
+                valorResgate5: dadosSimulacao.Saque,
+                valorResgate8: dadosSimulacao.Saque8,
+                rendaMensal: dadosSimulacao.RendaMensal
+            });
+
+            await this.page.current.loading(false);
+        }
     }
 
     render() {
@@ -118,10 +139,10 @@ export default class Menor8 extends React.Component<Props, State> {
                             {this.state.rendaMensal.map((rendaMensal: RendaMensal, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{rendaMensal.percentual}%</td>
-                                        <td><CampoEstatico valor={rendaMensal.renda5} tipo={TipoCampoEstatico.dinheiro} /></td>
-                                        <td><CampoEstatico valor={rendaMensal.renda8} tipo={TipoCampoEstatico.dinheiro} /></td>
-                                        <td>{rendaMensal.tempoRecebimento}</td>
+                                        <td>{rendaMensal.Percentual}%</td>
+                                        <td><CampoEstatico valor={rendaMensal.Renda} tipo={TipoCampoEstatico.dinheiro} /></td>
+                                        <td><CampoEstatico valor={rendaMensal.Renda8} tipo={TipoCampoEstatico.dinheiro} /></td>
+                                        <td>{rendaMensal.StringTempoRecebimento}</td>
                                     </tr>
                                 )
                             })}

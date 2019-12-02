@@ -4,7 +4,6 @@ import { PlanoService, FichaFechamentoService } from "@intechprev/prevsystem-ser
 
 import { Page } from "..";
 import { Box, TipoBotao, Form, Alerta, Row, Col, CampoTexto, TipoAlerta, Botao, TamanhoBotao } from "@intechprev/componentes-web";
-import { RelatorioExtrato } from "./RelatorioExtrato";
 import DataInvalida from "../../_utils/Data";
 
 interface Props { }
@@ -23,7 +22,6 @@ export default class Planos extends React.Component<Props, State> {
     private page = React.createRef<Page>();
     private form = React.createRef<Form>();
     private alert = React.createRef<Alerta>();
-    private relatorio = React.createRef<RelatorioExtrato>();
 
     constructor(props: Props) {
         super(props)
@@ -206,7 +204,6 @@ export default class Planos extends React.Component<Props, State> {
                 </Box>
 
                 {this.renderModal()}
-                <RelatorioExtrato ref={this.relatorio} preview={false} dtInicio={this.state.dataInicio} dtFim={this.state.dataFim} cdPlano={this.state.cdPlano} />
             </Page>
         );
     }

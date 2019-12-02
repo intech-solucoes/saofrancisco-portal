@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { Session } from "@intechprev/service";
 import { FuncionarioService, UsuarioService, LGPDService } from "@intechprev/prevsystem-service";
 import { Row, Col } from "@intechprev/componentes-web";
 
@@ -65,15 +66,11 @@ export default class Page extends React.Component<Props, State> {
                 }
                 
             } else {
-                localStorage.removeItem(`@${config.appName}:token`);
-                localStorage.removeItem(`@${config.appName}:token-admin`);
-                this.props.history.push("/login");
+                await this.logout();
             }
         } catch (err) {
             if (err.message.indexOf("401") > -1) {
-                localStorage.removeItem(`@${config.appName}:token`);
-                localStorage.removeItem(`@${config.appName}:token-admin`);
-                this.props.history.push("/login");
+                await this.logout();
             } else {
                 alert("Ops! Ocorreu um erro ao processar sua requisição.");
                 console.error(err);
@@ -96,9 +93,8 @@ export default class Page extends React.Component<Props, State> {
     //     }
     // }
 
-    logout() {
-        localStorage.removeItem(`@${config.appName}:token`);
-        localStorage.removeItem("token-admin");
+    logout = async() => {
+        await Session.clear();
         this.props.history.push("/login");
     }
 

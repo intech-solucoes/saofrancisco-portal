@@ -101,7 +101,7 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
     }
 
     continuar = async () => {
-        if(this.state.percentualContrib > 8)
+        if(this.state.percentualContrib >= 8)
             this.props.history.push({
                 pathname: `/simulador/maior8`,
                 state: { ...this.state }
@@ -168,8 +168,8 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
                         <div className={"mb-5 pl-4 pr-4"}>
                             <SliderWithTooltip tipFormatter={(v: number) => <CampoEstatico valor={v} tipo={TipoCampoEstatico.dinheiro} />}
                                 tipProps={{ placement: 'bottom', visible: true }}
-                                min={0} max={50000} step={1000} value={this.state.percentualAVista} dots={true}
-                                onChange={(val) => this.setState({ percentualAVista: val })} />
+                                min={0} max={50000} step={1000} value={this.state.aporte} dots={true}
+                                onChange={(val) => this.setState({ aporte: val })} />
                         </div>
                         <br/>
 
