@@ -13,7 +13,7 @@ interface State {
     contracheque: {
         Proventos: any,
         Descontos: any,
-        Resumo: { 
+        Resumo: {
             Bruto: any,
             Descontos: any,
             Liquido: any,
@@ -39,7 +39,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
             contracheque: {
                 Proventos: [],
                 Descontos: [],
-                Resumo: { 
+                Resumo: {
                     Bruto: "",
                     Descontos: "",
                     Liquido: "",
@@ -69,17 +69,21 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
         // this.relatorio.current.download();
 
         var relatorio = await ContrachequeService.Relatorio(this.state.cdPlano, this.state.dataReferencia, this.state.cdTipoFolha, this.state.cdEspecie);
-
-        const url = window.URL.createObjectURL(new Blob([relatorio]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'contracheque.pdf');
-        document.body.appendChild(link);
-        link.click();
+        
+        if (navigator.msSaveBlob) { // IE10+ : (has Blob, but not a[download] or URL)
+            return navigator.msSaveBlob(new Blob([relatorio]), "Contracheque.pdf");
+        } else {
+            const url = window.URL.createObjectURL(new Blob([relatorio]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'contracheque.pdf');
+            document.body.appendChild(link);
+            link.click();
+        }
     }
 
     render() {
-        if(erro) {
+        if (erro) {
             return (
                 <Page {...this.props} ref={this.page}>
                     <div className="alert alert-danger">Não há detalhes para o mês escolhido!</div>
@@ -151,7 +155,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
                                                         return (
                                                             <tr key={index}>
                                                                 <td>{rendimento.DS_RUBRICA}</td>
-                                                                <td>R$ {rendimento.VALOR_MC.toLocaleString('pt-br', {minimumFractionDigits: 2})}</td>
+                                                                <td>R$ {rendimento.VALOR_MC.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</td>
                                                             </tr>
                                                         );
                                                     })
@@ -178,7 +182,7 @@ export default class ContrachequeDetalhe extends React.Component<Props, State> {
                                                         return (
                                                             <tr key={index}>
                                                                 <td>{desconto.DS_RUBRICA}</td>
-                                                                <td>R$ {desconto.VALOR_MC.toLocaleString('pt-br', {minimumFractionDigits: 2})}</td>
+                                                                <td>R$ {desconto.VALOR_MC.toLocaleString('pt-br', { minimumFractionDigits: 2 })}</td>
                                                             </tr>
                                                         );
                                                     })

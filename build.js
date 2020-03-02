@@ -1,4 +1,7 @@
+const fs = require('fs');
 const { filesystem, prompt, system } = require('gluegun');
+
+var zip = new require("node-zip")();
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -80,20 +83,28 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         }
 
         if(selectedEnv.dir) {
-            var { publish } = await prompt.ask({
-                type: "select",
-                name: "publish",
-                message: "Deseja publicar esta versão?",
-                choices: ["Sim", "Não"]
-            });
+            if(selectedEnv.compactar) {
+                // Limpar todos os zips da pasta destino
+                var distPath = filesystem.find(selectedEnv.dir, { matching: ["*.zip"] });
+                distPath.forEach((file) => {
+                    filesystem.remove(file);
+                });
 
-            if(publish === "Não")
-                return;
+                var files = filesystem.find("./build", { matching: "*" });
+                files.forEach((file) => {
+                    zip.file(file.replace('build\\', ''), filesystem.read(file));
+                    filesystem.remove(file);
+                });
 
-            var distPath = filesystem.find(selectedEnv.dir, { matching: ["*.js", "*.css", "*.map"] });
-            distPath.forEach((file) => {
-                filesystem.remove(file);
-            });
+                var data = zip.generate({ base64:false, compression: 'DEFLATE' });
+                fs.writeFileSync(`./build/${selectedEnv.appName}_${newVersion}.zip`, data, 'binary');
+            } else {
+                // Limpar todos os arquivos gerados da pasta destino
+                var distPath = filesystem.find(selectedEnv.dir, { matching: ["*.js", "*.css", "*.map"] });
+                distPath.forEach((file) => {
+                    filesystem.remove(file);
+                });
+            }
 
             filesystem.copy("./build", selectedEnv.dir, { overwrite: true });
             console.log("Publicado com sucesso!");

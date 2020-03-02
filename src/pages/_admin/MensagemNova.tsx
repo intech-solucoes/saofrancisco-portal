@@ -228,9 +228,9 @@ export class MensagemNova extends React.Component<Props, State> {
                                 <Row>                          
                                     <Col className={"col-lg-6"}>
 
-                                        <CampoTexto contexto={this} nome={"tituloMensagem"} max={50} valor={this.state.tituloMensagem} label={"Título"} obrigatorio />
+                                        <CampoTexto contexto={this} nome={"tituloMensagem"} max={50} valor={this.state.tituloMensagem} titulo={"Título"} obrigatorio />
 
-                                        <CampoTexto contexto={this} nome={"mensagem"} max={4000} textarea valor={this.state.mensagem} rows={10} label={"Corpo da Mensagem"} obrigatorio />
+                                        <CampoTexto contexto={this} nome={"mensagem"} max={4000} textarea valor={this.state.mensagem} rows={10} titulo={"Corpo da Mensagem"} obrigatorio />
 
                                         <div className="form-group">
                                             <label><b>Enviar via</b></label>
@@ -249,7 +249,7 @@ export class MensagemNova extends React.Component<Props, State> {
             
                                         <div className="form-group">
                                             <CampoTexto contexto={this} nome={"dataExpiracao"} mascara={"99/99/9999"} valor={this.state.dataExpiracao} 
-                                                        label={"Data de Expiração"} />
+                                                        titulo={"Data de Expiração"} />
                                             <span className="text text-secondary">Deixe em branco para indicar que a mensagem não terá uma data de expiração</span>
                                         </div>
                                     </Col>
@@ -272,7 +272,7 @@ export class MensagemNova extends React.Component<Props, State> {
                                                opcoes={this.state.listaSituacaoPlano} nomeMembro={"DS_SIT_PLANO"} valorMembro={"CD_SIT_PLANO"} />
 
                                         <div className="form-group">
-                                            <CampoTexto contexto={this} nome={"matricula"} mascara={"999999999"} valor={this.state.matricula} label={"Matrícula"} />
+                                            <CampoTexto contexto={this} nome={"matricula"} mascara={"999999999"} valor={this.state.matricula} titulo={"Matrícula"} />
                                             <span className="text text-secondary">Deixe em branco para enviar para todas as matrículas dentro dos parâmetros acima</span>
                                         </div>
                                     </Col>

@@ -40,7 +40,7 @@ export default class Page extends React.Component<Props, State> {
         }
     }
 
-    componentDidMount = async () => {
+    componentWillMount = async () => {
         try {
 
             var token = await localStorage.getItem(`@${config.appName}:token`);
@@ -56,7 +56,7 @@ export default class Page extends React.Component<Props, State> {
                     var nomeUsuario = dados.DadosPessoais.NOME_ENTID;
                     
                     if(!admin && dados.Usuario && dados.Usuario.IND_PRIMEIRO_ACESSO === "S") {
-                        this.props.history.push('/trocarSenhaPrimeiroAcesso');
+                        setTimeout(() => this.props.history.push('/trocarSenhaPrimeiroAcesso'), 500);
                     } else {
                         await this.setState({
                             nomeUsuario,

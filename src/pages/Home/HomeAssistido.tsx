@@ -31,24 +31,24 @@ export class HomeAssistido extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
-        this.props.page.current.loading(true);
+        //await this.props.page.current.loading(true);
 
         var planos = await PlanoService.Buscar();
         var processoBeneficio = await ProcessoBeneficioService.BuscarPorPlano(planos[0].CD_PLANO);
 
-        if(processoBeneficio.length > 0) {
+        if (processoBeneficio.length > 0) {
             var ultimaFolha = await FichaFinanceiraAssistidoService.BuscarUltimaPorPlanoProcesso(planos[0].CD_PLANO, processoBeneficio[0].CD_ESPECIE, processoBeneficio[0].ANO_PROCESSO, processoBeneficio[0].NUM_PROCESSO);
             var calendario = await CalendarioPagamentoService.BuscarPorPlano(planos[0].CD_PLANO);
 
-            await this.setState({ 
-                planos, 
-                ultimaFolha, 
+            await this.setState({
+                planos,
+                ultimaFolha,
                 processoBeneficio: processoBeneficio[0],
-                calendario 
+                calendario
             });
         }
-        
-        this.props.page.current.loading(false);
+
+        await this.props.page.current.loading(false);
     }
 
     selecionarProcesso = async (processoBeneficio: any) => {
@@ -63,7 +63,7 @@ export class HomeAssistido extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                {this.state.calendario && 
+                {this.state.calendario &&
                     <div>
                         <Row>
                             <Col>
@@ -100,7 +100,7 @@ export class HomeAssistido extends React.Component<Props, State> {
                                         {this.state.processoBeneficio.DT_APOSENTADORIA}
                                     </HomeCard>
                                 </Col>
-                                {this.state.planos[0].CD_PLANO !== "0001" && 
+                                {this.state.planos[0].CD_PLANO !== "0001" &&
                                     <Col>
                                         <HomeCard titulo={"Regime de Tributação"}>
                                             {this.state.planos[0].TIPO_IRRF === "2" ? "Regressivo" : "Progressivo"}
@@ -113,8 +113,8 @@ export class HomeAssistido extends React.Component<Props, State> {
                         <Row className={"mt-4"}>
                             <Col tamanho={"8"}>
                                 {this.state.ultimaFolha.Proventos.length > 0 &&
-                                    <Box titulo={`Contracheque de ${this.state.ultimaFolha.Resumo.Referencia.substring(3)}`} 
-                                            label={this.state.planos[0].CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
+                                    <Box titulo={`Contracheque de ${this.state.ultimaFolha.Resumo.Referencia.substring(3)}`}
+                                        label={this.state.planos[0].CD_PLANO === "0002" && `Valor da cota: ${this.state.ultimaFolha.Resumo.Indice.VALOR_IND}`}>
                                         <h6 className={"text-right text-secondary mb-4"}></h6>
                                         <h2 className={"text-center mb-5"}>Valor Líquido: <CampoEstatico valor={this.state.ultimaFolha.Resumo.Liquido} tipo={TipoCampoEstatico.dinheiro} /></h2>
 

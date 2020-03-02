@@ -184,7 +184,7 @@ export default class Documentos extends React.Component<Props, State> {
                         <Box titulo={"UPLOAD DE DOCUMENTOS"}>
                             <Form ref={this.formDocumento}>
                             
-                                <CampoTexto contexto={this} nome={"nomeDocumento"} max={50} valor={this.state.nomeDocumento} label={"Título"} obrigatorio />
+                                <CampoTexto contexto={this} nome={"nomeDocumento"} max={50} valor={this.state.nomeDocumento} titulo={"Título"} obrigatorio />
                                 
                                 <Combo contexto={this} label={"Plano"} obrigatorio={false}
                                         nome={"plano"} valor={this.state.plano} textoVazio="Todas(os)"
@@ -225,7 +225,7 @@ export default class Documentos extends React.Component<Props, State> {
                         <Box titulo={"CRIAÇÃO DE PASTA"}>
                             <Form ref={this.formPasta}>
                             
-                                <CampoTexto contexto={this} nome={"nomePasta"} max={50} valor={this.state.nomePasta} label={"Nome"} obrigatorio />
+                                <CampoTexto contexto={this} nome={"nomePasta"} max={50} valor={this.state.nomePasta} titulo={"Nome"} obrigatorio />
                                 <hr/>
 
                                 <div className="form-group">

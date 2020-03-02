@@ -71,9 +71,9 @@ export class Relacionamento extends React.Component<Props, State> {
                     <Col>
                         <Box>
                             <Form ref={this.form}>
-                                <CampoTexto contexto={this} nome={"email"} max={50} valor={this.state.email} label={"Seu e-mail"} tipo={"email"} />
-                                <CampoTexto contexto={this} nome={"assunto"} max={50} valor={this.state.assunto} label={"Assunto"} obrigatorio />
-                                <CampoTexto contexto={this} nome={"mensagem"} max={4000} textarea valor={this.state.mensagem} rows={10} label={"Mensagem"} obrigatorio />
+                                <CampoTexto contexto={this} nome={"email"} max={50} valor={this.state.email} titulo={"Seu e-mail"} tipo={"email"} />
+                                <CampoTexto contexto={this} nome={"assunto"} max={50} valor={this.state.assunto} titulo={"Assunto"} obrigatorio />
+                                <CampoTexto contexto={this} nome={"mensagem"} max={4000} textarea valor={this.state.mensagem} rows={10} titulo={"Mensagem"} obrigatorio />
 
                                 <Botao titulo={"Enviar"} tipo={TipoBotao.primary} submit onClick={this.validar} />
                                 <br /><br />

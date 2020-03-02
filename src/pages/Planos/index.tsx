@@ -82,12 +82,12 @@ export default class Planos extends React.Component<Props, State> {
                                     <Row>
                                         <Col className={"col-lg-6"}>
                                             <CampoTexto contexto={this} nome={"dataInicio"} mascara={"99/9999"} obrigatorio valor={this.state.dataInicio} 
-                                                        label={"Data de Início"} placeholder={"MM/AAAA"} tamanhoLabel={"lg-4"} />
+                                                        titulo={"Data de Início"} placeholder={"MM/AAAA"} tamanhoTitulo={"lg-4"} />
                                         </Col>
 
                                         <Col className={"col-lg-6"}>
                                             <CampoTexto contexto={this} nome={"dataFim"} mascara={"99/9999"} obrigatorio valor={this.state.dataFim} 
-                                                        label={"Data Final"} placeholder={"MM/AAAA"} tamanhoLabel={"lg-4"} />
+                                                        titulo={"Data Final"} placeholder={"MM/AAAA"} tamanhoTitulo={"lg-4"} />
                                         </Col>
                                     </Row>
                                     <div></div>

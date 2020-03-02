@@ -47,7 +47,7 @@ export default class EsqueciSenha extends React.Component<Props, State> {
                 return;
             }
 
-            if(form.valido) {
+            if(form.isValido()) {
                 var resultado = await UsuarioService.PrimeiroAcesso(this.state.cpf, this.state.dataNascimento);
                 window.alert(resultado);
                 this.props.history.push('/');

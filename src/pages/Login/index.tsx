@@ -91,8 +91,9 @@ export default class Login extends React.Component<Props, State> {
         await localStorage.setItem("empresa", funcionarioResult.Funcionario.CD_EMPRESA);
 
         var funcionarioLogin = await UsuarioService.SelecionarMatricula(matricula);
-        await localStorage.setItem("token", funcionarioLogin.AccessToken);
-        await localStorage.setItem("admin", funcionarioLogin.Admin);
+        
+        await Session.setToken(funcionarioLogin.AccessToken);
+        await localStorage.setItem("pensionista", funcionarioLogin.Pensionista.toString());
 
         this.props.history.push('/');
     }

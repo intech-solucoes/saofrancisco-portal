@@ -69,33 +69,33 @@ function GetRotas() {
             exact: true,
             id: "planos"
         },
-        {
-            titulo: "Simulador",
-            icone: "fas fa-chart-bar",
-            caminho: "/simulador",
-            componente: (routeProps: RouteProps) => <SimuladorBeneficios {...routeProps} />,
-            mostrarMenu: true, 
-            exact: true,
-            id: "simulador"
-        },
-        {
-            titulo: "Simulador de Benefícios - CODEPREV",
-            icone: "fas fa-chart-bar",
-            caminho: "/simulador/menor8",
-            componente: (routeProps: RouteProps) => <Menor8 {...routeProps} />,
-            mostrarMenu: false, 
-            exact: true,
-            id: "simuladorMenor8"
-        },
-        {
-            titulo: "Simulador de Benefícios - CODEPREV",
-            icone: "fas fa-chart-bar",
-            caminho: "/simulador/maior8",
-            componente: (routeProps: RouteProps) => <Maior8 {...routeProps} />,
-            mostrarMenu: false, 
-            exact: true,
-            id: "simuladorMaior8"
-        },
+        // {
+        //     titulo: "Simulador",
+        //     icone: "fas fa-chart-bar",
+        //     caminho: "/simulador",
+        //     componente: (routeProps: RouteProps) => <SimuladorBeneficios {...routeProps} />,
+        //     mostrarMenu: true, 
+        //     exact: true,
+        //     id: "simulador"
+        // },
+        // {
+        //     titulo: "Simulador de Benefícios - CODEPREV",
+        //     icone: "fas fa-chart-bar",
+        //     caminho: "/simulador/menor8",
+        //     componente: (routeProps: RouteProps) => <Menor8 {...routeProps} />,
+        //     mostrarMenu: false, 
+        //     exact: true,
+        //     id: "simuladorMenor8"
+        // },
+        // {
+        //     titulo: "Simulador de Benefícios - CODEPREV",
+        //     icone: "fas fa-chart-bar",
+        //     caminho: "/simulador/maior8",
+        //     componente: (routeProps: RouteProps) => <Maior8 {...routeProps} />,
+        //     mostrarMenu: false, 
+        //     exact: true,
+        //     id: "simuladorMaior8"
+        // },
         {
             titulo: "Contracheque",
             icone: "fas fa-closed-captioning",

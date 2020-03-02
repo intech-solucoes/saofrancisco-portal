@@ -77,7 +77,7 @@ export class DadosPessoais extends Component<Props, State> {
                                 </div>
 
                                 <div className="form-row">
-                                    <CampoEstatico titulo="Sexo" valor={this.state.dados.SEXO} id="3" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="Sexo" valor={this.state.dados.DadosPessoais.DS_SEXO} id="3" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                     <CampoEstatico titulo="Estado Civil" valor={this.state.dados.DS_ESTADO_CIVIL} id="4" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
 
@@ -87,7 +87,7 @@ export class DadosPessoais extends Component<Props, State> {
                                 </div>
                                 <div className="form-row">
                                     <CampoEstatico titulo="Emissão RG" valor={this.state.dados.DadosPessoais.DT_EMIS_IDENT} id="7" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
-                                    <CampoEstatico titulo="CPF" valor={this.state.dados.CPF} tamanhoCampo="6" id="8" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
+                                    <CampoEstatico titulo="CPF" valor={this.state.dados.DadosPessoais.CPF_CGC} tamanhoCampo="6" id="8" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
                                 </div>
                                 <div className="form-row">
                                     <CampoEstatico titulo="Data de nascimento" valor={this.state.dados.DadosPessoais.DT_NASCIMENTO} id="9" posicaoTitulo={PosicaoTituloCampoEstatico.cima} />
