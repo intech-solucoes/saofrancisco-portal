@@ -27,6 +27,7 @@ import NaturezaEntidade from "./NaturezaEntidade";
 import PercContribuicaoEntidade from "./PercContribuicaoEntidade";
 import PlanoEntidade from "./PlanoEntidade";
 import PlanoSaudeEntidade from "./PlanoSaudeEntidade";
+import PlanoVinculadoEntidade from "./PlanoVinculadoEntidade";
 import PrestacaoEntidade from "./PrestacaoEntidade";
 import ProcessoBeneficioEntidade from "./ProcessoBeneficioEntidade";
 import RubricasPrevidencialEntidade from "./RubricasPrevidencialEntidade";
@@ -68,6 +69,7 @@ export {
 	PercContribuicaoEntidade,
 	PlanoEntidade,
 	PlanoSaudeEntidade,
+	PlanoVinculadoEntidade,
 	PrestacaoEntidade,
 	ProcessoBeneficioEntidade,
 	RubricasPrevidencialEntidade,

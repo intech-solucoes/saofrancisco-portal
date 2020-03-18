@@ -1,5 +1,4 @@
 ﻿import InfoRendGrupoEntidade from "./InfoRendGrupoEntidade";
-
 export default class HeaderInfoRendEntidade {
 	public OID_HEADER_INFO_REND: number;
 	public CD_EMPRESA: string;

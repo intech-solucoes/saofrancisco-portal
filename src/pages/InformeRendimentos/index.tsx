@@ -91,12 +91,7 @@ export class InformeRendimentos extends React.Component<Props, State> {
                             <Box titulo={"Resumo"}>
                                 <Form ref={this.form}>
                                     <Row className={"form-group"}>
-                                        <label htmlFor="referencia" className="col-sm-2 col-form-label"><b>Calendário:</b></label>
                                         <Col className={"col-sm-6"}>
-                                            {/* <select id="referencia" className="form-control">
-                                                {this.state.datas.map((data: string, index: number) => <option key={index}>{data}</option>)}
-                                            </select> */}
-
                                             <Combo
                                                 contexto={this}
                                                 label={"Calendário:"}

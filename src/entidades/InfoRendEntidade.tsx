@@ -1,6 +1,4 @@
-﻿
-
-export default class InfoRendEntidade {
+﻿export default class InfoRendEntidade {
 	public OID_INFO_REND: number;
 	public OID_HEADER_INFO_REND: number;
 	public COD_LINHA: string;

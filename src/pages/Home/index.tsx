@@ -72,6 +72,8 @@ export class Home extends Component<Props, State>  {
             plano,
             cdPlano
         });
+
+        console.log(this.state.plano);
     }
 
     carregarPlano = async () => {

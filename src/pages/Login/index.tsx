@@ -69,7 +69,7 @@ export default class Login extends React.Component<Props, State> {
                     loginFeito: true
                 });
             } else {
-                this.props.history.push('/');
+                this.selecionar(matriculas[0]);
             }
         } catch(erro) {
             if(erro.response) {
