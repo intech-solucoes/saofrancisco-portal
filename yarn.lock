@@ -1189,8 +1189,8 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@intechprev/componentes-web@file:../_lib/componentes-web":
-  version "1.5.13"
+"@intechprev/componentes-web@file:../lib/componentes-web":
+  version "1.5.14"
   dependencies:
     "@intechprev/react-lib" "^1.0.6"
     "@types/classnames" "^2.2.7"

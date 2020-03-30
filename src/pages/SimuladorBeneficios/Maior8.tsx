@@ -1,7 +1,7 @@
 import React from "react";
 import { History } from 'history';
 import { Box, CampoEstatico, TipoCampoEstatico, Botao, TipoBotao } from "@intechprev/componentes-web";
-import { SimuladorCodeprevService } from "@intechprev/prevsystem-service";
+import { SimuladorCodeprevService, UsuarioService } from "@intechprev/prevsystem-service";
 
 import { Page } from "..";
 
@@ -23,6 +23,8 @@ interface State {
     saldoProjetado: number;
     valorResgate: number;
     rendaMensal: Array<RendaMensal>;
+    memoria: Array<any>;
+    admin: boolean;
 }
 
 export default class Maior8 extends React.Component<Props, State> {
@@ -30,14 +32,16 @@ export default class Maior8 extends React.Component<Props, State> {
     private page = React.createRef<Page>();
 
     state: State = {
+        admin: false,
         idadeAtual: 0,
         idadeAposentadoria: 0,
         saldoProjetado: 0,
         valorResgate: 0,
+        memoria: [],
         rendaMensal: []
     }
 
-    componentWillMount = async() => {
+    componentWillMount = async () => {
         this.load();
         //this.props.navigation.addListener('willFocus', this.load);
     }
@@ -47,6 +51,8 @@ export default class Maior8 extends React.Component<Props, State> {
             this.props.history.goBack();
         }
         else {
+            var { data: admin } = await UsuarioService.VerificarAdmin();
+
             var dados = {
                 IdadeAposentadoria: this.props.location.state.idadeAposentadoria,
                 PercentualContrib: this.props.location.state.percentualContrib,
@@ -59,15 +65,21 @@ export default class Maior8 extends React.Component<Props, State> {
             var dadosSimulacao = await SimuladorCodeprevService.Simular(dados);
 
             await this.setState({
+                admin,
                 idadeAtual: this.props.location.state.idadeAtual,
                 idadeAposentadoria: this.props.location.state.idadeAposentadoria,
                 saldoProjetado: dadosSimulacao.SaldoProjetado,
                 valorResgate: dadosSimulacao.Saque,
-                rendaMensal: dadosSimulacao.RendaMensal
+                rendaMensal: dadosSimulacao.RendaMensal,
+                memoria: dadosSimulacao.MemoriaCalculo
             });
 
             await this.page.current.loading(false);
         }
+    }
+
+    memoria = async () => {
+
     }
 
     render() {
@@ -122,6 +134,19 @@ export default class Maior8 extends React.Component<Props, State> {
                     <br /><br />
                     <Botao titulo={"Nova Simulação"} tipo={TipoBotao.primary} submit onClick={() => this.props.history.goBack()} />
                 </Box>
+                {this.state.admin &&
+                    <Box titulo={"Memória de Cálculo"}>
+                        {this.state.memoria.map((item, index) => {
+                            return (
+                                <>
+                                    <b>{item.Key}</b>:
+                                    <br/>
+                                    {item.Value}<br/><br/>
+                                </>
+                            );
+                        })}
+                    </Box>
+                }
             </Page>
         );
     }
