@@ -7,6 +7,7 @@ import Tabelas from './Tabelas';
 import { Page } from "..";
 import { Row, Col, Box, Form, Botao, Alerta, CampoTexto, TipoAlerta, TipoBotao } from '@intechprev/componentes-web';
 import config from '../../config.json';
+import { NumFuncionalidade } from "../Page";
 
 const apiUrl = config.apiUrl
 
@@ -177,7 +178,7 @@ export default class Documentos extends React.Component<Props, State> {
 
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
+            <Page Funcionalidade={NumFuncionalidade.DOCUMENTOS} {...this.props} ref={this.page}>
 
                 <Row>
                     <Col tamanho={"6"}>

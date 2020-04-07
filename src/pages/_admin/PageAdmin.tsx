@@ -4,20 +4,70 @@ import { Link } from "react-router-dom";
 import { Row, Col } from "@intechprev/componentes-web";
 
 import Rotas from "./Rotas";
+import { FuncionarioService } from '../../services';
+import config from './../../config.json';
+import { UsuarioService } from '@intechprev/prevsystem-service';
 
 interface Props {
     history?: any;
     ref: RefObject<PageAdmin>;
 }
 
-export default class PageAdmin extends Component<Props> {
+
+interface State {
+    admin: boolean;
+    loading: boolean;
+    matricula: string;
+    nomeUsuario: string;
+}
+
+export default class PageAdmin extends Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            nomeUsuario: "Teste"
+            admin: false,
+            loading: false,
+            matricula: "",
+            nomeUsuario: ""
         }
+    }
+
+    componentWillMount = async () => {
+        try {
+
+            var token = await localStorage.getItem(`@${config.appName}:token`);
+
+            if (token) {
+                const { data: admin } = await UsuarioService.VerificarAdmin();
+                var dados = await FuncionarioService.Buscar();
+                var nomeUsuario = dados.DadosPessoais.NOME_ENTID;
+                var matricula = dados.Funcionario.NUM_MATRICULA;
+
+                if (!admin) {
+                    this.props.history.push('/');
+                }
+                else {
+                    await this.setState({
+                        admin,
+                        matricula,
+                        nomeUsuario
+                    });
+                }
+
+            } else {
+                await this.logout();
+            }
+        } catch (err) {
+            if (err.message.indexOf("401") > -1) {
+                await this.logout();
+            } else {
+                alert("Ops! Ocorreu um erro ao processar sua requisição.");
+                console.error(err);
+            }
+        }
+
     }
 
     logout = async () => {
@@ -93,6 +143,25 @@ export default class PageAdmin extends Component<Props> {
                             </button>
 
                             <Title />
+                        </Col>
+
+                        <Col tamanho={"6"} className={"text-right user-icon"}>
+                            <Row>
+                                <Col className={"nome-usuario"}>
+                                    {this.state.nomeUsuario}
+
+                                    {this.state.admin &&
+                                        <span>
+                                            <Link to={"/listarParticipantes"} className={"icon"} style={{ marginLeft: 10, marginRight: 10 }}>
+                                                <i className={"fas fa-user-friends"}></i>
+                                            </Link>
+                                            <Link to={"/admin"} className={"icon"}>
+                                                <i className={"fas fa-lock"}></i>
+                                            </Link>
+                                        </span>
+                                    }
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
 

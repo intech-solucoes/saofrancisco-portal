@@ -3,6 +3,7 @@ import { FuncionarioService, DependenteService } from "@intechprev/prevsystem-se
 
 import { Page } from "..";
 import { CampoEstatico, Row, Col, Box, PosicaoTituloCampoEstatico } from "@intechprev/componentes-web";
+import { NumFuncionalidade } from "../Page";
 
 interface Props {
 }
@@ -61,7 +62,7 @@ export class DadosPessoais extends Component<Props, State> {
 
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
+            <Page Funcionalidade={NumFuncionalidade.SEUS_DADOS} {...this.props} ref={this.page}>
                 {this.page.current && 
                     <Row>
                         <Col tamanho={"12"} className={"col-lg-6"}>

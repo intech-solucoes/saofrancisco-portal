@@ -10,6 +10,8 @@ import EstadoCivilEntidade from "./EstadoCivilEntidade";
 import FichaDeducaoDependenteEntidade from "./FichaDeducaoDependenteEntidade";
 import FichaFinanceiraAssistidoEntidade from "./FichaFinanceiraAssistidoEntidade";
 import FichaFinanceiraEntidade from "./FichaFinanceiraEntidade";
+import FuncionalidadeEntidade from "./FuncionalidadeEntidade";
+import FuncionarioDados from "./FuncionarioDados";
 import FuncionarioEntidade from "./FuncionarioEntidade";
 import FuncionarioNPEntidade from "./FuncionarioNPEntidade";
 import GrauParentescoEntidade from "./GrauParentescoEntidade";
@@ -37,6 +39,7 @@ import TbgIndiceValEntidade from "./TbgIndiceValEntidade";
 import UFEntidade from "./UFEntidade";
 import UsuarioEntidade from "./UsuarioEntidade";
 import UsuarioGrupoEntidade from "./UsuarioGrupoEntidade";
+import WebBloqueioFuncEntidade from "./WebBloqueioFuncEntidade";
 import WebGrupoUsuarioEntidade from "./WebGrupoUsuarioEntidade";
 
 export {
@@ -52,6 +55,7 @@ export {
 	FichaDeducaoDependenteEntidade,
 	FichaFinanceiraAssistidoEntidade,
 	FichaFinanceiraEntidade,
+	FuncionalidadeEntidade,
 	FuncionarioEntidade,
 	FuncionarioNPEntidade,
 	GrauParentescoEntidade,
@@ -79,5 +83,6 @@ export {
 	UFEntidade,
 	UsuarioEntidade,
 	UsuarioGrupoEntidade,
+	WebBloqueioFuncEntidade,
 	WebGrupoUsuarioEntidade,
 }

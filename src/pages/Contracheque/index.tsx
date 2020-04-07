@@ -4,6 +4,7 @@ import { Row, Col, Box, Alerta, TipoAlerta } from "@intechprev/componentes-web";
 import { Page } from "..";
 import { Link } from "react-router-dom";
 import ContrachequeDetalhe from './ContrachequeDetalhe';
+import { NumFuncionalidade } from '../Page';
 
 export { ContrachequeDetalhe }
 
@@ -47,7 +48,7 @@ export default class Contracheque extends React.Component<Props, State> {
     
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
+            <Page Funcionalidade={NumFuncionalidade.CONTRACHEQUE_ASISSTIDOS_PENSIONISTAS} {...this.props} ref={this.page}>
                 <Row>
                     {
                         this.state.especies.map((especie: any, index: number) => {

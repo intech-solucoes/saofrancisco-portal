@@ -3,6 +3,7 @@ import { Row, Col, Box, Botao, CampoTexto, Form, Alerta, TipoBotao, TipoAlerta }
 import { RelacionamentoService } from "@intechprev/prevsystem-service";
 
 import { Page } from "../";
+import { NumFuncionalidade } from '../Page';
 
 interface Props {
 }
@@ -66,7 +67,7 @@ export class Relacionamento extends React.Component<Props, State> {
 
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
+            <Page Funcionalidade={NumFuncionalidade.FALE_CONOSCO_MENSAGENS} {...this.props} ref={this.page}>
                 <Row>
                     <Col>
                         <Box>

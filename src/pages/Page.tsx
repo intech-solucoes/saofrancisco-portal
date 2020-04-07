@@ -3,13 +3,34 @@ import { Link } from "react-router-dom";
 
 import { Session } from "@intechprev/service";
 import { FuncionarioService, UsuarioService, LGPDService } from "@intechprev/prevsystem-service";
-import { Row, Col } from "@intechprev/componentes-web";
+import { PlanoService, FuncionalidadeService} from "./../services";
+import { Row, Col, Alerta, TipoAlerta } from "@intechprev/componentes-web";
 
 import Rotas from "../Rotas";
 
 import config from "../config.json";
+import { format } from "url";
+
+export enum NumFuncionalidade {
+    "HOME_ATIVOS_E_AUTOPATROCINADOS" = 1,
+    "HOME_ASISSTIDOS" = 2,
+    "HOME_PENSIONISTAS" = 3,
+    "SEUS_DADOS" = 4,
+    "SEUS_PLANOS" = 5,
+    "EXTRATO" = 6,
+    "CONTRACHEQUE_ASISSTIDOS_PENSIONISTAS" = 7,
+    "INFORME_DE_RENDIMENTOS_ASSISTIDOS_PENSIONISTAS" = 8,
+    "DOCUMENTOS" = 9,
+    "FALE_CONOSCO_MENSAGENS" = 10,
+    "FORMULARIOS" = 11,
+    "SIMULADOR_DE_BENEFÍCIOS_CODEPREV" = 12,
+    "EMPRESTIMOS_CONSULTA" = 13,
+    "EMPRESTIMOS_SIMULAÇÃO" = 14,
+    "EMPRESTIMOS_CONTRATAÇÃO" = 15
+}
 
 interface Props {
+    Funcionalidade?: NumFuncionalidade;
     history?: any;
     titulo?: string;
 }
@@ -22,6 +43,7 @@ interface State {
     sessaoExpirada: boolean;
     failure: boolean;
     exception: any;
+    motivoBloqueio: string;
 }
 
 export default class Page extends React.Component<Props, State> {
@@ -36,7 +58,8 @@ export default class Page extends React.Component<Props, State> {
             admin: false,
             sessaoExpirada: true,
             failure: false,
-            exception: {}
+            exception: {},
+            motivoBloqueio: "Aguarde enquanto o sistema carrega as informaformações."
         }
     }
 
@@ -58,6 +81,8 @@ export default class Page extends React.Component<Props, State> {
                     if(!admin && dados.Usuario && dados.Usuario.IND_PRIMEIRO_ACESSO === "S") {
                         setTimeout(() => this.props.history.push('/trocarSenhaPrimeiroAcesso'), 500);
                     } else {
+                        await this.buscarBloqueio();
+
                         await this.setState({
                             nomeUsuario,
                             admin
@@ -79,6 +104,25 @@ export default class Page extends React.Component<Props, State> {
 
     }
 
+    buscarBloqueio = async () => {
+        if(this.props.Funcionalidade){
+            const planos = await PlanoService.Buscar();
+            const cdPlanos = [];
+            /* Código do plano do participante logado. */
+            cdPlanos.push(planos[0].CD_PLANO);
+            /* Código do segundo plano do participante logado (repetir o primeiro caso só tenha um plano). */
+            cdPlanos.push(planos.length > 1 ? planos[1].CD_PLANO : cdPlanos[0]);
+            /* Código do terceiro plano do participante logado (repetir o segundo caso só tenha um ou dois planos ) */
+            cdPlanos.push(planos.length > 2 ? planos[2].CD_PLANO : cdPlanos[1]);
+
+            const motivoBloqueio = await FuncionalidadeService.BuscarBloqueiosPorNumFuncionalidade(this.props.Funcionalidade, cdPlanos[0], cdPlanos[1], cdPlanos[2]);
+
+            this.setState({motivoBloqueio});
+        }
+        else
+            this.setState({motivoBloqueio: ""});
+    }
+
     loading = async (valor: boolean) => {
         await this.setState({
             loading: valor
@@ -96,6 +140,13 @@ export default class Page extends React.Component<Props, State> {
     logout = async() => {
         await Session.clear();
         this.props.history.push("/login");
+    }
+
+    renderChildren = () => {
+        return (this.state.motivoBloqueio === ""?
+             this.props.children :
+             <Alerta mensagem={this.state.motivoBloqueio} tipo={TipoAlerta.danger}/>
+        );
     }
 
     render() {
@@ -196,7 +247,7 @@ export default class Page extends React.Component<Props, State> {
                         </Row>
 
                         <div className="wrapper-content">
-                            {this.props.children}
+                            {this.renderChildren()}
                         </div>
                     </div>
                 </div>

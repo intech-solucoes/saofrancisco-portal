@@ -3,6 +3,7 @@ import { InfoRendService } from "@intechprev/prevsystem-service";
 import { Row, Col, Box, Form, Botao, Combo } from '@intechprev/componentes-web';
 import { Page } from "..";
 import { HeaderInfoRendEntidade } from '../../entidades';
+import { NumFuncionalidade } from '../Page';
 
 interface Props { }
 
@@ -85,7 +86,7 @@ export class InformeRendimentos extends React.Component<Props, State> {
     render() {
         if (this.state.datas.length > 0) {
             return (
-                <Page {...this.props} ref={this.page}>
+                <Page Funcionalidade={NumFuncionalidade.INFORME_DE_RENDIMENTOS_ASSISTIDOS_PENSIONISTAS} {...this.props} ref={this.page}>
                     <Row>
                         <Col className="col-lg-8">
                             <Box titulo={"Resumo"}>
