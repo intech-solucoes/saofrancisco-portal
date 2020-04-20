@@ -4,6 +4,7 @@ import { Row, Col, Box, Botao, TipoBotao } from '@intechprev/componentes-web';
 
 import ListaMensagens from "./ListaMensagens";
 import { Page } from "..";
+import { NumFuncionalidade } from '../Page';
 
 interface Props {
     history?: any
@@ -52,7 +53,7 @@ export default class Mensagens extends React.Component<Props, State> {
 
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
+            <Page Funcionalidade={NumFuncionalidade.FALE_CONOSCO_MENSAGENS} {...this.props} ref={this.page}>
                 {this.state.planos.length > 0 &&
                     <Row>
                         <Col>

@@ -3,7 +3,8 @@ import React from 'react';
 import {
     Home,
     Documentos,
-    MensagemNova
+    MensagemNova,
+    BloquearFuncionalidade
 } from "./";
 import { RouteProps } from 'react-router';
 
@@ -35,6 +36,15 @@ function GetRotas() {
             mostrarMenu: true,
             exact: true,
             id: "novaMensagem"
+        },
+        {
+            titulo: "Bloquear Funcionalidades",
+            icone: "fas fa-ban",
+            caminho: "/admin/bloquear",
+            componente: (routeProps: RouteProps) => <BloquearFuncionalidade {...routeProps} />,
+            mostrarMenu: true,
+            exact: true,
+            id: "bloquear"
         }
     ];
 

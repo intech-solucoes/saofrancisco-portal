@@ -5,6 +5,8 @@ import { PlanoService, FichaFechamentoService } from "@intechprev/prevsystem-ser
 import { Page } from "..";
 import { Box, TipoBotao, Form, Alerta, Row, Col, CampoTexto, TipoAlerta, Botao, TamanhoBotao } from "@intechprev/componentes-web";
 import DataInvalida from "../../_utils/Data";
+import { NumFuncionalidade } from "../Page";
+import { FuncionalidadeService } from "../../services";
 
 interface Props { }
 
@@ -15,6 +17,7 @@ interface State {
     cdPlano: string,
     dataInicio: string,
     dataFim: string,
+    motivoBloqueio: string;
 }
 
 export default class Planos extends React.Component<Props, State> {
@@ -31,7 +34,8 @@ export default class Planos extends React.Component<Props, State> {
             listaPlanos: [],
             dataInicio: "",
             dataFim: "",
-            cdPlano: ""
+            cdPlano: "",
+            motivoBloqueio: "Aguarde enquanto o sistema carrega as informaformações."
         }
     }
 
@@ -52,6 +56,7 @@ export default class Planos extends React.Component<Props, State> {
     toggleModal = async (cdPlano: string) => {
         if(!this.state.modalVisivel) {
             var datasExtrato = await FichaFechamentoService.BuscarDatasExtrato(cdPlano);
+            await this.buscarBloqueioExtrato();
             await this.setState({
                 dataInicio: datasExtrato.DataInicial.substring(3),
                 dataFim: datasExtrato.DataFinal.substring(3),
@@ -77,27 +82,7 @@ export default class Planos extends React.Component<Props, State> {
                                 </button>
                             </div>
                             
-                            <Form ref={this.form}>
-                                <div className="modal-body">
-                                    <Row>
-                                        <Col className={"col-lg-6"}>
-                                            <CampoTexto contexto={this} nome={"dataInicio"} mascara={"99/9999"} obrigatorio valor={this.state.dataInicio} 
-                                                        titulo={"Data de Início"} placeholder={"MM/AAAA"} tamanhoTitulo={"lg-4"} />
-                                        </Col>
-
-                                        <Col className={"col-lg-6"}>
-                                            <CampoTexto contexto={this} nome={"dataFim"} mascara={"99/9999"} obrigatorio valor={this.state.dataFim} 
-                                                        titulo={"Data Final"} placeholder={"MM/AAAA"} tamanhoTitulo={"lg-4"} />
-                                        </Col>
-                                    </Row>
-                                    <div></div>
-                                </div>
-
-                                <Alerta ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} /> {/** tamanho={"5"} rowClassName={"justify-content-end"} style={{marginRight: 15}} */}
-                                <div className="modal-footer">
-                                    <Botao titulo={"Gerar"} tipo={TipoBotao.primary} submit onClick={this.gerarExtrato} />
-                                </div>
-                            </Form>
+                            {this.renderExtratoForm()}
 
                         </div>
                     </div>
@@ -167,9 +152,76 @@ export default class Planos extends React.Component<Props, State> {
         return dataObjeto;
     }
 
+    buscarBloqueioExtrato = async () => {
+        const Funcionalidade = NumFuncionalidade.EXTRATO;
+        
+        const planos = await PlanoService.Buscar();
+        const cdPlanos = [];
+        /* Código do plano do participante logado. */
+        cdPlanos.push(planos[0].CD_PLANO);
+        /* Código do segundo plano do participante logado (repetir o primeiro caso só tenha um plano). */
+        cdPlanos.push(planos.length > 1 ? planos[1].CD_PLANO : cdPlanos[0]);
+        /* Código do terceiro plano do participante logado (repetir o segundo caso só tenha um ou dois planos ) */
+        cdPlanos.push(planos.length > 2 ? planos[2].CD_PLANO : cdPlanos[1]);
+
+        const motivoBloqueio = await FuncionalidadeService.BuscarBloqueiosPorNumFuncionalidade(Funcionalidade, cdPlanos[0], cdPlanos[1], cdPlanos[2]);
+
+        this.setState({motivoBloqueio});
+    }
+
+    renderExtratoForm = () => {
+        if(this.state.motivoBloqueio){
+            return(
+                <div className="modal-body">
+                    <Alerta mensagem={this.state.motivoBloqueio} tipo={TipoAlerta.danger}/>
+                </div>
+            );
+        }
+        return(
+            <Form ref={this.form}>
+                <div className="modal-body">
+                    <Row>
+                        <Col className={"col-lg-6"}>
+                            <CampoTexto
+                                contexto={this}
+                                nome={"dataInicio"}
+                                mascara={"99/9999"}
+                                obrigatorio
+                                valor={this.state.dataInicio} 
+                                titulo={"Data de Início"}
+                                placeholder={"MM/AAAA"}
+                                tamanhoTitulo={"lg-4"}
+                            />
+                        </Col>
+
+                        <Col className={"col-lg-6"}>
+                            <CampoTexto
+                                contexto={this}
+                                nome={"dataFim"}
+                                mascara={"99/9999"}
+                                obrigatorio
+                                valor={this.state.dataFim} 
+                                titulo={"Data Final"}
+                                placeholder={"MM/AAAA"}
+                                tamanhoTitulo={"lg-4"}
+                            />
+                        </Col>
+                    </Row>
+                    <div></div>
+                </div>
+
+                <Alerta ref={this.alert} padraoFormulario tipo={TipoAlerta.danger} /> {/** tamanho={"5"} rowClassName={"justify-content-end"} style={{marginRight: 15}} */}
+                
+                <div className="modal-footer">
+                    <Botao titulo={"Gerar"} tipo={TipoBotao.primary} submit onClick={this.gerarExtrato} />
+                </div>
+            </Form>
+        );
+    }
+
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
+            <Page Funcionalidade={NumFuncionalidade.SEUS_PLANOS} {...this.props} ref={this.page}>
                 <Box>
                     <table className="table" id="tabelaPlanos">
                         <thead>

@@ -7,6 +7,7 @@ import moment from "moment";
 import { Page } from "../";
 import { FichaFechamentoService, PlanoService, FichaFinanceiraService, FuncionarioService } from '@intechprev/prevsystem-service';
 import { timingSafeEqual } from 'crypto';
+import { NumFuncionalidade } from '../Page';
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 
@@ -116,7 +117,7 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
 
     render() {
         return (
-            <Page {...this.props} ref={this.page}>
+            <Page Funcionalidade={NumFuncionalidade.SIMULADOR_DE_BENEFÍCIOS_CODEPREV} {...this.props} ref={this.page}>
                 <Box>
                     <Form ref={this.form}>
                         <h2>Bem-vindo ao simulador de benefícios do plano CODEPREV!</h2>
