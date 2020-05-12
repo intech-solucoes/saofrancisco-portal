@@ -1,6 +1,6 @@
 import React from 'react';
 import { History } from 'history';
-import { Row, Col, Box, Botao, CampoTexto, Form, Alerta, TipoBotao, TipoAlerta, CampoEstatico, TipoCampoEstatico, PosicaoTituloCampoEstatico } from '@intechprev/componentes-web';
+import { Row, Col, Box, Botao, CampoTexto, Form, Alerta, TipoBotao, TipoAlerta, CampoEstatico, TipoCampoEstatico, PosicaoTituloCampoEstatico, CampoValor } from '@intechprev/componentes-web';
 import Slider, { createSliderWithTooltip } from 'rc-slider';
 import moment from "moment";
 
@@ -8,6 +8,14 @@ import { Page } from "../";
 import { FichaFechamentoService, PlanoService, FichaFinanceiraService, FuncionarioService } from '@intechprev/prevsystem-service';
 import { timingSafeEqual } from 'crypto';
 import { NumFuncionalidade } from '../Page';
+
+function formatValue(val: string) {
+    return parseFloat(
+        val.replace("R$", "")
+            .replace(/\./g, "")
+            .replace(",", ".")
+    );
+}
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 
@@ -28,6 +36,7 @@ interface State {
     idadeAtual: number;
     percentualAVista: number;
     aporte: number;
+    outroValor: number;
     termoAceito: boolean;
 }
 
@@ -50,13 +59,14 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
         idadeAtual: 0,
         percentualAVista: 0,
         aporte: 0,
+        outroValor: 0,
         termoAceito: false
     }
 
-    componentDidMount = async() => {
+    componentDidMount = async () => {
         var planos = await PlanoService.Buscar();
         var dados = await FuncionarioService.Buscar();
-        
+
         var plano = planos.filter((plano: any) => plano.CD_PLANO !== "0001")[0];
         var cdPlano = plano.CD_PLANO;
         var saldos = await FichaFechamentoService.BuscarSaldoPorPlano(cdPlano);
@@ -71,10 +81,10 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
         var idadeMinima = this.state.idadeMinima;
         var idadeMaxima = this.state.idadeMaxima;
 
-        if(idadeAtual > this.state.idadeMinima && idadePlano > 5)
+        if (idadeAtual > this.state.idadeMinima && idadePlano > 5)
             idadeMinima = idadeAtual;
 
-        if(idadeAtual >= 80)
+        if (idadeAtual >= 80)
             idadeMaxima = 90;
 
         await this.setState({
@@ -92,7 +102,7 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
         await this.page.current.loading(false);
     }
 
-    calcularPercentual = async(percentual: number) => {
+    calcularPercentual = async (percentual: number) => {
         var percentualPatronal = percentual > 8 ? 8 : percentual;
 
         await this.setState({
@@ -103,16 +113,45 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
     }
 
     continuar = async () => {
-        if(this.state.percentualContrib >= 8)
+        var outroValor = formatValue(this.state.outroValor.toString());
+        if (outroValor > 0) {
+            await this.setState({
+                aporte: outroValor
+            });
+        }
+
+        if (this.state.percentualContrib >= 8)
             this.props.history.push({
                 pathname: `/simulador/maior8`,
-                state: { ...this.state }
+                state: { 
+                    ...this.state,
+                    aporte: outroValor > 0 ? outroValor : this.state.aporte
+                }
             });
         else
-        this.props.history.push({
-            pathname: `/simulador/menor8`,
-            state: { ...this.state }
+            this.props.history.push({
+                pathname: `/simulador/menor8`,
+                state: { 
+                    ...this.state,
+                    aporte: outroValor > 0 ? outroValor : this.state.aporte
+                 }
+            });
+    }
+
+    setAporte = (val: number) => {
+        this.setState({
+            aporte: val,
+            outroValor: 0
         });
+    };
+
+    setOutroValor = (e: any) => {
+        var outroValor = formatValue(this.state.outroValor.toString());
+        if (outroValor > 0) {
+            this.setState({
+                aporte: 0
+            });
+        }
     }
 
     render() {
@@ -171,9 +210,17 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
                             <SliderWithTooltip tipFormatter={(v: number) => <CampoEstatico valor={v} tipo={TipoCampoEstatico.dinheiro} />}
                                 tipProps={{ placement: 'bottom', visible: true }}
                                 min={0} max={50000} step={1000} value={this.state.aporte} dots={true}
-                                onChange={(val) => this.setState({ aporte: val })} />
+                                onChange={this.setAporte} />
                         </div>
-                        <br/>
+
+                        <CampoValor
+                            contexto={this}
+                            nome={"outroValor"}
+                            valor={this.state.outroValor}
+                            titulo={"Outro Valor"}
+                            onBlur={this.setOutroValor}
+                        />
+                        <br />
 
                         <div className={"alert alert-warning pt-4"}>
                             <p>

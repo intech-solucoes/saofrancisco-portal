@@ -1,6 +1,4 @@
-﻿
-
-export default class FuncionarioNPEntidade {
+﻿export default class FuncionarioNPEntidade {
 	public CD_FUNDACAO: string;
 	public CD_EMPRESA: string;
 	public NUM_MATRICULA: string;

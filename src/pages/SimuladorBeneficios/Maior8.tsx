@@ -47,6 +47,7 @@ export default class Maior8 extends React.Component<Props, State> {
     }
 
     load = async () => {
+        console.log({ aporte: this.props.location.state.aporte });
         if (!this.props.location.state) {
             this.props.history.goBack();
         }
@@ -140,8 +141,8 @@ export default class Maior8 extends React.Component<Props, State> {
                             return (
                                 <>
                                     <b>{item.Key}</b>:
-                                    <br/>
-                                    {item.Value}<br/><br/>
+                                    <br />
+                                    {item.Value}<br /><br />
                                 </>
                             );
                         })}

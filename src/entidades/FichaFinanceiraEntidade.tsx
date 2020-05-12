@@ -1,6 +1,4 @@
-﻿
-
-export default class FichaFinanceiraEntidade {
+﻿export default class FichaFinanceiraEntidade {
 	public CD_FUNDACAO: string;
 	public NUM_INSCRICAO: string;
 	public CD_PLANO: string;

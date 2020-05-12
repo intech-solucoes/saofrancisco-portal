@@ -1,4 +1,5 @@
 {
-  "apiUrl": "http://168.205.255.226/SaoFranciscoAPI/api",
-  "appName": "FSF"
+  "apiUrl": "http://168.205.255.226/SaoFranciscoAPIHomolog/api",
+  "appName": "FSF",
+  "dir": "Z:\\SaoFranciscoPortalHomolog"
 }
