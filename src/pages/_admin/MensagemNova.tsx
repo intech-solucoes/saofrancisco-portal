@@ -255,19 +255,19 @@ export class MensagemNova extends React.Component<Props, State> {
                                     </Col>
             
                                     <Col className={"col-lg-6"}>
-                                        <Combo contexto={this} label={"Fundação"} onChange={this.onChangeFundacao}
+                                        <Combo contexto={this} titulo={"Fundação"} onChange={this.onChangeFundacao}
                                                nome={"fundacao"} valor={this.state.fundacao} obrigatorio
                                                opcoes={this.state.listaFundacao} nomeMembro={"NOME_ENTID"} valorMembro={"CD_FUNDACAO"} />
 
-                                        <Combo contexto={this} label={"Empresa"} onChange={this.onChangeEmpresa}
+                                        <Combo contexto={this} titulo={"Empresa"} onChange={this.onChangeEmpresa}
                                                nome={"empresa"} valor={this.state.empresa} obrigatorio={false} textoVazio="Todas(os)"
                                                opcoes={this.state.listaEmpresa} nomeMembro={"NOME_ENTID"} valorMembro={"CD_EMPRESA"} />
 
-                                        <Combo contexto={this} label={"Plano"} obrigatorio={false}
+                                        <Combo contexto={this} titulo={"Plano"} obrigatorio={false}
                                                nome={"plano"} valor={this.state.plano} textoVazio="Todas(os)"
                                                opcoes={this.state.listaPlano} nomeMembro={"DS_PLANO"} valorMembro={"CD_PLANO"} />
 
-                                        <Combo contexto={this} label={"Situação do plano"} obrigatorio={false}
+                                        <Combo contexto={this} titulo={"Situação do plano"} obrigatorio={false}
                                                nome={"situacaoPlano"} valor={this.state.situacaoPlano} textoVazio="Todas(os)"
                                                opcoes={this.state.listaSituacaoPlano} nomeMembro={"DS_SIT_PLANO"} valorMembro={"CD_SIT_PLANO"} />
 

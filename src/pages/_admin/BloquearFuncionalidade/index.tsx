@@ -169,7 +169,7 @@ export class BloquearFuncionalidade extends React.Component<Props, State> {
                         <Form ref={this.form}>
                             <Combo
                                 contexto={this}
-                                label={"Funcionalidade"}
+                                titulo={"Funcionalidade"}
                                 nome={"funcionalidadeSelecionada"}
                                 valor={this.state.funcionalidadeSelecionada}
                                 opcoes={this.state.funcionaidades}
@@ -181,7 +181,7 @@ export class BloquearFuncionalidade extends React.Component<Props, State> {
 
                             <Combo
                                 contexto={this}
-                                label={"Empresa"}
+                                titulo={"Empresa"}
                                 nome={"empresaSelecionada"}
                                 valor={this.state.empresaSelecionada}
                                 opcoes={this.state.empresas}
@@ -192,7 +192,7 @@ export class BloquearFuncionalidade extends React.Component<Props, State> {
 
                             <Combo
                                 contexto={this}
-                                label={"Plano"}
+                                titulo={"Plano"}
                                 nome={"planoSelecionado"}
                                 valor={this.state.planoSelecionado}
                                 opcoes={this.state.planos}

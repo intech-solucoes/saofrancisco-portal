@@ -120,13 +120,13 @@ export class Home extends Component<Props, State>  {
         return (
             <Page {...this.props} ref={this.page}>
                 {this.state.planos.length > 1 &&
-                    <Combo contexto={this} label={"Selecione um plano"} onChange={this.carregarPlano}
+                    <Combo contexto={this} titulo={"Selecione um plano"} onChange={this.carregarPlano}
                             nome={"cdPlano"} valor={this.state.cdPlano} obrigatorio
                             opcoes={this.state.planos} nomeMembro={"DS_PLANO"} valorMembro={"CD_PLANO"} />
                 }
 
                 {this.state.processosBeneficio.length > 1 &&
-                    <Combo contexto={this} label={"Selecione um processo de benefício"} onChange={this.carregarProcesso}
+                    <Combo contexto={this} titulo={"Selecione um processo de benefício"} onChange={this.carregarProcesso}
                             nome={"especieAnoNumProcesso"} valor={this.state.especieAnoNumProcesso} obrigatorio
                             opcoes={this.state.processosBeneficio} nomeMembro={"DS_PROCESSO"} valorMembro={"ESPECIE_ANO_NUM_PROCESSO"} />
                 }

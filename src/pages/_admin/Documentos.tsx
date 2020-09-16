@@ -186,7 +186,7 @@ export default class Documentos extends React.Component<Props, State> {
                             
                                 <CampoTexto contexto={this} nome={"nomeDocumento"} max={50} valor={this.state.nomeDocumento} titulo={"Título"} obrigatorio />
                                 
-                                <Combo contexto={this} label={"Plano"} obrigatorio={false}
+                                <Combo contexto={this} titulo={"Plano"} obrigatorio={false}
                                         nome={"plano"} valor={this.state.plano} textoVazio="Todas(os)"
                                         opcoes={this.state.planos} nomeMembro={"DS_PLANO"} valorMembro={"CD_PLANO"} />
                                         

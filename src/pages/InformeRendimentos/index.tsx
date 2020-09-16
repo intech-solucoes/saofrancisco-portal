@@ -95,8 +95,8 @@ export class InformeRendimentos extends React.Component<Props, State> {
                                         <Col className={"col-sm-6"}>
                                             <Combo
                                                 contexto={this}
-                                                label={"Calendário:"}
-                                                tamanhoLabel={"6"}
+                                                titulo={"Calendário:"}
+                                                tamanhoTitulo={"6"}
                                                 nome={"referencia"}
                                                 valor={this.state.referencia}
                                                 opcoes={this.state.datas}
