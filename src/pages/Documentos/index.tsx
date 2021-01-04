@@ -1,210 +1,343 @@
 import React from "react";
-import axios from "axios";
-import { DocumentoService, PlanoService } from "@intechprev/prevsystem-service";
-import { Link, RouteComponentProps } from "react-router-dom";
-import Tabelas from './Tabelas';
+import { DocumentoService, PlanoService } from "./../../services";
+import {
+  DocumentoEntidade,
+  DocumentoPastaEntidade,
+  PlanoVinculadoEntidade,
+} from "./../../entidades";
+import { Link } from "react-router-dom";
 
 import { Page } from "..";
-import { Row, Col, Box, Form, Botao, Alerta, CampoTexto, TipoAlerta, TipoBotao } from '@intechprev/componentes-web';
-import config from '../../config.json';
+import {
+  Row,
+  Col,
+  Box,
+  Botao,
+  Alerta,
+  TipoAlerta,
+  TipoBotao,
+} from "@intechprev/componentes-web";
 import { NumFuncionalidade } from "../Page";
 
-const apiUrl = config.apiUrl
-
-export { 
-    Tabelas
-}
-
 interface Props {
-    match?: any;
+  match?: any;
 }
 
 interface State {
-    planos: any,
-    documentos: any,
-    pastas: any,
-    nomePasta: string
-    nomeDocumento: string,
-    arquivoUpload: string,
-    podeCriarDocumento: boolean
-    oidArquivoUpload: number,
-    oidPasta: any,
-    pastaAtual: string
-    pastaPai: string,
-    visibilidadeFileInput: boolean,
-    uploadPercentage: number,
-    uploading: boolean
+  documentos: Array<DocumentoEntidade>;
+  oidPasta: number;
+  pastas: Array<DocumentoPastaEntidade>;
+  pastaAtual: DocumentoPastaEntidade;
+  pastaPai: DocumentoPastaEntidade;
+  planos: Array<PlanoVinculadoEntidade>;
+  selectedOption: string;
 }
 
-export default class Documentos extends React.Component<Props, State> {
+export class Documentos extends React.Component<Props, State> {
+  private options = ["data", "nome"];
 
-    private page = React.createRef<Page>();
-    private formDocumento = React.createRef<Form>();
-    private alertDocumento = React.createRef<Alerta>();
-    private formPasta = React.createRef<Form>();
-    private alertPasta = React.createRef<Alerta>();
+  private alerta = React.createRef<Alerta>();
+  private page = React.createRef<Page>();
 
-    constructor(props: Props) {
-        super(props);
+  constructor(props: Props) {
+    super(props);
 
-        this.state = {
-            planos: [],
-            documentos: [],
-            pastas: [],
-            nomePasta: "",
-            nomeDocumento: "",
-            arquivoUpload: "",
-            podeCriarDocumento: false,
-            oidArquivoUpload: 0,
-            oidPasta: props.match.params.pasta,
-            pastaAtual: null,
-            pastaPai: "",
-            visibilidadeFileInput: true,
-            uploadPercentage: 0,
-            uploading: false
-        }
+    this.state = {
+      documentos: [],
+      oidPasta: props.match.params.pasta || 0,
+      pastas: [],
+      pastaAtual: null,
+      pastaPai: null,
+      planos: [],
+      selectedOption: this.options[0],
+    };
+  }
+
+  componentDidMount = async () => {
+    try {
+      await this.page.current.loading(true);
+      var planos = await PlanoService.Buscar();
+
+      await this.setState({
+        planos,
+      });
+
+      await this.buscarLista();
+      await this.page.current.loading(false);
+    } catch (erro) {
+      if (erro.response) {
+        alert(erro.response.data);
+      } else {
+        alert(erro);
+      }
     }
+  };
 
-    componentDidMount = async () => {
-        var planos = await PlanoService.Buscar();
+  UNSAFE_componentWillReceiveProps() {
+    window.location.reload();
+  }
 
-        await this.setState({
-            planos
-        });
-        
-        await this.buscarLista();
-        await this.page.current.loading(false);
-    }
-    
-    UNSAFE_componentWillReceiveProps() {
-        window.location.reload();
-    }
+  handleOptionChange = (e: any) => {
+    const selectedOption = e.target.value;
+    this.setState(
+      {
+        selectedOption,
+      },
+      this.buscarLista
+    );
+  };
 
-    buscarLista = async () => {
-        var resultado = await DocumentoService.BuscarPorPlanoPasta(this.state.planos[0].CD_PLANO, this.state.oidPasta);
+  buscarLista = async () => {
+    var resultado = await DocumentoService.BuscarPorPlanoPasta(
+      this.state.planos[0].CD_PLANO,
+      this.state.oidPasta,
+      this.state.selectedOption
+    );
 
-        var pastaPai = "";
+    await this.setState({
+      documentos: resultado.documentos,
+      pastas: resultado.pastas,
+      pastaAtual: resultado.pastaAtual,
+      pastaPai: resultado.pastaPai,
+    });
+  };
 
-        if(resultado.pastaAtual && resultado.pastaAtual.OID_DOCUMENTO_PASTA_PAI)
-            pastaPai = resultado.pastaAtual.OID_DOCUMENTO_PASTA_PAI;
+  baixarDocumento = async (doc: DocumentoEntidade) => {
+    try {
+      const documentoInfo = await DocumentoService.BuscarPorOidDocumento(
+        doc.OID_DOCUMENTO
+      );
+      const documento = await DocumentoService.Download(
+        doc.OID_DOCUMENTO
+      );
 
-        await this.setState({ 
-            documentos: resultado.documentos,
-            pastas: resultado.pastas,
-            pastaAtual: resultado.pastaAtual,
-            pastaPai
-        });
-    }
-
-    salvarPasta = async (e: Event) => {
-        if(e)
-            e.preventDefault();
-
-        await this.alertPasta.current.limparErros();
-        await this.formPasta.current.validar();
-
-        if(this.alertPasta.current.state.mensagem.length === 0 && this.alertPasta.current.props.mensagem.length === 0) {
-            try {
-                await DocumentoService.CriarPasta(this.state.nomePasta, this.state.oidPasta);
-                await this.setState({
-                    nomePasta: ""
-                });
-        
-                await this.buscarLista();
-
-            } catch(err) {
-                console.error(err);
-            }
-        }
-    }
-
-    uploadFile = async (e: any) => {
-        try {
-            const formData = new FormData()
-            var arquivoUpload = e.target.files[0];
-    
-            formData.append("File", arquivoUpload, arquivoUpload.name);
-    
-            await this.setState({ uploading: true });
-
-            axios.post(apiUrl + '/upload', formData, {
-                headers: {'Content-Type': 'multipart/form-data'},
-                onUploadProgress: async progressEvent => {
-                    await this.setState({ 
-                        uploadPercentage: Math.round(( progressEvent.loaded * 100 ) / progressEvent.total )
-                    });
-                },
-            })
-            .then(result => {
-                this.setState({
-                    podeCriarDocumento: true,
-                    oidArquivoUpload: result.data,
-                    visibilidadeFileInput: false,
-                    uploading: false,
-                    uploadPercentage: 0
-                });
-            })
-        } catch(err) { 
-            console.error(err);
-        }
-    }
-
-    salvarDocumento = async (e: any) => {
-        //e.preventDefault();
-
-        await this.alertDocumento.current.limparErros();
-        await this.formDocumento.current.validar();
-
-        if(this.alertDocumento.current.state.mensagem.length === 0 && this.alertDocumento.current.props.mensagem.length === 0) {
-            try {
-                var oidPasta = this.state.oidPasta;
-                if(oidPasta === undefined)
-                    oidPasta = ""
-                await DocumentoService.Criar(this.state.oidArquivoUpload, this.state.nomeDocumento, "SIM", 1, oidPasta);
-                await this.setState ({
-                    nomeDocumento: "",
-                    arquivoUpload: "",
-                    oidArquivoUpload: 0,
-                    visibilidadeFileInput: true,
-                    podeCriarDocumento: false
-                });
-                await this.buscarLista();
-
-            } catch(err) {
-                console.error(err);
-            }
-        }
-    }
-
-    render() {
-        return (
-            <Page Funcionalidade={NumFuncionalidade.DOCUMENTOS} {...this.props} ref={this.page}>
-
-                <Row>
-                    <Col tamanho={"6"}>
-                        <Box>
-                            {this.state.pastaAtual &&
-                                <Link className={"btn btn-primary mb-4"} to={`/documentos/${this.state.pastaPai}`}>
-                                    <i className={"fa fa-chevron-left mr-2"}></i>
-                                    Voltar
-                                </Link>
-                            }
-
-                            {(this.state.pastas.length > 0 || this.state.documentos.length > 0) &&
-                                <div>
-                                    <Tabelas {...this.props} itens={this.state.pastas} campoTexto={"NOM_PASTA"} icone={"fa-folder-open text-warning"} tipo={"pasta"} admin={false} />
-                                    <Tabelas {...this.props} itens={this.state.documentos} campoTexto={"TXT_TITULO"} icone={"fa-file text-info"} tipo={"documento"} admin={false} />
-                                </div>
-                            }
-
-                            {this.state.pastas.length === 0 && this.state.documentos.length === 0 &&
-                                <div className="alert alert-danger">Nenhum item disponível.</div>
-                            }
-                        </Box>
-                    </Col>
-                </Row>
-
-            </Page>
+      if (navigator.msSaveBlob) {
+        // IE10+ : (has Blob, but not a[download] or URL)
+        return navigator.msSaveBlob(
+          new Blob([documento]),
+          documentoInfo.NOM_ARQUIVO_LOCAL
         );
+      } else {
+        const url = window.URL.createObjectURL(new Blob([documento]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", documentoInfo.NOM_ARQUIVO_LOCAL);
+        document.body.appendChild(link);
+
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (err) {
+      if (err.response) {
+        await this.alerta.current!.adicionarErro(
+          "Houve um erro ao baixar o arquivo."
+        );
+        console.error(err);
+        return null;
+      }
+      await this.alerta.current!.adicionarErro(err);
+      console.error(err);
     }
+  };
+
+  renderPastaDocumentosTabela = () => {
+    if (
+      this.state.pastas.length === 0 &&
+      this.state.documentos.length === 0
+    ) {
+      return (
+        <Alerta
+          mensagem={"Nenhum item disponível."}
+          tipo={TipoAlerta.danger}
+        />
+      );
+    }
+
+    return (
+      <div>
+        <table
+          className={
+            "table table-sm table-striped table-bordered table-hover"
+          }
+        >
+          <tbody>
+            {this.renderPastaTabela()}
+            {this.renderDocumentoTabela()}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  renderPastaTabela = () => {
+    return this.state.pastas.map(
+      (pasta: DocumentoPastaEntidade, index: number) => {
+        return (
+          <tr key={index}>
+            <td
+              style={{ width: "50px" }}
+              className={"align-middle text-center"}
+            >
+              <i
+                className={
+                  "fa fa-2x fa-folder-open text-warning"
+                }
+              ></i>
+            </td>
+            <td>
+              <Link
+                className={"btn btn-link"}
+                to={`/documentos/${pasta.OID_DOCUMENTO_PASTA}`}
+              >
+                {pasta.NOM_PASTA}
+              </Link>
+            </td>
+          </tr>
+        );
+      }
+    );
+  };
+
+  renderDocumentoTabela = () => {
+    return this.state.documentos.map(
+      (doc: DocumentoEntidade, index: number) => {
+        return (
+          <tr key={index}>
+            <td
+              style={{ width: "50px" }}
+              className={"align-middle text-center"}
+            >
+              <i className={"fa fa-2x fa-file text-info"}></i>
+            </td>
+            <td>
+              <Botao
+                onClick={() => this.baixarDocumento(doc)}
+                titulo={doc.TXT_TITULO}
+                tipo={TipoBotao.link}
+              />
+            </td>
+          </tr>
+        );
+      }
+    );
+  };
+
+  render() {
+    return (
+      <Page
+        Funcionalidade={NumFuncionalidade.DOCUMENTOS}
+        {...this.props}
+        ref={this.page}
+      >
+        <Row>
+          <Col>
+            <Box titulo={"Pastas e Arquivos Disponibilizados"}>
+              <Row className={"mb-3"}>
+                <Col>
+                  <span>
+                    <div className={"form-group"}>
+                      {"Ordenar Por:"}
+                    </div>
+                    <div
+                      className={
+                        "form-check form-check-inline"
+                      }
+                    >
+                      <input
+                        className={"form-check-input"}
+                        type={"radio"}
+                        name={"inlineRadioOptions"}
+                        id={"inlineRadio1"}
+                        value={this.options[0]}
+                        checked={
+                          this.state
+                            .selectedOption ===
+                          this.options[0]
+                        }
+                        onChange={
+                          this.handleOptionChange
+                        }
+                      />
+                      <label
+                        className={"form-check-label"}
+                        htmlFor={"inlineRadio1"}
+                      >
+                        {"Data"}
+                      </label>
+                    </div>
+                    <div
+                      className={
+                        "form-check form-check-inline"
+                      }
+                    >
+                      <input
+                        className={"form-check-input"}
+                        type={"radio"}
+                        name={"inlineRadioOptions"}
+                        id={"inlineRadio2"}
+                        value={this.options[1]}
+                        checked={
+                          this.state
+                            .selectedOption ===
+                          this.options[1]
+                        }
+                        onChange={
+                          this.handleOptionChange
+                        }
+                      />
+                      <label
+                        className={"form-check-label"}
+                        htmlFor={"inlineRadio2"}
+                      >
+                        {"Nome"}
+                      </label>
+                    </div>
+                  </span>
+                  {this.state.pastaAtual && (
+                    <>
+                      <Link
+                        className={"btn btn-primary"}
+                        to={`/documentos/${this.state.pastaPai
+                            ? this.state.pastaPai
+                              .OID_DOCUMENTO_PASTA
+                            : ""
+                          }`}
+                      >
+                        <i
+                          className={
+                            "fa fa-chevron-left mr-2"
+                          }
+                        ></i>
+                                                Voltar
+                                            </Link>
+                      <span
+                        className={
+                          "ml-3 text-info align-self-center"
+                        }
+                      >
+                        {`Pasta atual: ./${this.state.pastaPai
+                            ? this.state.pastaPai
+                              .NOM_PASTA + "/"
+                            : ""
+                          }${this.state.pastaAtual
+                            .NOM_PASTA
+                          }`}
+                      </span>
+                    </>
+                  )}
+                </Col>
+              </Row>
+
+              <Alerta
+                tipo={TipoAlerta.danger}
+                ref={this.alerta}
+              />
+
+              {this.renderPastaDocumentosTabela()}
+            </Box>
+          </Col>
+        </Row>
+      </Page>
+    );
+  }
 }
