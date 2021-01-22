@@ -6,7 +6,7 @@ import { HomeAtivo } from "./HomeAtivo";
 import { HomeAssistido } from "./HomeAssistido";
 import { HomePensionista } from "./HomePensionista";
 import { HomeAtivoSaldado } from "./HomeAtivoSaldado";
-import { Combo } from "@intechprev/componentes-web";
+import { Alerta, Combo, TipoAlerta } from "@intechprev/componentes-web";
 import _ from "lodash";
 import { NumFuncionalidade } from "../Page";
 
@@ -52,40 +52,43 @@ export class Home extends Component<Props, State>  {
   componentDidMount = async () => {
     var planos = await PlanoService.Buscar();
 
-    var plano = planos[0];
-    var cdPlano = plano.CD_PLANO;
+    if (planos.length > 0) {
+      var plano = planos[0];
+      var cdPlano = plano.CD_PLANO;
 
-    if (plano.CD_CATEGORIA === "4") {
-      var processosBeneficio = await ProcessoBeneficioService.BuscarPorPlano(planos[0].CD_PLANO);
+      if (plano.CD_CATEGORIA === "4") {
+        var processosBeneficio = await ProcessoBeneficioService.BuscarPorPlano(planos[0].CD_PLANO);
 
-      if (processosBeneficio.length > 0) {
-        var processo = processosBeneficio[0];
-        var especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
+        if (processosBeneficio.length > 0) {
+          var processo = processosBeneficio[0];
+          var especieAnoNumProcesso = processo.CD_ESPECIE + processo.ANO_PROCESSO + processo.NUM_PROCESSO;
 
-        await this.setState({
-          processosBeneficio,
-          processo,
-          especieAnoNumProcesso
-        });
+          await this.setState({
+            processosBeneficio,
+            processo,
+            especieAnoNumProcesso
+          });
+        }
       }
+
+      let Funcionalidade = NumFuncionalidade.HOME_ATIVOS_E_AUTOPATROCINADOS;
+
+      if (plano.CD_CATEGORIA === "4")
+        Funcionalidade = NumFuncionalidade.HOME_ASISSTIDOS
+
+      if (this.state.pensionista)
+        Funcionalidade = NumFuncionalidade.HOME_PENSIONISTAS
+
+      await this.setState({
+        planos,
+        plano,
+        cdPlano,
+        Funcionalidade
+      });
+
+      console.log(this.state.plano);
     }
-
-    let Funcionalidade = NumFuncionalidade.HOME_ATIVOS_E_AUTOPATROCINADOS;
-
-    if (plano.CD_CATEGORIA === "4")
-      Funcionalidade = NumFuncionalidade.HOME_ASISSTIDOS
-
-    if (this.state.pensionista)
-      Funcionalidade = NumFuncionalidade.HOME_PENSIONISTAS
-
-    await this.setState({
-      planos,
-      plano,
-      cdPlano,
-      Funcionalidade
-    });
-
-    console.log(this.state.plano);
+    this.page.current.loading(false);
   }
 
   carregarPlano = async () => {
@@ -151,6 +154,9 @@ export class Home extends Component<Props, State>  {
         }
         {this.state.plano.CD_CATEGORIA === "4" &&
           <HomeAssistido ref={this.homeAssistido} {...this.props} page={this.page} processo={this.state.processo} />
+        }
+        {this.state.plano.CD_CATEGORIA === undefined &&
+          <Alerta tipo={TipoAlerta.info} mensagem={"Nenhuma informação disponível no momento."} />
         }
       </Page>
     )
