@@ -153,7 +153,7 @@ export class Home extends Component<Props, State>  {
           <HomeAtivo ref={this.homeAtivo} {...this.props} page={this.page} plano={this.state.plano} />
         }
         {this.state.plano.CD_CATEGORIA === "4" &&
-          <HomeAssistido ref={this.homeAssistido} {...this.props} page={this.page} processo={this.state.processo} />
+          <HomeAssistido ref={this.homeAssistido} {...this.props} page={this.page} processo={this.state.processo} plano={this.state.plano} />
         }
         {this.state.plano.CD_CATEGORIA === undefined &&
           <Alerta tipo={TipoAlerta.info} mensagem={"Nenhuma informação disponível no momento."} />
