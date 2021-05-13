@@ -1305,22 +1305,28 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@intech/react-service@^1.0.0":
-  version "1.0.0"
-  resolved "https://pkgs.dev.azure.com/intechgit/Packages/_packaging/packages/npm/registry/@intech/react-service/-/react-service-1.0.0.tgz#82d87a16c295f8ec2059df3e1b8b775e9b844a96"
-  integrity sha1-gth6FsKV+OwgWd8+G4t3XpuESpY=
+"@intech/react-service@2.1.2":
+  version "2.1.2"
+  resolved "https://pkgs.dev.azure.com/intechgit/Packages/_packaging/packages/npm/registry/@intech/react-service/-/react-service-2.1.2.tgz#d699bd1e8d7d3f9a43e6a02a88c4a6aa77699ae5"
+  integrity sha1-1pm9Ho19P5pD5qAqiMSmqndpmuU=
   dependencies:
+    "@intech/service-core" "^1.0.1"
     axios "^0.19.2"
 
-"@intechprev/componentes-web@file:../../lib/componentes-web":
-  version "2.0.3"
+"@intech/service-core@^1.0.1":
+  version "1.0.1"
+  resolved "https://pkgs.dev.azure.com/intechgit/Packages/_packaging/packages/npm/registry/@intech/service-core/-/service-core-1.0.1.tgz#7e50dcc2303c96b6b58720c7d6cf3b34957bf9ad"
+  integrity sha1-flDcwjA8lra1hyDH1s87NJV7+a0=
+
+"@intechprev/componentes-web@file:../lib/componentes-web":
+  version "2.0.5"
   dependencies:
     "@intechprev/react-lib" "^1.0.6"
     "@types/classnames" "^2.2.7"
     "@types/react-input-mask" "^2.0.1"
     classnames "^2.2.6"
     react-input-mask "^2.0.4"
-    react-number-format "^4.3.1"
+    react-number-format "^4.4.1"
     react-redux "^7.2.0"
     react-tabs "^3.1.0"
     redux "^4.0.5"

@@ -214,6 +214,7 @@ export class Documentos extends React.Component<Props, State> {
                 onClick={() => this.baixarDocumento(doc)}
                 titulo={doc.TXT_TITULO}
                 tipo={TipoBotao.link}
+                usaLoading
               />
             </td>
           </tr>
@@ -298,9 +299,9 @@ export class Documentos extends React.Component<Props, State> {
                       <Link
                         className={"btn btn-primary"}
                         to={`/documentos/${this.state.pastaPai
-                            ? this.state.pastaPai
-                              .OID_DOCUMENTO_PASTA
-                            : ""
+                          ? this.state.pastaPai
+                            .OID_DOCUMENTO_PASTA
+                          : ""
                           }`}
                       >
                         <i
@@ -316,9 +317,9 @@ export class Documentos extends React.Component<Props, State> {
                         }
                       >
                         {`Pasta atual: ./${this.state.pastaPai
-                            ? this.state.pastaPai
-                              .NOM_PASTA + "/"
-                            : ""
+                          ? this.state.pastaPai
+                            .NOM_PASTA + "/"
+                          : ""
                           }${this.state.pastaAtual
                             .NOM_PASTA
                           }`}
