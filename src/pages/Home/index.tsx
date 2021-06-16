@@ -6,6 +6,7 @@ import { HomeAtivo } from "./HomeAtivo";
 import { HomeAssistido } from "./HomeAssistido";
 import { HomePensionista } from "./HomePensionista";
 import { HomeAtivoSaldado } from "./HomeAtivoSaldado";
+import { HomeNaoParticipante } from "./HomeNaoParticipante";
 import { Alerta, Combo, TipoAlerta } from "@intechprev/componentes-web";
 import _ from "lodash";
 import { NumFuncionalidade } from "../Page";
@@ -156,7 +157,7 @@ export class Home extends Component<Props, State>  {
           <HomeAssistido ref={this.homeAssistido} {...this.props} page={this.page} processo={this.state.processo} plano={this.state.plano} />
         }
         {this.state.plano.CD_CATEGORIA === undefined &&
-          <Alerta tipo={TipoAlerta.info} mensagem={"Nenhuma informação disponível no momento."} />
+          <HomeNaoParticipante />
         }
       </Page>
     )

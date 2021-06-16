@@ -1,4 +1,4 @@
-﻿export default class DocumentoPastaEntidade {
+﻿export class DocumentoPastaEntidade {
   public OID_DOCUMENTO_PASTA: number;
   public OID_DOCUMENTO_PASTA_PAI?: number;
   public NOM_PASTA: string;

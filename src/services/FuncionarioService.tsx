@@ -1,15 +1,15 @@
 ﻿import { BaseService, TipoRequisicao, TipoResposta } from "@intechprev/service";
 
-import FuncionarioDados from "../entidades/FuncionarioDados";
+import { FuncionarioDados } from "../entidades/FuncionarioDados";
 
 class FuncionarioService extends BaseService {
 
-    constructor() {
-        super("Funcionario");
-    }
+  constructor() {
+    super("Funcionario");
+  }
 
-	Buscar = () => 
-		this.CriarRequisicao<FuncionarioDados>(TipoRequisicao.GET, null, `/`);
+  Buscar = () =>
+    this.CriarRequisicao<FuncionarioDados>(TipoRequisicao.GET, null, `/`);
 
 }
 

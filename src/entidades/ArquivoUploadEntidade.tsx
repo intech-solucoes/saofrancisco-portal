@@ -1,4 +1,4 @@
-export default class ArquivoUploadEntidade {
+export class ArquivoUploadEntidade {
   public OID_ARQUIVO_UPLOAD: number;
   public NOM_ARQUIVO_ORIGINAL: string;
   public NOM_EXT_ARQUIVO: string;

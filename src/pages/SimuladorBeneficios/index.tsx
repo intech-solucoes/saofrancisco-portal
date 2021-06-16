@@ -37,6 +37,7 @@ interface State {
   percentualAVista: number;
   aporte: number;
   outroValor: number;
+  naoParticipante: boolean;
   termoAceito: boolean;
   Erro: string;
 }
@@ -61,6 +62,7 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
     percentualAVista: 0,
     aporte: 0,
     outroValor: 0,
+    naoParticipante: true,
     termoAceito: false,
     Erro: ""
   }
@@ -69,58 +71,71 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
     var planos = await PlanoService.Buscar();
     var dados = await FuncionarioService.Buscar();
 
+    var saldos;
+    var ultimaContribuicao;
+    var idadePlano = 0;
+    var naoParticipante = true;
+
     var plano = planos.filter((plano: any) => plano.CD_PLANO !== "0001");
 
-    if (plano.length === 0) {
-      this.setState({
-        Erro: "Simulador não disponível para esse plano."
-      });
-      await this.page.current.loading(false);
-      return;
+    if (plano.length > 0) {
+      plano = plano[0];
+
+      var cdPlano = plano.CD_PLANO;
+      saldos = await FichaFechamentoService.BuscarSaldoPorPlano(cdPlano);
+      ultimaContribuicao = await FichaFinanceiraService.BuscarUltimaExibicaoPorPlano(cdPlano);
+
+      var dataInscricao = moment(plano.DT_INSC_PLANO, "DD/MM/YYYY");
+      idadePlano = moment().diff(dataInscricao, "years");
+
+      naoParticipante = false;
     }
-    plano = plano[0];
 
-    var cdPlano = plano.CD_PLANO;
-    var saldos = await FichaFechamentoService.BuscarSaldoPorPlano(cdPlano);
-    var ultimaContribuicao = await FichaFinanceiraService.BuscarUltimaExibicaoPorPlano(cdPlano);
+    var dataNascimento = moment(
+      dados.DadosPessoais ?
+        dados.DadosPessoais.DT_NASCIMENTO :
+        dados.Funcionario.DT_NASCIMENTO, "DD/MM/YYYY"
+    );
 
-    var dataInscricao = moment(plano.DT_INSC_PLANO, "DD/MM/YYYY");
-    var dataNascimento = moment(dados.DadosPessoais.DT_NASCIMENTO, "DD/MM/YYYY");
-
-    var idadePlano = moment().diff(dataInscricao, "years");
     var idadeAtual = moment().diff(dataNascimento, "years");
 
     var idadeMinima = this.state.idadeMinima;
     var idadeMaxima = this.state.idadeMaxima;
 
-    if (idadeAtual > this.state.idadeMinima && idadePlano > 5)
+    // Idade Minima Nao Participante
+    if (naoParticipante && idadeAtual > this.state.idadeMinima)
+      idadeMinima = idadeAtual + 1;
+
+    // Idade Minima Participante Normal
+    if (!naoParticipante && idadeAtual > this.state.idadeMinima && idadePlano > 5)
       idadeMinima = idadeAtual;
 
     if (idadeAtual >= 80)
       idadeMaxima = 90;
 
     await this.setState({
-      saldoAcumulado: saldos.VL_ACUMULADO,
-      salarioContribuicao: ultimaContribuicao.SRC,
-      dataUltimoSalario: ultimaContribuicao.DataReferencia.substring(3),
-      percentualContrib: ultimaContribuicao.Percentual,
+      saldoAcumulado: saldos ? saldos.VL_ACUMULADO : 0,
+      salarioContribuicao: ultimaContribuicao ? ultimaContribuicao.SRC : 0,
+      dataUltimoSalario: ultimaContribuicao ? ultimaContribuicao.DataReferencia.substring(3) : "",
+      percentualContrib: ultimaContribuicao ? ultimaContribuicao.Percentual : 2,
       idadeMinima,
       idadeMaxima,
       idadeAposentadoria: idadeMinima,
-      idadeAtual
+      idadeAtual,
+      naoParticipante
     });
 
-    await this.calcularPercentual(ultimaContribuicao.Percentual);
+    await this.calcularPercentual(ultimaContribuicao ? ultimaContribuicao.Percentual : 2);
     await this.page.current.loading(false);
   }
 
   calcularPercentual = async (percentual: number) => {
     var percentualPatronal = percentual > 8 ? 8 : percentual;
-
+    var salarioContribuicao = formatValue(this.state.salarioContribuicao.toString());
     await this.setState({
       percentualContrib: percentual,
-      contribMensal: this.state.salarioContribuicao / 100 * percentual,
-      contribPatronal: this.state.salarioContribuicao / 100 * percentualPatronal
+      contribMensal: salarioContribuicao / 100 * percentual,
+      contribPatronal: salarioContribuicao / 100 * percentualPatronal
     });
   }
 
@@ -184,13 +199,30 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
             <h5 className={"mb-5 mt-3"}>
               O seu benefício será simulado com base no seu Saldo de Conta Aplicável acumulado
               até o momento, com o acréscimo das suas contribuições futuras até a data da sua aposentadoria.
-                        </h5>
+            </h5>
 
-            <h4 className={"mt-5 mb-2"}>Seu Saldo Acumulado Atualizado</h4>
-            <h5 className={"text-secondary"}><CampoEstatico valor={this.state.saldoAcumulado} tipo={TipoCampoEstatico.dinheiro} /></h5>
+            {/* Nao Participante */}
+            {this.state.naoParticipante && <>
+              <CampoValor
+                contexto={this}
+                nome={"salarioContribuicao"}
+                valor={this.state.salarioContribuicao}
+                titulo={"Seu Último Salário de Contribuição"}
+                onChange={(e: any) => this.setState({ salarioContribuicao: e.target.value })}
+                onBlur={() => this.calcularPercentual(this.state.percentualContrib)}
+              />
+            </>}
 
-            <h4 className={"mt-5 mb-2"}>Seu Último Salário de Contribuição (em {this.state.dataUltimoSalario})</h4>
-            <h5 className={"text-secondary"}><CampoEstatico valor={this.state.salarioContribuicao} tipo={TipoCampoEstatico.dinheiro} /></h5>
+            {/* Participante Normal */}
+            {!this.state.naoParticipante && <>
+              <h4 className={"mt-5 mb-2"}>Seu Saldo Acumulado Atualizado</h4>
+              <h5 className={"text-secondary"}><CampoEstatico valor={this.state.saldoAcumulado} tipo={TipoCampoEstatico.dinheiro} /></h5>
+
+
+              <h4 className={"mt-5 mb-2"}>Seu Último Salário de Contribuição (em {this.state.dataUltimoSalario})</h4>
+              <h5 className={"text-secondary"}><CampoEstatico valor={this.state.salarioContribuicao} tipo={TipoCampoEstatico.dinheiro} /></h5>
+            </>}
+
             <br />
 
             <h4 className={"mt-5 mb-2"}>Entre com o percentual de contribuição mensal desejado</h4>
@@ -260,7 +292,7 @@ export default class SimuladorBeneficios extends React.Component<Props, State> {
                 <Col>
                   <p>
                     Li e entendi!
-                                    </p>
+                  </p>
                 </Col>
               </Row>
             </div>

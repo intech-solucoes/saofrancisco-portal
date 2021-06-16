@@ -3,6 +3,7 @@ import EmpresaService from "./EmpresaService";
 import FuncionalidadeService from "./FuncionalidadeService";
 import FuncionarioService from "./FuncionarioService";
 import PlanoService from "./PlanoService";
+import UsuarioService from "./UsuarioService";
 
 export {
   DocumentoService,
@@ -10,4 +11,5 @@ export {
   FuncionalidadeService,
   FuncionarioService,
   PlanoService,
+  UsuarioService
 }

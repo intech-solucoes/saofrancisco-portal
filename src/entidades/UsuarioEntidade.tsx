@@ -1,6 +1,4 @@
-﻿
-
-export default class UsuarioEntidade {
+﻿export class UsuarioEntidade {
 	public OID_USUARIO: number;
 	public NOM_LOGIN: string;
 	public PWD_USUARIO: string;
@@ -16,4 +14,5 @@ export default class UsuarioEntidade {
 	public CD_EMPRESA: string;
 	public SEQ_RECEBEDOR?: number;
 	public IND_PRIMEIRO_ACESSO: string;
+	public IND_NAO_PARTICIPANTE: string;
 }

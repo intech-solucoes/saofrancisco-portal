@@ -1,7 +1,7 @@
 import { BaseService, RequestType, ResponseType } from "@intech/react-service";
-import DocumentoPastaEntidade from "../entidades/DocumentoPastaEntidade";
-import DocumentoEntidade from "../entidades/DocumentoEntidade";
-import ArquivoUploadEntidade from "../entidades/ArquivoUploadEntidade";
+import { DocumentoPastaEntidade } from "../entidades/DocumentoPastaEntidade";
+import { DocumentoEntidade } from "../entidades/DocumentoEntidade";
+import { ArquivoUploadEntidade } from "../entidades/ArquivoUploadEntidade";
 // import { FileUploadEntidade } from "../entidades/FileUploadEntidade";
 
 class Documento extends BaseService {

@@ -1,4 +1,4 @@
-﻿export default class FuncionarioNPEntidade {
+﻿export class FuncionarioNPEntidade {
 	public CD_FUNDACAO: string;
 	public CD_EMPRESA: string;
 	public NUM_MATRICULA: string;
@@ -51,5 +51,4 @@
 	public FONE_TRAB: string;
 	public FAX_TRAB: string;
 	public RAMAL_TRAB: string;
-	public DT_SOLICITACAO?: Date;
 }

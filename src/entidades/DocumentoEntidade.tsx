@@ -1,4 +1,4 @@
-﻿export default class DocumentoEntidade {
+﻿export class DocumentoEntidade {
   public OID_DOCUMENTO: number;
   public OID_ARQUIVO_UPLOAD: number;
   public OID_DOCUMENTO_PASTA?: number;

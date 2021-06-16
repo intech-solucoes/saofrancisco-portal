@@ -17,6 +17,7 @@ import Mensagens from './Mensagens';
 import SimuladorBeneficios from "./SimuladorBeneficios";
 import Menor8 from "./SimuladorBeneficios/Menor8";
 import Maior8 from "./SimuladorBeneficios/Maior8";
+import { Adesao } from "./Adesao";
 
 export {
   PageClean, Page, NotFoundPage,
@@ -32,5 +33,6 @@ export {
   ContrachequeDetalhe,
   Documentos,
   Mensagens,
-  SimuladorBeneficios, Maior8, Menor8
+  SimuladorBeneficios, Maior8, Menor8,
+  Adesao
 }
