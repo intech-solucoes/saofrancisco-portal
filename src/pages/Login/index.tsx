@@ -72,37 +72,34 @@ export default class Login extends React.Component<Props, State> {
         this.selecionar(matriculas[0]);
       }
     } catch (erro) {
-      if (erro.response) {
-        //await this.loginForm.current.mostrarErro(erro.response.data);
-        await this.setState({ erro: erro.response.data });
-      } else {
-        //await this.loginForm.current.mostrarErro(erro);
-        //alert("Ocorreu um erro ao processar sua requisição!");
-        await this.setState({ erro });
-      }
+      await this.setState({ erro: (erro.response ? erro.response.data : erro) });
     } finally {
       await this.setState({ loading: false });
     }
   }
 
   selecionar = async (matricula: string) => {
-    var funcionarioResult = await FuncionarioService.Buscar();
+    try {
+      var funcionarioResult = await FuncionarioService.Buscar();
 
-    // if (funcionarioResult.Funcionario) {
-    //   await localStorage.setItem("fundacao", funcionarioResult.Funcionario.CD_FUNDACAO);
-    //   await localStorage.setItem("empresa", funcionarioResult.Funcionario.CD_EMPRESA);
-    // }
-    // else {
-    await localStorage.setItem("fundacao", funcionarioResult.CD_FUNDACAO);
-    await localStorage.setItem("empresa", funcionarioResult.CD_EMPRESA);
-    // }
+      // if (funcionarioResult.Funcionario) {
+      //   await localStorage.setItem("fundacao", funcionarioResult.Funcionario.CD_FUNDACAO);
+      //   await localStorage.setItem("empresa", funcionarioResult.Funcionario.CD_EMPRESA);
+      // }
+      // else {
+      await localStorage.setItem("fundacao", funcionarioResult.CD_FUNDACAO);
+      await localStorage.setItem("empresa", funcionarioResult.CD_EMPRESA);
+      // }
 
-    var funcionarioLogin = await UsuarioService.SelecionarMatricula(matricula);
+      var funcionarioLogin = await UsuarioService.SelecionarMatricula(matricula);
 
-    await Session.setToken(funcionarioLogin.AccessToken);
-    await localStorage.setItem("pensionista", funcionarioLogin.Pensionista.toString());
+      await Session.setToken(funcionarioLogin.AccessToken);
+      await localStorage.setItem("pensionista", funcionarioLogin.Pensionista.toString());
 
-    this.props.history.push('/');
+      this.props.history.push('/');
+    } catch (erro) {
+      await this.setState({ erro: (erro.response ? erro.response.data : erro) });
+    }
   }
 
   render() {
